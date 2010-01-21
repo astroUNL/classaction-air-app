@@ -3,10 +3,13 @@
 	import astroUNL.classaction.browser.download.IDownloadable;
 	import astroUNL.classaction.browser.download.Downloader;
 	
+	
 	import flash.events.EventDispatcher;
 	
 	import flash.utils.ByteArray;
 	import flash.net.URLLoaderDataFormat;
+	
+	
 	
 	public class ResourceItem extends EventDispatcher implements IDownloadable {
 				
@@ -17,6 +20,8 @@
 		public static const IMAGE:String = "image";
 		public static const TABLE:String = "table";
 		public static const OUTLINE:String = "outline";
+		
+		public var thumb:BinaryFile;
 		
 		public var id:String;
 		public var name:String;
@@ -109,5 +114,9 @@
 			}
 		}				
 		
+		override public function toString():String {
+			if (name==null) return "unnamed (ResourceItem)";
+			else return name + " (ResourceItem)";
+		}		
 	}
 }

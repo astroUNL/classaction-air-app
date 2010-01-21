@@ -18,6 +18,7 @@ package astroUNL.classaction.browser.views {
 	import flash.text.TextFormat;
 	
 	import flash.system.Security;
+	import flash.geom.Point;
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -90,9 +91,12 @@ package astroUNL.classaction.browser.views {
 		protected var _itemMinLeftOver:Number = -2;
 		
 		protected var _readOnly:Boolean;
+		
+		protected var _group:ResourcePanelsGroup;
 				
-		public function ResourcePanel(type:String, readOnly:Boolean) {
+		public function ResourcePanel(group:ResourcePanelsGroup, type:String, readOnly:Boolean) {
 			
+			_group = group;
 			_type = type;
 			_readOnly = readOnly;
 			
@@ -115,13 +119,6 @@ package astroUNL.classaction.browser.views {
 			_panes.x = 2*_navButtonSpacing;
 			_panes.y = _panesTopMargin;
 			addChild(_panes);
-			
-//		var temp:Sprite = new Sprite();
-//		addChild(temp);
-//		temp.x = _panes.x;
-//		temp.y = _panes.y;
-//		temp.graphics.lineStyle(1, 0x000000);
-//		temp.graphics.drawRect(0, 0, _panes.width, _panes.height);
 			
 			_leftButton = new ResourcePanelNavButton();
 			_leftButton.x = _navButtonSpacing;
@@ -157,7 +154,17 @@ package astroUNL.classaction.browser.views {
 				dispatchEvent(new Event(ResourcePanel.MAXIMIZED));
 			}
 		}
-
+		
+		protected function onItemMouseOver(evt:MouseEvent):void {
+			var item:ResourceItem = evt.target.data.item;
+			_group.setPreviewItem(item, evt.target.localToGlobal(new Point(0, 0)));
+		}
+		
+		protected function onItemMouseOut(evt:MouseEvent):void {
+			var item:ResourceItem = evt.target.data.item;
+			_group.setPreviewItem(null);
+		}
+		
 		protected function onItemClicked(evt:Event):void {
 			
 			var item:ResourceItem = evt.target.data.item;			
@@ -171,53 +178,6 @@ package astroUNL.classaction.browser.views {
 			else {
 				navigateToURL(new URLRequest(filename), "_blank");
 			}
-			
-//			
-//			if (flagLocal) {
-//				getURL(this._parent.URLstring,"_blank");
-//			} else {
-//				if (this._parent.filenameExt == "swf") {
-//					this.loaderURL = "loader.html?filename=" + this._parent.filename + "&movieid=" + this._parent.windowname + "&width=" + this._parent.width + "&height=" + this._parent.height + "&version=" + _root.flashVersionRequired;
-//					this.javascriptString = "javascript:openNewWindowSWF('" + this.loaderURL + "','" + this._parent.windowname + "','toolbar=no,directories=no,menubar=no,resizable=yes,dependent=no,status=no,width=" + this._parent.width + ",height=" + this._parent.height + "')";
-//				} else {
-//					this.javascriptString = "javascript:openNewWindow('" + this._parent.filename + "','" + this._parent.windowname + "','toolbar=no,directories=no,menubar=no,resizable=yes,dependent=no,status=no,width=" + this._parent.width + ",height=" + this._parent.height + "')";
-//				}
-//				getURL(this.javascriptString);
-//			}
-
-			
-////			
-////			if (Security.sandboxType==Security.REMOTE) {
-////				if (item.filename.slice(-4).toLowerCase()==".swf") {
-////					var loaderURL:String = "../loader.html?filename=" + item.filename + "&movieid=" + item.id + "&width=" + item.width + "&height=" + item.height + "&version=" + "6.0.0";
-////					ExternalInterface.call("openNewWindowSWF", loaderURL, item.id, "toolbar=no,directories=no,menubar=no,resizable=yes,dependent=no,status=no,width=" + item.width + ",height=" + item.height.toString());
-////				}
-////				else {
-////					ExternalInterface.call("openNewWindow", "../"+item.filename, item.id, "toolbar=no,directories=no,menubar=no,resizable=yes,dependent=no,status=no,width=" + item.width + ",height=" + item.height.toString());
-////				}
-////			}
-////			else if (_readOnly) {
-////				navigateToURL(new URLRequest(filename), "_self");
-////			}
-////			else {
-////				
-////				
-////				// uncomment for html file: // filename = filename.slice(0, filename.lastIndexOf(".")) + ".html";
-////				
-////				navigateToURL(new URLRequest(item.filename), "_self");
-////			}
-////
-
-//			
-//			else {
-//				var filename:String = "classaction/" + item.filename;
-//				
-//				
-//				// uncomment for html file: // filename = filename.slice(0, filename.lastIndexOf(".")) + ".html";
-//				
-//				navigateToURL(new URLRequest(filename), "_self");
-//			}
-			
 		}
 
 		protected function onLeftButtonClicked(evt:MouseEvent):void {
@@ -337,6 +297,8 @@ package astroUNL.classaction.browser.views {
 //						prepObj.links[list[j].id].contextMenu = new ContextMenu();
 //						prepObj.links[list[j].id].contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onItemMenuSelect);
 						ResourceContextMenuController.register(prepObj.links[list[j].id]);
+						prepObj.links[list[j].id].addEventListener(MouseEvent.MOUSE_OVER, onItemMouseOver);
+						prepObj.links[list[j].id].addEventListener(MouseEvent.MOUSE_OUT, onItemMouseOut);
 						prepObj.links[list[j].id].addEventListener(ClickableText.ON_CLICK, onItemClicked);
 					}
 				}

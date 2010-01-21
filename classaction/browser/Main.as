@@ -5,7 +5,9 @@ package astroUNL.classaction.browser {
 	import astroUNL.classaction.browser.resources.ModulesList;
 	import astroUNL.classaction.browser.resources.Module;
 	import astroUNL.classaction.browser.resources.Question;
+	import astroUNL.classaction.browser.resources.ResourceItem;
 	import astroUNL.classaction.browser.views.ResourcePanelsGroup;
+	import astroUNL.classaction.browser.views.ResourcePreview;
 	import astroUNL.classaction.browser.views.ModulesListView;
 	import astroUNL.classaction.browser.views.ModuleView;
 	import astroUNL.classaction.browser.views.QuestionView;
@@ -37,11 +39,9 @@ package astroUNL.classaction.browser {
 	public class Main extends Sprite {
 		
 		protected var _modulesList:ModulesList;		
-		
 		protected var _so:SharedObject;
-		
 		protected var _resourcePanels:ResourcePanelsGroup;
-		
+		protected var _resourcePreview:ResourcePreview;		
 		protected var _zipDownloader:ZipDownloader;
 		
 		public function Main(readOnly:Boolean) {
@@ -113,13 +113,23 @@ package astroUNL.classaction.browser {
 			_resourcePanels = new ResourcePanelsGroup(_readOnly);
 			_resourcePanels.x = 0;
 			_resourcePanels.y = stage.stageHeight;
+			_resourcePanels.addEventListener(ResourcePanelsGroup.PREVIEW_ITEM_CHANGED, onPreviewItemChanged);
 			addChild(_resourcePanels);
+			
+			_resourcePreview = new ResourcePreview();
+			_resourcePreview.visible = false;
+			addChild(_resourcePreview);
 			
 			_zipDownloader = new ZipDownloader();
 			_zipDownloader.addEventListener(ZipDownloader.DONE, onZipDownloadDone);
 			_zipDownloader.visible = false;
-			addChild(_zipDownloader);			
-			
+			addChild(_zipDownloader);
+		}
+		
+		protected function onPreviewItemChanged(evt:Event):void {
+			var item:ResourceItem = _resourcePanels.previewItem;
+			if (item==null) _resourcePreview.hide();
+			else _resourcePreview.show(item, _resourcePanels.previewPosition);
 		}
 		
 		protected function onSOAsyncError(evt:AsyncErrorEvent):void {
@@ -134,7 +144,7 @@ package astroUNL.classaction.browser {
 				
 		protected function storeCustomModules():void {
 			if (_so==null) return;
-			var startTimer:Number = getTimer();			
+			var startTimer:Number = getTimer();
 			_customModulesList = [];
 			var i:int;
 			for (i=0; i<_modulesList.modules.length; i++) {
