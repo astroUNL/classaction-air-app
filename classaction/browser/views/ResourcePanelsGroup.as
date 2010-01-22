@@ -68,6 +68,7 @@ package astroUNL.classaction.browser.views {
 			
 			if (AnimationsBank.total>0) {
 				_animationsPanel = new ResourcePanel(this, ResourcePanel.ANIMATIONS, _readOnly);
+				_animationsPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
 				_animationsPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
 				_animationsPanel.setTabOffset(50);
 				addChild(_animationsPanel);
@@ -75,6 +76,7 @@ package astroUNL.classaction.browser.views {
 			
 			if (ImagesBank.total>0) {
 				_imagesPanel = new ResourcePanel(this, ResourcePanel.IMAGES, _readOnly);
+				_imagesPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
 				_imagesPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
 				_imagesPanel.setTabOffset(235);
 				addChild(_imagesPanel);
@@ -82,6 +84,7 @@ package astroUNL.classaction.browser.views {
 			
 			if (OutlinesBank.total>0) {
 				_outlinesPanel = new ResourcePanel(this, ResourcePanel.OUTLINES, _readOnly);
+				_outlinesPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
 				_outlinesPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
 				_outlinesPanel.setTabOffset(385);
 				addChild(_outlinesPanel);
@@ -89,6 +92,7 @@ package astroUNL.classaction.browser.views {
 			
 			if (TablesBank.total>0) {
 				_tablesPanel = new ResourcePanel(this, ResourcePanel.TABLES, _readOnly);
+				_tablesPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
 				_tablesPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
 				_tablesPanel.setTabOffset(545);
 				addChild(_tablesPanel);
@@ -129,6 +133,10 @@ package astroUNL.classaction.browser.views {
 //			
 //		}
 		
+		protected function onMinimize(evt:Event):void {
+			setPreviewItem(null);
+		}
+		
 		protected function onMaximize(evt:Event):void {			
 			setChildIndex(evt.target as ResourcePanel, numChildren-1);
 			for (var i:int = 0; i<(numChildren-1); i++) (getChildAt(i) as ResourcePanel).minimize();
@@ -136,7 +144,7 @@ package astroUNL.classaction.browser.views {
 		
 		public function minimizeAll():void {
 			for (var i:int = 0; i<numChildren; i++) (getChildAt(i) as ResourcePanel).minimize();
-			
+			setPreviewItem(null);			
 		}
 		
 	}	

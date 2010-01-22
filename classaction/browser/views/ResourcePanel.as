@@ -37,6 +37,7 @@ package astroUNL.classaction.browser.views {
 	
 	public class ResourcePanel extends Sprite {
 		
+		public static const MINIMIZED:String = "minimized";
 		public static const MAXIMIZED:String = "maximized";
 		
 		public static const ANIMATIONS:String = "animations";
@@ -149,10 +150,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onTitleClicked(evt:Event):void {
 			if (_maximized) minimize();
-			else {
-				maximize();
-				dispatchEvent(new Event(ResourcePanel.MAXIMIZED));
-			}
+			else maximize();
 		}
 		
 		protected function onItemMouseOver(evt:MouseEvent):void {
@@ -249,12 +247,14 @@ package astroUNL.classaction.browser.views {
 		public function minimize():void {
 			_maximized = false;
 			y = 0;			
+			dispatchEvent(new Event(ResourcePanel.MINIMIZED));
 		}
 		
 		public function maximize():void {
 			if (!_maximized) _panes.paneNum = 0;
 			_maximized = true;
 			y = -_panelHeight;
+			dispatchEvent(new Event(ResourcePanel.MAXIMIZED));
 		}
 		
 		protected function prepareTextItems():void {

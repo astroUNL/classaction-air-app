@@ -12,7 +12,6 @@ package astroUNL.classaction.browser {
 	import astroUNL.classaction.browser.views.ModuleView;
 	import astroUNL.classaction.browser.views.QuestionView;
 	import astroUNL.classaction.browser.views.BreadcrumbsBar;
-	//import astroUNL.classaction.browser.views.IncludeMenu;
 	import astroUNL.classaction.browser.views.ZipDownloader;
 	import astroUNL.classaction.browser.download.Downloader;
 	import astroUNL.classaction.browser.resources.QuestionsBank;
@@ -97,12 +96,6 @@ package astroUNL.classaction.browser {
 			_questionView.y = 40;
 			addChild(_questionView);
 			
-			
-//			_includeMenu = new IncludeMenu();
-//			_includeMenu.x = 680;
-//			_includeMenu.y = 20;			
-//			addChild(_includeMenu);
-			
 			_breadcrumbs = new BreadcrumbsBar();
 			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULE_SELECTED, onModuleSelected);
 			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULES_LIST_SELECTED, onModulesListSelected);
@@ -117,7 +110,6 @@ package astroUNL.classaction.browser {
 			addChild(_resourcePanels);
 			
 			_resourcePreview = new ResourcePreview();
-			_resourcePreview.visible = false;
 			addChild(_resourcePreview);
 			
 			_zipDownloader = new ZipDownloader();
@@ -128,6 +120,7 @@ package astroUNL.classaction.browser {
 		
 		protected function onPreviewItemChanged(evt:Event):void {
 			var item:ResourceItem = _resourcePanels.previewItem;
+			trace("preview item changed: "+item);
 			if (item==null) _resourcePreview.hide();
 			else _resourcePreview.show(item, _resourcePanels.previewPosition);
 		}
@@ -250,7 +243,6 @@ package astroUNL.classaction.browser {
 				
 				_modulesListView.modulesList = _modulesList;
 				_moduleView.modulesList = _modulesList;
-//				_includeMenu.modulesList = _modulesList;
 				
 				_zipDownloader.modulesList = _modulesList;
 
@@ -294,42 +286,27 @@ package astroUNL.classaction.browser {
 		
 		protected function storeState():void {
 			if (_so!=null) {
-//				_so.setProperty("viewType", type);
 				_so.setProperty("selectedModule", (_selectedModule==null) ? "" : _selectedModule.downloadURL);
 				_so.setProperty("selectedQuestion", (_selectedQuestion==null) ? "" : _selectedQuestion.id);
 			}			
 		}
 		
 		protected function onModulesListSelected(evt:MenuEvent):void {
-//			_selectedModule = null;
-//			_selectedQuestion = null;
-//			setView(Main.MODULES_LIST);
 			setView(null, null);
 		}
 		
 		protected function onModuleSelected(evt:MenuEvent):void {
-//			_selectedModule = evt.data;
-//			_selectedQuestion = null;
-//			setView(Main.MODULE);
 			setView(evt.data, null);
 		}
 		
 		protected function onQuestionSelected(evt:MenuEvent):void {
-////			_selectedQuestion = evt.data;
-////			setView(Main.QUESTION);
 			setView(_selectedModule, evt.data);
 		}
-		
-//		public static const MODULES_LIST:String = "modulesList";
-//		public static const MODULE:String = "module";
-//		public static const QUESTION:String = "question";
 		
 		protected var _selectedModule:Module;
 		protected var _selectedQuestion:Question;
 		
-//		protected function setView(type:String):Boolean {
 		protected function setView(module:Module=null, question:Question=null):void {
-//			trace("setView: "+type);
 			
 			_modulesListView.visible = false;
 			_moduleView.visible = false;
@@ -341,34 +318,21 @@ package astroUNL.classaction.browser {
 			_selectedQuestion = question;
 			
 			if (_selectedModule==null && _selectedQuestion==null) {
-//				type = Main.MODULES_LIST;
 				_modulesListView.visible = true;
 			}
 			else if (_selectedModule!=null && _selectedQuestion==null) {
-//				type = Main.MODULE;
 				Downloader.cancel(0);
 				Downloader.get(_selectedModule.allQuestionsList);
 				_moduleView.module = _selectedModule;
 				_moduleView.visible = true;
 			}
 			else if (_selectedModule!=null && _selectedQuestion!=null) {
-//				type = Main.QUESTION;
 				if (_selectedQuestion.downloadState==Downloader.NOT_QUEUED) Downloader.get(_selectedQuestion);
 				_selectedQuestion.downloadPriority = _topPriority++;
 				_questionView.visible = true;
 			}
 			else {
 				trace("error in setView, selectedModule: "+_selectedModule+", selectedQuestion: "+_selectedQuestion);
-//				if (type==Main.QUESTION) {
-//					_selectedQuestion = null;
-//					setView(Main.MODULE);
-//				}
-//				else {
-//					_selectedQuestion = null;
-//					_selectedModule = null;
-//					setView(Main.MODULES_LIST);
-//				}				
-
 				setView(null, null);
 			}
 			
@@ -377,7 +341,6 @@ package astroUNL.classaction.browser {
 			
 			_resourcePanels.setState(_selectedModule, _selectedQuestion);
 			_breadcrumbs.setState(_selectedModule, _selectedQuestion);
-//			_includeMenu.setState(_selectedModule, _selectedQuestion);
 
 			ResourceContextMenuController.setState(_selectedModule, _selectedQuestion);
 			
@@ -392,7 +355,6 @@ package astroUNL.classaction.browser {
 		protected var _moduleView:ModuleView;
 		protected var _questionView:QuestionView;
 		protected var _breadcrumbs:BreadcrumbsBar;
-//		protected var _includeMenu:IncludeMenu;
 		
 		protected function onZipDownloadStart(evt:Event):void {
 			_zipDownloader.visible = true;

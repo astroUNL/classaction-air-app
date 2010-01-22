@@ -1,4 +1,6 @@
 ﻿
+// 1/22/10 - added startValue and startTime
+
 package astroUNL.utils.easing {
 	
 	
@@ -10,6 +12,9 @@ package astroUNL.utils.easing {
 		public var targetValue:Number;
 		public var targetTime:Number;
 		public var parametersList:Array;
+		
+		public var startValue:Number;
+		public var startTime:Number;
 		
 		public function CubicEaser(initValue:Number) {
 			init(initValue);			
@@ -32,6 +37,9 @@ package astroUNL.utils.easing {
 			else {
 				slope0 = 0;
 			}
+			
+			startTime = xStart;
+			startValue = yStart;
 			
 			splinePointsList = [{x: xStart, y: yStart}, {x: xTarget, y: yTarget}];
 			
