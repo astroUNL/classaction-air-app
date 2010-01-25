@@ -6,6 +6,7 @@ package astroUNL.classaction.browser.views.elements {
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.events.MouseEvent;
+	import flash.text.TextLineMetrics;
 	
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
@@ -24,8 +25,9 @@ package astroUNL.classaction.browser.views.elements {
 		protected var _width:Number;
 		
 		protected var _field:TextField;
-//		protected var _enabled:Boolean = false;
 		protected var _clickable:Boolean;
+		
+		protected var _hitArea:Sprite;
 		
 		public function ClickableText(text:String="", data:*=null, format:TextFormat=null, width:Number=0) {
 			
@@ -35,16 +37,22 @@ package astroUNL.classaction.browser.views.elements {
 			_format = new TextFormat();
 			
 			_field = new TextField();
-			_field.autoSize = "none";				
+			_field.autoSize = "none";
 			_field.border = false;
 			_field.background = false;
 			_field.multiline = false;
 			_field.type = "dynamic";
 			_field.selectable = false;
-			_field.embedFonts = true;			
+			_field.embedFonts = true;
+			_field.mouseEnabled = false;
 			addChild(_field);
 			
-			mouseChildren = false;
+			_hitArea = new Sprite();
+			_hitArea.visible = false;
+			_hitArea.mouseEnabled = false;
+			addChild(_hitArea);
+			
+			hitArea = _hitArea;
 			
 			// _clickable must initially be set to the opposite of what's intended
 			_clickable = false;
@@ -97,29 +105,6 @@ package astroUNL.classaction.browser.views.elements {
 			tabEnabled = arg;
 		}
 		
-//		public function setEnabled(arg:Boolean):void {
-//			if (arg && !_enabled) doSetEnabled(arg);
-//			else if (!arg && _enabled) doSetEnabled(arg);
-//			_enabled = arg;
-//		}
-//		
-//		protected function doSetEnabled(arg:Boolean):void {
-//			// this is a separate function from setEnabled for the benefit of the EditableClickableText class
-//			if (arg) {
-//				addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
-//				addEventListener(MouseEvent.MOUSE_OVER, onMouseOverFunc, false, 0, true);
-//				addEventListener(MouseEvent.MOUSE_OUT, onMouseOutFunc, false, 0, true);
-//			}
-//			else {
-//				removeEventListener(MouseEvent.CLICK, onClick, false);
-//				removeEventListener(MouseEvent.MOUSE_OVER, onMouseOverFunc, false);
-//				removeEventListener(MouseEvent.MOUSE_OUT, onMouseOutFunc, false);				
-//			}
-//			buttonMode = arg;
-//			useHandCursor = arg;
-//			tabEnabled = arg;
-//		}
-		
 		public function setText(text:String=""):void {
 			_text = text;
 			redraw();
@@ -166,12 +151,22 @@ package astroUNL.classaction.browser.views.elements {
 				_field.multiline = false;
 				_field.wordWrap = false;
 			}
+			
 			_field.text = _text;
+			
+			var i:int;
+			var m:TextLineMetrics;
+			_hitArea.graphics.clear();
+			for (i=0; i<_field.numLines; i++) {
+				m = _field.getLineMetrics(i);
+				_hitArea.graphics.beginFill(0x0000ff, 0.5);
+				_hitArea.graphics.drawRect(_field.x+2, _field.y+2+i*m.height, m.width, m.height);
+				_hitArea.graphics.endFill();
+			}
 		}
 		
 		protected function onClick(evt:MouseEvent):void {
 			if (_clickable) dispatchEvent(new Event(ClickableText.ON_CLICK));
-//			if (_enabled) dispatchEvent(new Event(ClickableText.ON_CLICK));
 		}
 		
 		protected function onMouseOverFunc(evt:MouseEvent):void {
@@ -201,7 +196,6 @@ package astroUNL.classaction.browser.views.elements {
 		
 		override public function toString():String {
 			return "[object ClickableText, text: " + _text + "]";
-			
 		}
 		
 	}

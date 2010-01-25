@@ -154,11 +154,13 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function onItemMouseOver(evt:MouseEvent):void {
+			trace("onItemMouseOver: "+evt.target);
 			var item:ResourceItem = evt.target.data.item;
 			_group.setPreviewItem(item, evt.target.localToGlobal(new Point(0, 0)));
 		}
 		
 		protected function onItemMouseOut(evt:MouseEvent):void {
+			trace("onItemMouseOut: "+evt.target);
 			var item:ResourceItem = evt.target.data.item;
 			_group.setPreviewItem(null);
 		}

@@ -30,6 +30,7 @@ package astroUNL.classaction.browser.views.elements {
 			
 			_halo = new FocusHalo();
 			_halo.visible = false;
+			_halo.mouseEnabled = false;
 			addChild(_halo);
 			
 			super(text, data, format, width);
@@ -90,6 +91,7 @@ package astroUNL.classaction.browser.views.elements {
 		protected var _editable:Boolean = false;
 		
 		public function setEditable(editable:Boolean):void {
+			
 			if (_editable && !editable) {
 				_halo.visible = false;
 				_field.border = false;
@@ -105,7 +107,10 @@ package astroUNL.classaction.browser.views.elements {
 				
 				if (_clickable) doSetClickable(true);
 //				if (_enabled) doSetEnabled(true);
-				mouseChildren = false;
+
+				_field.mouseEnabled = false;
+				_halo.mouseEnabled = false;
+				//mouseChildren = false;
 				
 //				if (_enabled) {
 //					addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
@@ -138,7 +143,10 @@ package astroUNL.classaction.browser.views.elements {
 				
 				if (_clickable) doSetClickable(false);
 //				if (_enabled) doSetEnabled(false);
-				mouseChildren = true;
+				
+				_field.mouseEnabled = true;
+				_halo.mouseEnabled = true;
+				//mouseChildren = true;
 				
 //				if (_enabled) {
 //					removeEventListener(MouseEvent.CLICK, onClick, false);
@@ -176,6 +184,9 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected function onFocusOut(evt:FocusEvent):void {
+			if (_field.text=="") _field.text = _text;
+			setText(_field.text);
+			
 			stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, false);
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false);
 			dispatchEvent(new Event(EditableClickableText.EDIT_DONE));
