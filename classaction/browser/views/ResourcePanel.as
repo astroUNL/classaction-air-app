@@ -61,6 +61,10 @@ package astroUNL.classaction.browser.views {
 		protected var _moreHeading:TextField;
 		protected var _titleStar:RelevantStar;
 		
+		protected var _closeButton:ResourcePanelCloseButton;
+		
+		
+		
 		protected var _panelWidth:Number = 800;
 		protected var _panelHeight:Number = 300;
 		protected var _navButtonSpacing:Number = 20;
@@ -90,6 +94,13 @@ package astroUNL.classaction.browser.views {
 		protected var _itemLeftMargin:Number = 4;
 		protected var _itemBottomMargin:Number = 2;
 		protected var _itemMinLeftOver:Number = -2;
+		
+		protected var _closeButtonY:Number = 18;
+		protected var _closeButtonX:Number = _panelWidth - _closeButtonY;
+		
+		protected var _horizontalDividerColor:uint = 0xe0e0e0;
+		protected var _horizontalDividerX:Number = 8;
+		protected var _horizontalDividerY:Number = 34;
 		
 		protected var _readOnly:Boolean;
 		
@@ -141,6 +152,14 @@ package astroUNL.classaction.browser.views {
 			
 			_relevantStar = new RelevantStar();
 			
+			_closeButton = new ResourcePanelCloseButton();
+			_closeButton.x = _closeButtonX;
+			_closeButton.y = _closeButtonY;
+			_closeButton.addEventListener(MouseEvent.CLICK, onCloseButtonClicked);
+			_closeButton.useHandCursor = true;
+			_closeButton.buttonMode = true;
+			addChild(_closeButton);
+			
 			_typeCapped = getFirstCapped(type);
 			_relevantHeading = createHeading("Relevant "+_typeCapped);
 			_moreHeading = createHeading("More "+_typeCapped+"...");
@@ -151,6 +170,10 @@ package astroUNL.classaction.browser.views {
 		protected function onTitleClicked(evt:Event):void {
 			if (_maximized) minimize();
 			else maximize();
+		}
+		
+		protected function onCloseButtonClicked(evt:MouseEvent):void {
+			minimize();
 		}
 		
 		protected function onItemMouseOver(evt:MouseEvent):void {
@@ -179,7 +202,7 @@ package astroUNL.classaction.browser.views {
 				navigateToURL(new URLRequest(filename), "_blank");
 			}
 		}
-
+		
 		protected function onLeftButtonClicked(evt:MouseEvent):void {
 			_panes.incrementPaneNum(-1, _easeTime);
 		}
@@ -506,9 +529,9 @@ package astroUNL.classaction.browser.views {
 			g.lineTo(0, 0);
 			g.endFill();
 			
-g.lineStyle(0, 0xe0e0e0);
-g.moveTo(35, 35);
-g.lineTo(_panelWidth-35, 35);
+			g.lineStyle(0, _horizontalDividerColor);
+			g.moveTo(_horizontalDividerX, _horizontalDividerY);
+			g.lineTo(_panelWidth-_horizontalDividerX, _horizontalDividerY);
 		}
 		
 		public function get panelHeight():Number {

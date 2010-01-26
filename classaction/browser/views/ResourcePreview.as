@@ -117,8 +117,8 @@ package astroUNL.classaction.browser.views {
 		
 		protected const _maxWidth:Number = 180;
 		protected const _maxHeight:Number = 140;
-		protected const _state1Duration:Number = 500;
-		protected const _state3Duration:Number = 400;
+		protected const _state1Duration:Number = 400;
+		protected const _state3Duration:Number = 300;
 		protected const _state4Duration:Number = 200;
 		protected const _backgroundMargin:Number = 14;
 		protected const _stemOverlap:Number = 2;

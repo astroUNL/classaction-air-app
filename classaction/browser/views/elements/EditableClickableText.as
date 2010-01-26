@@ -1,6 +1,9 @@
 ﻿
 package astroUNL.classaction.browser.views.elements {
 	
+	import br.hellokeita.utils.StringUtils;
+	
+	
 	import flash.text.TextFormat;
 	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
@@ -184,6 +187,8 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected function onFocusOut(evt:FocusEvent):void {
+			
+			_field.text = StringUtils.trim(_field.text);
 			if (_field.text=="") _field.text = _text;
 			setText(_field.text);
 			
