@@ -120,8 +120,7 @@ package astroUNL.classaction.browser.views {
 		public function set modulesList(arg:ModulesList):void {
 			_modulesList = arg;
 		}
-				
-				
+		
 		public function start():void {
 			
 			// must first download all the necessary files (if not already done) before making zip
@@ -143,8 +142,9 @@ package astroUNL.classaction.browser.views {
 			if (!checkForDoneness()) {
 				// some of the files are not yet downloaded
 				
-				// get the files
-				var i:int;
+				var i:int, j:int;
+				
+				// get the files and thumbnails
 				for (i=0; i<_modulesList.modules.length; i++) {
 					if (!_modulesList.modules[i].readOnly) {
 						Downloader.get(_modulesList.modules[i].allQuestionsList);
@@ -152,13 +152,28 @@ package astroUNL.classaction.browser.views {
 						Downloader.get(_modulesList.modules[i].imagesList);
 						Downloader.get(_modulesList.modules[i].outlinesList);
 						Downloader.get(_modulesList.modules[i].tablesList);
+						
+						getThumbs(_modulesList.modules[i].animationsList);
+						getThumbs(_modulesList.modules[i].imagesList);
+						getThumbs(_modulesList.modules[i].outlinesList);
+						getThumbs(_modulesList.modules[i].tablesList);
 					}
 				}
-			
+				
 				// watch for file download completion
 				_downloadPoller.start();
 			}
 			else startZip();
+		}
+				
+		protected function getThumbs(list:Array):void {
+			var i:int;
+			for (i=0; i<list.length; i++) {
+				if (list[i].thumb!=null) {
+					list[i].thumb.downloadPriority = 800000;
+					if (list[i].thumb.downloadState==Downloader.NOT_QUEUED) Downloader.get(list[i].thumb);
+				}
+			}			
 		}
 		
 		protected function onCancel(evt:Event):void {
@@ -179,7 +194,14 @@ package astroUNL.classaction.browser.views {
 		
 		protected function checkResourceListForDoneness(list:Array):Boolean {
 			var i:int;
-			for (i=0; i<list.length; i++) if (list[i].downloadState!=Downloader.DONE_SUCCESS) return false;
+			for (i=0; i<list.length; i++) {
+				if (list[i].downloadState!=Downloader.DONE_SUCCESS) return false;
+				
+				// has the thumb been loaded
+				// (the thumb being null means there is no thumb for the given item)
+				// (not having the thumb (ie. DONE_FAILURE) is not a fatal error, so just check that the Downloader is finised) 
+				if (list[i].thumb!=null && list[i].thumb.downloadState<Downloader.DONE_SUCCESS) return false;
+			}
 			return true;
 		}
 		
@@ -346,6 +368,23 @@ package astroUNL.classaction.browser.views {
 				_zip.write(item.data);
 				_zip.closeEntry();
 				
+				// add the item's thumb to the zip file
+				if (item.thumb!=null) {
+					if (item.thumb.downloadState==Downloader.DONE_SUCCESS){ 
+						// don't need to include 'thumbs' that are identical to the resource
+						// (this will throw a duplicate entry error in the ZipOutput)
+						if (item.thumb.downloadURL!=item.downloadURL) {
+							entry = new ZipEntry(baseURL+item.thumb.downloadURL);
+							_zip.putNextEntry(entry);
+							_zip.write(item.thumb.byteArray);
+							_zip.closeEntry();
+						}
+					}
+					else {
+						Logger.report("could not get thumbnail for zip, url: "+item.thumb.downloadURL);
+					}
+				}
+				
 				// add an html file to the zip file
 				htmlURL = baseURL + item.downloadURL;
 				isSwf = htmlURL.slice(htmlURL.lastIndexOf(".")) == ".swf";
@@ -364,13 +403,6 @@ package astroUNL.classaction.browser.views {
 				if (item.modulesList.length>0) htmlStr = htmlStr.replace(/\$primaryModuleName/g, item.modulesList[0].name);
 				else htmlStr = htmlStr.replace(/\$primaryModuleName/g, "...");
 				
-				//htmlStr = htmlStr.replace(/\$id/g, item.id);
-				//htmlStr = htmlStr.replace(/\$baseLevel/g, baseLevel);
-				//htmlStr = htmlStr.replace(/\$moduleLinks/g, moduleLinksChunk);
-				//htmlStr = htmlStr.replace(/\$pageURL/g, pageURL);
-				//htmlStr = htmlStr.replace(/\$thumbURL/g, thumbURL);
-				//htmlStr = htmlStr.replace(/\$keywords/g, keywords);
-				
 				htmlBA.length = 0;
 				htmlBA.writeMultiByte(htmlStr, "iso-8859-1");
 				
@@ -378,12 +410,6 @@ package astroUNL.classaction.browser.views {
 				_zip.putNextEntry(entry);
 				_zip.write(htmlBA);
 				_zip.closeEntry();
-				
-				
-				
-				
-				
-				
 				
 				_currItemIndex++;
 			} while (getTimer()<timeLimit && _currItemIndex<_itemsList.length);			

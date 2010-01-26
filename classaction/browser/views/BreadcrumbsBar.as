@@ -25,10 +25,32 @@ package astroUNL.classaction.browser.views {
 		protected var _editableModuleLink:EditableClickableText;
 		protected var _questionLink:ClickableText;
 		
+		protected var _separator:String = "»";
+		protected var _separator1:ClickableText;
+		protected var _separator2:ClickableText;
+		
+		protected var _separatorTextFormat:TextFormat;
+		protected var _linkTextFormat:TextFormat;
+		
+		protected var _spacing:Number = 4;
+		
+		protected var _module:Module;
+		protected var _question:Question;
 		
 		public function BreadcrumbsBar() {
 			
 			_linkTextFormat = new TextFormat("Verdana", 12, 0xffffff, true);
+			_separatorTextFormat = new TextFormat("Verdana", 12, 0xffffff, true);
+			
+			_separator1 = new ClickableText(_separator, null, _separatorTextFormat);
+			_separator1.visible = false;
+			_separator1.setClickable(false);
+			addChild(_separator1);
+			
+			_separator2 = new ClickableText(_separator, null, _separatorTextFormat);
+			_separator2.visible = false;
+			_separator2.setClickable(false);
+			addChild(_separator2);
 			
 			_modulesListLink = new ClickableText("All Modules", null, _linkTextFormat);
 			_modulesListLink.addEventListener(ClickableText.ON_CLICK, onModulesListClicked);
@@ -49,14 +71,11 @@ package astroUNL.classaction.browser.views {
 			
 			_questionLink = new ClickableText("", null, _linkTextFormat);
 			_questionLink.visible = false;
-//			_questionLink.setEnabled(false);
 			_questionLink.setClickable(false);
 			addChild(_questionLink);
 			
 			ResourceContextMenuController.register(_questionLink);
 		}
-		
-		protected var _linkTextFormat:TextFormat;
 		
 		protected function onModuleNameEdited(evt:Event):void {
 			_module.name = evt.target.text;
@@ -71,17 +90,11 @@ package astroUNL.classaction.browser.views {
 			if (_module!=null) dispatchEvent(new MenuEvent(BreadcrumbsBar.MODULE_SELECTED, _module));
 		}
 
-		
-		protected var _module:Module;
-		protected var _question:Question;
-		
 		protected function onModuleUpdate(evt:Event):void {
 			reposition();			
 		}
 		
 		public function setState(module:Module=null, question:Question=null):void {
-			trace("setState in Breadcrumbs");
-			//trace("breadcrumbs set state: "+(module==null ? "(null)" : module.name)+", "+(question==null ? "(null)" : question.name));
 			
 			if (_module!=null) _module.removeEventListener(Module.UPDATE, onModuleUpdate, false);
 			
@@ -91,11 +104,10 @@ package astroUNL.classaction.browser.views {
 			_question = question;
 			
 			_modulesListLink.visible = true;
+			_separator1.visible = true;
 			
 			if (module!=null) {
-//				_modulesListLink.setEnabled(true);
 				_modulesListLink.setClickable(true);
-				
 				
 				if (module.readOnly) {
 					_moduleLink.setText(module.name);
@@ -108,52 +120,51 @@ package astroUNL.classaction.browser.views {
 					_moduleLink.visible = false;
 				}
 				
-				
-				
 				if (question!=null) {
 					_questionLink.setText(_question.name);
 					_questionLink.visible = true;
 					
 					_questionLink.data = {item: _question};
 					
-//					_moduleLink.setEnabled(true);
 					_moduleLink.setClickable(true);
 					_editableModuleLink.setClickable(true);
+					
+					_separator2.visible = true;
 				}
 				else {
 					_questionLink.visible = false;
 					
-//					_moduleLink.setEnabled(false);
 					_moduleLink.setClickable(false);
 					_editableModuleLink.setClickable(false);
+					
+					_separator2.visible = false;
 				}				
 				
+				_separator1.visible = true;				
 			}
 			else {
-//				_modulesListLink.setEnabled(false);
 				_modulesListLink.setClickable(false);
 				_moduleLink.visible = false;
 				_editableModuleLink.visible = false;
 				_questionLink.visible = false;
+				
+				_separator1.visible = false;
+				_separator2.visible = false;
 			}
 			
 			reposition();
 		}
 		
 		protected function reposition():void {
-			var margin:Number = 20;
-			_modulesListLink.x = margin;
-			_editableModuleLink.x = _moduleLink.x = _modulesListLink.x + _modulesListLink.width + margin;
+			_modulesListLink.x = 0;
+			_separator1.x = _modulesListLink.x + _modulesListLink.width + _spacing;
+			_editableModuleLink.x = _moduleLink.x = _separator1.x + _separator1.width + _spacing;
 			if (_module!=null) {
-				if (_module.readOnly) {
-					_questionLink.x = _moduleLink.x + _moduleLink.width + margin;
-				}
-				else {
-					_questionLink.x = _editableModuleLink.x + _editableModuleLink.width + margin;
-				}
+				if (_module.readOnly) _separator2.x = _moduleLink.x + _moduleLink.width + _spacing;
+				else _separator2.x = _editableModuleLink.x + _editableModuleLink.width + _spacing;
+				_questionLink.x = _separator2.x + _separator2.width + _spacing;
 			}
 		}
-		
 		
 	}	
 }

@@ -8,7 +8,6 @@ package astroUNL.classaction.browser.resources {
 	import flash.utils.ByteArray;
 	
 	
-	
 	public class BinaryFile implements IDownloadable {
 		
 		public var byteArray:ByteArray;
@@ -19,9 +18,9 @@ package astroUNL.classaction.browser.resources {
 		
 		protected var _filename:String;
 		
-		public function BinaryFile(filename:String) {
+		public function BinaryFile(filename:String, getNow:Boolean=true) {
 			_filename = filename;
-			Downloader.get(this);
+			if (getNow) Downloader.get(this);
 		}
 		
 		public function get downloadURL():String {

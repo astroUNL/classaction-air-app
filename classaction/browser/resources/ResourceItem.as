@@ -33,7 +33,6 @@
 		public var type:String;
 		public var data:ByteArray;
 		
-		
 		public function ResourceItem(type:String, itemXML:XML=null) {
 			this.type = type;
 			setXML(itemXML);
@@ -47,6 +46,13 @@
 				filename = itemXML.File;
 				width = itemXML.Width;
 				height = itemXML.Height;
+								
+				var thumbFilename:String = "";
+				if (type==ResourceItem.ANIMATION) thumbFilename = filename.slice(0, filename.lastIndexOf(".")) + ".jpg";
+				else if (type==ResourceItem.IMAGE) thumbFilename = filename.slice(0, filename.lastIndexOf(".")) + "_thumb" + filename.slice(filename.lastIndexOf("."));
+				else if (type==ResourceItem.OUTLINE) thumbFilename = filename;
+				else if (type==ResourceItem.TABLE) thumbFilename = filename;
+				if (thumbFilename!="") thumb = new BinaryFile(thumbFilename, false);
 			}			
 		}
 		

@@ -169,20 +169,17 @@ package astroUNL.classaction.browser.views {
 			_item = item;
 			_position = pos;
 			
-			if (item.thumb==null) {
-				var filename:String;
-				if (item.type==ResourceItem.ANIMATION) filename = item.filename.slice(0, item.filename.lastIndexOf(".")) + ".jpg";
-				else if (item.type==ResourceItem.IMAGE) filename = item.filename.slice(0, item.filename.lastIndexOf(".")) + "_thumb" + item.filename.slice(item.filename.lastIndexOf("."));
-				else if (item.type==ResourceItem.OUTLINE) filename = item.filename;
-				else if (item.type==ResourceItem.TABLE) filename = item.filename;
-				else {
-					Logger.report("invalid resource type in ResourcePreview");
-					hide();
-					return;
+			if (item.thumb!=null) {
+				if (item.thumb.downloadState==Downloader.NOT_QUEUED) {
+					item.thumb.downloadPriority = _downloadPriority++;
+					Downloader.get(item.thumb);
 				}
+			}
+			else {
+				Logger.report("missing thumb in ResourcePreview, item: "+item);
+				hide();
+				return;
 				
-				item.thumb = new BinaryFile(filename);
-				item.thumb.downloadPriority = _downloadPriority++;
 			}
 			
 			_thumbIsLoaded = false;
