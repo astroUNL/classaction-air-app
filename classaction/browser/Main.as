@@ -48,7 +48,14 @@ package astroUNL.classaction.browser {
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
-		protected var _readOnly:Boolean
+		protected var _readOnly:Boolean;
+		
+		// the background exists so that MouseOver events can be fired from the
+		// stage when returning from a context menu (this is needed since there's no
+		// mouseEnter to match the mouseLeave event)
+		protected var _background:Sprite;
+		protected var _backgroundColor:uint = 0xff0000;
+		protected var _backgroundAlpha:Number = 0.3;
 		
 		protected function onAddedToStage(evt:Event):void {
 			
@@ -72,6 +79,12 @@ package astroUNL.classaction.browser {
 			else if (_readOnly) Downloader.init("classaction/");
 			else if (Capabilities.isDebugger) Downloader.init("C:/Documents and Settings/Chris/Desktop/new classaction/");
 			else Downloader.init("");
+			
+			_background = new Sprite();
+			_background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
+			_background.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+			_background.graphics.endFill();
+			addChild(_background);
 			
 			addChild(KeyListener.getListenerProxy());
 			

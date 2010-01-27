@@ -172,7 +172,7 @@ package astroUNL.classaction.browser.views.elements {
 			var item:ResourceItem = (evt.contextMenuOwner as Object).data.item as ResourceItem;
 			if (item!=null && _selectedQuestion!=null) _selectedQuestion.removeRelevantResource(item);
 		}
-				
+		
 		protected static var _modulesList:ModulesList;
 		
 		// moduleLookup is used to lookup the module associated with a given context menu item

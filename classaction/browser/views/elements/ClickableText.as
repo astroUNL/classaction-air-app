@@ -12,6 +12,8 @@ package astroUNL.classaction.browser.views.elements {
 	import flash.ui.ContextMenuItem;
 	import flash.events.ContextMenuEvent;
 	
+	import flash.utils.getTimer;
+	
 	public class ClickableText extends Sprite {
 		
 		public static const ON_CLICK:String = "onClick";
@@ -33,6 +35,7 @@ package astroUNL.classaction.browser.views.elements {
 			
 			contextMenu = new ContextMenu();
 			contextMenu.hideBuiltInItems();
+			contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onContextMenuSelect, false, 0, true);
 			
 			_format = new TextFormat();
 			
@@ -66,6 +69,8 @@ package astroUNL.classaction.browser.views.elements {
 			setWidth(width);
 			
 			unlock();
+			
+			
 		}
 		
 		public function get text():String {
@@ -169,18 +174,62 @@ package astroUNL.classaction.browser.views.elements {
 			if (_clickable) dispatchEvent(new Event(ClickableText.ON_CLICK));
 		}
 		
+		// Problem: When the user right-clicks on the text the mouseOut event is dispatched,
+		// however, we'd like to keep the text underlined while the context menu is shown.
+		// Solution: This is done by watching for the menuSelect event, which is called just
+		// before the mouseOut event. So, when the menuSelect event comes we set a flag
+		// (skipMouseOutPropagation) that lets the mouseOut handler know to ignore and stop
+		// the next mouseOut event. Now, to know when the context menu has been closed we
+		// listen for a mouseOver event from the stage. When this happens we dispatch a
+		// mouseOut event -- effectively the one we suppressed when the context menu was
+		// selected. Note that it's possible that this ClickableText instance might be removed
+		// from the stage as a result of user interaction with the context menu (e.g. the user
+		// deletes a module). In this case we listen for a removedFromStage event so we can
+		// deregister the mouseOver listener for the stage.
+		// Note: the skipMouseOutPropagation flag is reset (set to false) in the mouseOver handler
+		// or the stage mouseOver handler, but in the latter case its existing value is used to
+		// determine whether to dispatch the mouseOut event. This is done in case the user opens the
+		// context menu, then clicks somewhere else on the same text item to close the menu. (The
+		// stage mouseOver event follows the text's mouseOver event, and in this case we don't want
+		// the mouseOut event fired).	
+		
 		protected function onMouseOverFunc(evt:MouseEvent):void {
+			_skipMouseOutPropagation = false;
 			showUnderline(true);
 		}
 		
 		protected function onMouseOutFunc(evt:MouseEvent):void {
-			showUnderline(false);
+			if (_skipMouseOutPropagation) evt.stopPropagation();
+			else showUnderline(false);
 		}
 		
 		protected function showUnderline(arg:Boolean):void {
 			_format.underline = arg;
 			_field.defaultTextFormat = _format;
 			_field.setTextFormat(_format);
+		}
+		
+		protected var _skipMouseOutPropagation:Boolean;
+		
+		protected function onContextMenuSelect(evt:ContextMenuEvent):void {
+			_skipMouseOutPropagation = true;
+			stage.addEventListener(MouseEvent.MOUSE_OVER, onStageMouseOver, false, 0, true);
+			addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage, false, 0, true);
+		}
+		
+		protected function onStageMouseOver(evt:MouseEvent):void {
+			if (_skipMouseOutPropagation) {
+				_skipMouseOutPropagation = false;
+				dispatchEvent(new MouseEvent(MouseEvent.MOUSE_OUT));
+			}
+			stage.removeEventListener(MouseEvent.MOUSE_OVER, onStageMouseOver, false);
+			removeEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage, false);
+		}
+		
+		protected function onRemovedFromStage(evt:Event):void {
+			_skipMouseOutPropagation = false;
+			stage.removeEventListener(MouseEvent.MOUSE_OVER, onStageMouseOver, false);
+			removeEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage, false);
 		}
 		
 		protected var _locked:Boolean = false;

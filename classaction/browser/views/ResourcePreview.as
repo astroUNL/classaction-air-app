@@ -112,7 +112,7 @@ package astroUNL.classaction.browser.views {
 			}
 			else if (!_alphaTimer.running) _alphaTimer.start();
 			
-			trace("updateAlpha, state: "+_state+", alpha: "+_bubble.alpha+", running: "+_alphaTimer.running);
+//			trace("updateAlpha, state: "+_state+", alpha: "+_bubble.alpha+", running: "+_alphaTimer.running);
 		}
 		
 		protected const _maxWidth:Number = 180;
