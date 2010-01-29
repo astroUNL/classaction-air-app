@@ -54,8 +54,8 @@ package astroUNL.classaction.browser {
 		// stage when returning from a context menu (this is needed since there's no
 		// mouseEnter to match the mouseLeave event)
 		protected var _background:Sprite;
-		protected var _backgroundColor:uint = 0xff0000;
-		protected var _backgroundAlpha:Number = 0.3;
+		protected var _backgroundColor:uint = 0x000000;
+		protected var _backgroundAlpha:Number = 0;
 		
 		protected function onAddedToStage(evt:Event):void {
 			
@@ -133,17 +133,16 @@ package astroUNL.classaction.browser {
 		
 		protected function onPreviewItemChanged(evt:Event):void {
 			var item:ResourceItem = _resourcePanels.previewItem;
-			trace("preview item changed: "+item);
 			if (item==null) _resourcePreview.hide();
 			else _resourcePreview.show(item, _resourcePanels.previewPosition);
 		}
 		
 		protected function onSOAsyncError(evt:AsyncErrorEvent):void {
-			trace(evt);
+			trace("onSOAsyncError, "+evt);
 		}
 		
 		protected function onSONetStatus(evt:NetStatusEvent):void {
-			trace(evt);			
+			trace("onSONetStatus, "+evt);
 		}
 		
 		protected var _customModulesList:Array;

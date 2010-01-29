@@ -22,6 +22,8 @@ package astroUNL.classaction.browser.views.elements {
 	import flash.events.ContextMenuEvent;
 	import flash.utils.Dictionary;
 	
+	
+	
 	public class ResourceContextMenuController {
 
 		protected static const _addToMenuText:String = "Add to…";
@@ -35,10 +37,7 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public static function register(obj:InteractiveObject):void {
-//			trace("ResourceContextMenuController");
-//			trace(" registering: "+obj);
-			
-			obj.contextMenu = new ContextMenu();
+			if (obj.contextMenu==null) obj.contextMenu = new ContextMenu();
 			obj.contextMenu.hideBuiltInItems();
 			obj.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onMenuSelect, false, 0, true);
 		}
@@ -56,9 +55,7 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected static function onMenuSelect(evt:ContextMenuEvent):void {
-			
-			trace("onMenuSelect");
-			
+						
 			var menu:ContextMenu = evt.target as ContextMenu;
 			if (menu==null) return;
 			menu.customItems = [];
@@ -68,9 +65,7 @@ package astroUNL.classaction.browser.views.elements {
 				trace("************************************ bad bad bad");
 				return;
 			}
-			
-			trace(" item: "+item.name);
-			
+						
 			// when done these lists will be populated with the custom modules the
 			// item is included and not included in
 			var inList:Array = [];
@@ -179,9 +174,7 @@ package astroUNL.classaction.browser.views.elements {
 		protected static var _moduleLookup:Dictionary;
 		
 		protected static function onItemAddToModule(evt:ContextMenuEvent):void {
-			trace("onItemAddToModule");
 			var item:ResourceItem = (evt.contextMenuOwner as Object).data.item as ResourceItem;
-			trace(" item: "+item.name);
 			if (item!=null) {
 				if (item is Question) _moduleLookup[evt.target].addQuestion(item as Question);
 				else _moduleLookup[evt.target].addResource(item);
@@ -190,10 +183,7 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected static function onItemRemoveFromModule(evt:ContextMenuEvent):void {
-			trace("onItemAddToModule");
-			trace(" "+evt.mouseTarget)
 			var item:ResourceItem = (evt.contextMenuOwner as Object).data.item as ResourceItem;
-			trace(" item: "+item.name);
 			if (item!=null) {
 				if (item is Question) _moduleLookup[evt.target].removeQuestion(item as Question);
 				else _moduleLookup[evt.target].removeResource(item);

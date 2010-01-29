@@ -64,8 +64,6 @@ package astroUNL.classaction.browser.views {
 			_thumb = new Bitmap();
 			_bubble.addChild(_thumb);
 			
-			_thumbLoader = new Loader();
-			_thumbLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onThumbLoaded);
 			
 			mouseEnabled = false;
 			mouseChildren = false;
@@ -156,11 +154,12 @@ package astroUNL.classaction.browser.views {
 			
 			_thumbIsLoaded = true;
 			updateAlpha();
+			
+			destroyThumbLoader();
 		}		
 		
-		
 		public function show(item:ResourceItem, pos:Point):void {
-			
+						
 			if (item==null || pos==null) {
 				hide();
 				return;
@@ -191,14 +190,29 @@ package astroUNL.classaction.browser.views {
 				_alphaEaser.setTarget(timeNow, null, timeNow+_state4Duration, 1);
 			}
 			
+			// decided to create a new thumbLoader with every request in an attempt to fix a rare
+			// but persistent bug where the loader would display the previously loaded thumb
+			// (making it more confusing, in the onThumbLoaded method the number of reported bytes loaded
+			// would match the new thumb, but the dimensions (and what was shown) would match the old thumb)
+			destroyThumbLoader();
+			_thumbLoader = new Loader();
+			
 			if (!_thumbTimer.running) _thumbTimer.start();
-			onThumbTimer();
+			onThumbTimer();			
 		}
+		
+		protected function destroyThumbLoader():void {
+			if (_thumbLoader!=null) {
+				_thumbLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onThumbLoaded, false);
+				_thumbLoader = null;
+			}
+		}		
 		
 		public function hide(noWait:Boolean=false):void {
 			
 			_item = null;
 			
+			destroyThumbLoader();
 			if (_thumbTimer.running) _thumbTimer.stop();
 			
 			var timeNow:Number = getTimer();
@@ -229,6 +243,7 @@ package astroUNL.classaction.browser.views {
 				hide();
 			}
 			else if (_item.thumb.downloadState==Downloader.DONE_SUCCESS) {
+				_thumbLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onThumbLoaded, false, 0, true);
 				_thumbLoader.loadBytes(_item.thumb.byteArray);
 				_thumbTimer.stop();
 				updateAlpha();

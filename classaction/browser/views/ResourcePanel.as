@@ -175,17 +175,19 @@ package astroUNL.classaction.browser.views {
 		protected function onCloseButtonClicked(evt:MouseEvent):void {
 			minimize();
 		}
+
+	
+		import flash.utils.getTimer;
 		
 		protected function onItemMouseOver(evt:MouseEvent):void {
-			trace("onItemMouseOver: "+evt.target);
 			var item:ResourceItem = evt.target.data.item;
 			_group.setPreviewItem(item, evt.target.localToGlobal(new Point(0, 0)));
 		}
 		
 		protected function onItemMouseOut(evt:MouseEvent):void {
-			trace("onItemMouseOut: "+evt.target);
 			var item:ResourceItem = evt.target.data.item;
-			_group.setPreviewItem(null);
+			// cancel the preview only if the mouseOut event corresponds to the currently previewed object
+			if (item==_group.previewItem) _group.setPreviewItem(null);
 		}
 		
 		protected function onItemClicked(evt:Event):void {

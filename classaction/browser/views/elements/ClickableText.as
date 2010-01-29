@@ -199,7 +199,7 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected function onMouseOutFunc(evt:MouseEvent):void {
-			if (_skipMouseOutPropagation) evt.stopPropagation();
+			if (_skipMouseOutPropagation) evt.stopImmediatePropagation();
 			else showUnderline(false);
 		}
 		
@@ -227,7 +227,13 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected function onRemovedFromStage(evt:Event):void {
-			_skipMouseOutPropagation = false;
+			// the ClickableText could be removed from stage for a variety of reasons
+			// (for example, the ModulesListView removes and then adds back ClickableText
+			// objects when it redraws the list)
+			if (_skipMouseOutPropagation) {
+				_skipMouseOutPropagation = false;
+				dispatchEvent(new MouseEvent(MouseEvent.MOUSE_OUT));
+			}
 			stage.removeEventListener(MouseEvent.MOUSE_OVER, onStageMouseOver, false);
 			removeEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage, false);
 		}

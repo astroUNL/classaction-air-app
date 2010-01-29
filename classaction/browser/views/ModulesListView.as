@@ -145,8 +145,10 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onModuleDeleteRequest(evt:ContextMenuEvent):void {
 			var module:Module = (evt.contextMenuOwner as EditableClickableText).data;
-			var success:Boolean = _modulesList.removeModule(module);
-			if (success) delete _moduleLinks[module];			
+			if (module!=null) {
+				var success:Boolean = _modulesList.removeModule(module);
+				if (success) delete _moduleLinks[module];	
+			}
 		}
 		
 		protected function onModuleNameEntered(evt:Event):void {
@@ -157,151 +159,16 @@ package astroUNL.classaction.browser.views {
 			dispatchEvent(new Event(ModulesListView.START_ZIP_DOWNLOAD));
 		}
 		
-//		protected var _downloadPoller:Timer;
-//		
-//		protected function onDownloadCustomModules(evt:Event):void {
-//			
-//			trace("skipping onDownloadCustomModules");
-//			return;
-//
-////			if (_downloadPoller.running) {
-////							_panes.addContent(createHeading("-1"));
-////
-////				trace("download already in progress");
-////				return;
-////			}
-////			var i:int;
-//
-////			for (i=0; i<_modulesList.modules.length; i++) {
-////				if (!_modulesList.modules[i].readOnly) {
-////					Downloader.get(_modulesList.modules[i].allQuestionsList);
-////				}
-////			}
-//			
-////			_downloadPoller.start();
-////		}
-////		
-////		protected function onDownloadPoll(evt:TimerEvent):void {
-//			
-//			var i:int, j:int;
-//
-//			
-//			for (i=0; i<_modulesList.modules.length; i++) {
-//				if (!_modulesList.modules[i].readOnly) {
-//					for (j=0; j<_modulesList.modules[i].allQuestionsList.length; j++) {
-//						if (_modulesList.modules[i].allQuestionsList[j].downloadState!=Downloader.DONE_SUCCESS) return;						
-//					}
-//				}
-//			}
-//			
-//			if (_startHtml.downloadState!=Downloader.DONE_SUCCESS) return;
-//			if (_browserSwf.downloadState!=Downloader.DONE_SUCCESS) return;
-//			
-////			// ok, all the resources in the custom modules have been loaded
-////			_downloadPoller.stop();
-//			
-//			
-//			var zip:ZipOutput = new ZipOutput();
-//			
-//			var entry:ZipEntry;
-//			var ba:ByteArray = new ByteArray();
-//			var done:Object = {};
-//			var question:Question;
-//			
-//			var filename:String;
-//			
-//			var baseURL:String = "custom/classaction/";
-//			
-//			var modulesXML:XML = new XML("<modules></modules>");
-//			var questionsXML:XML = new XML("<QuestionBank></QuestionBank>");
-//			
-//			
-//			for (i=0; i<_modulesList.modules.length; i++) {
-//				if (!_modulesList.modules[i].readOnly) {
-//					for (j=0; j<_modulesList.modules[i].allQuestionsList.length; j++) {
-//						question = _modulesList.modules[i].allQuestionsList[j];
-//						if (done[question.id]==undefined) {
-//							
-//							// add the question to the zip file
-//							entry = new ZipEntry(baseURL+question.downloadURL);
-//							zip.putNextEntry(entry);
-//							zip.write(question.swfData);
-//							zip.closeEntry();
-//							done[question.id] = true;
-//							
-//							// add the question data to the xml file
-//							questionsXML.appendChild(question.getXML());
-//						}						
-//					}
-//					
-//					// write the xml file for this custom module
-//					filename = _modulesList.modules[i].name + ".xml";
-//					trace(filename);
-//					ba.length = 0;
-//					ba.writeMultiByte(_modulesList.modules[i].getXMLString(), "iso-8859-1");
-//					entry = new ZipEntry(baseURL+filename);
-//					zip.putNextEntry(entry);
-//					zip.write(ba);
-//					zip.closeEntry();
-//					
-//					// add this custom module to the modules list xml file
-//					modulesXML.appendChild(new XML("<module>"+filename+"</module>"));
-//				}				
-//			}
-//			
-//			
-//			// write the questions.xml file
-//			ba.length = 0;
-//			ba.writeMultiByte("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + (new XML(questionsXML)).toXMLString(), "iso-8859-1");
-//			entry = new ZipEntry(baseURL+"questions/questions.xml");
-//			zip.putNextEntry(entry);
-//			zip.write(ba);
-//			zip.closeEntry();
-//			
-//			// write the moduleslist.xml file
-//			ba.length = 0;
-//			ba.writeMultiByte("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + (new XML(modulesXML)).toXMLString(), "iso-8859-1");
-//			entry = new ZipEntry(baseURL+"moduleslist.xml");
-//			zip.putNextEntry(entry);
-//			zip.write(ba);
-//			zip.closeEntry();
-//			
-//			
-//			entry = new ZipEntry(baseURL+"browser.swf");
-//			zip.putNextEntry(entry);
-//			zip.write(_browserSwf.byteArray);
-//			zip.closeEntry();
-//			
-//			
-//			entry = new ZipEntry("custom/start.html");
-//			zip.putNextEntry(entry);
-//			zip.write(_startHtml.byteArray);
-//			zip.closeEntry();
-//			
-//			
-//			zip.finish();
-//			
-////var zipOut:ZipOutput = new ZipOutput();
-////// Add entry to zip
-////var ze:ZipEntry = new ZipEntry(fileName);
-////zipOut.putNextEntry(ze);
-////zipOut.write(fileData);
-////zipOut.closeEntry();
-////// end the zip
-////zipOut.finish();
-////// access the zip data
-////var zipData:ByteArray = zipOut.byteArray;
-////			
-//			
-//			trace("success!");
-//			
-//			_fr.save(zip.byteArray, "custom.zip");
-//		}
-//		
-//		protected var _fr:FileReference;
-//		
-		
-//		protected var _activeZip:ZipOutput;
+		protected function onModuleCopyRequest(evt:ContextMenuEvent):void {
+			var module:Module = (evt.contextMenuOwner as ClickableText).data;
+			if (module!=null) {
+				var copy:Module = module.getCopy();
+				_modulesList.addModule(copy);
+				_moduleLinks[copy].setEditable(true);
+				
+			//	(evt.contextMenuOwner as ClickableText).
+			}		
+		}
 		
 		protected var _modulesList:ModulesList;
 		
@@ -324,6 +191,7 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function redraw():void {
+			trace("redrawing!");
 			
 			_panes.reset();
 			
@@ -339,6 +207,8 @@ package astroUNL.classaction.browser.views {
 					if (_moduleLinks[modulesList.modules[i]]==undefined) {
 						ct = new ClickableText(_modulesList.modules[i].name, _modulesList.modules[i], _itemFormat, _panes.columnWidth);		
 						ct.addEventListener(ClickableText.ON_CLICK, onModuleClicked, false, 0, true);
+						ct.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onReadOnlyMenuSelect, false, 0, true);
+						ct.addMenuItem(_copyModuleText, onModuleCopyRequest);						
 						_moduleLinks[modulesList.modules[i]] = ct;
 					}
 					_panes.addContent(_moduleLinks[modulesList.modules[i]], itemParams);
@@ -367,9 +237,9 @@ package astroUNL.classaction.browser.views {
 						ct.addEventListener(EditableClickableText.DIMENSIONS_CHANGED, onModuleNameEntered, false, 0, true);
 						ct.addEventListener(EditableClickableText.EDIT_DONE, onModuleNameEntered, false, 0, true);
 						ct.addEventListener(ClickableText.ON_CLICK, onModuleClicked, false, 0, true);
-						ct.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onMenuSelect, false, 0, true);
-						ct.addMenuItem(_deleteItemText, onModuleDeleteRequest);
-									
+						ct.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onCustomMenuSelect, false, 0, true);
+						ct.addMenuItem(_copyModuleText, onModuleCopyRequest);
+						ct.addMenuItem(_deleteItemText, onModuleDeleteRequest);									
 						_moduleLinks[modulesList.modules[i]] = ct;
 					}	
 					
@@ -387,20 +257,36 @@ package astroUNL.classaction.browser.views {
 				itemParams.topMargin = 0;
 			}
 			if (numCustom>0) _panes.addContent(_downloadCommand, itemParams);
+			
+			_numCustom = numCustom;
 		}
 		
-		protected var _customModuleLimit:int = 12;
+		protected var _numCustom:int;
+		
+		protected var _customModuleLimit:int = 10;
 		
 		protected var _deleteItemText:String = "Delete (hold Shift)";
+		protected var _copyModuleText:String = "Copy Module";
 		
-		protected function onMenuSelect(evt:ContextMenuEvent):void {
+		protected function onReadOnlyMenuSelect(evt:ContextMenuEvent):void {
+			// this function handles the right-clicks on the read-only module names
+			for (var i:int = 0; i<evt.target.customItems.length; i++) {
+				if (evt.target.customItems[i].caption==_copyModuleText) {
+					evt.target.customItems[i].enabled = _numCustom<_customModuleLimit;
+				}
+			}
+		}
+		
+		protected function onCustomMenuSelect(evt:ContextMenuEvent):void {
 			// this function handles the right-clicks on custom module names
 			for (var i:int = 0; i<evt.target.customItems.length; i++) {
 				if (evt.target.customItems[i].caption==_deleteItemText) {
 					evt.target.customItems[i].enabled = KeyListener.isDown(Keyboard.SHIFT);
 					KeyListener.reset();
-					break;
-				}					
+				}
+				else if (evt.target.customItems[i].caption==_copyModuleText) {
+					evt.target.customItems[i].enabled = _numCustom<_customModuleLimit;
+				}
 			}
 		}
 		

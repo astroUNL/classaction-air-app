@@ -78,8 +78,8 @@ package astroUNL.classaction.browser.resources {
 					break;
 				}
 			}
-			dispatchEvent(new Event(ModulesList.UPDATE));
-			return true;
+			if (success) dispatchEvent(new Event(ModulesList.UPDATE));
+			return success;
 		}
 		
 		public function addModule(module:Module):void {

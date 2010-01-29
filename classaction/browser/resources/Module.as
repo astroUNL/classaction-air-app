@@ -51,6 +51,13 @@ package astroUNL.classaction.browser.resources {
 		
 		protected var _id:int;
 		
+		public function getCopy():Module {
+			var newModule:Module = new Module(null, false);
+			newModule.parseData(getXMLString());
+			newModule.name = "Copy of " + _name;
+			return newModule;
+		}
+		
 		public function Module(filename:String, readOnly:Boolean=true, serialization:ByteArray=null) {
 			_readOnly = readOnly;
 			_serialization = new ByteArray();
@@ -449,7 +456,14 @@ package astroUNL.classaction.browser.resources {
 			}
 		}
 
-		protected function parseData(data:String):void {
+		public function parseData(data:String):void {
+			if (warmupQuestionsList.length>0 || generalQuestionsList.length>0 || challengeQuestionsList.length>0
+				|| discussionQuestionsList.length>0 || animationsList.length>0 || imagesList.length>0
+				|| outlinesList.length>0 || tablesList.length>0 || allQuestionsList.length>0) {
+				Logger.report("parseData should only be called with an empty module");
+				return;
+			}
+			
 			try {
 				var startTimer:Number = getTimer();
 				
