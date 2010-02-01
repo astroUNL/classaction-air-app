@@ -11,12 +11,11 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.views.elements.ResourceContextMenuController;
 	import astroUNL.classaction.browser.download.Downloader;
 
-	
 	import flash.display.Sprite;
 	import flash.display.Graphics;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
-	
+
 	import flash.system.Security;
 	import flash.geom.Point;
 	
@@ -26,14 +25,8 @@ package astroUNL.classaction.browser.views {
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	
-//	import flash.events.ContextMenuEvent;
-//	import flash.ui.ContextMenu;
-//	import flash.ui.ContextMenuItem;
-	
-	import flash.utils.getTimer;
 	import flash.utils.Dictionary;
 	import flash.external.ExternalInterface;
-	
 	
 	public class ResourcePanel extends Sprite {
 		
@@ -50,20 +43,26 @@ package astroUNL.classaction.browser.views {
 		protected var _titleFormat:TextFormat;
 		protected var _headingFormat:TextFormat;
 		protected var _itemFormat:TextFormat;
+		protected var _pageNumFormat:TextFormat;
+		protected var _emptyFormat:TextFormat;
+		protected var _toggleShowAllFormat:TextFormat;
+		protected var _pageDescriptionFormat:TextFormat;
+		
 		protected var _background:Sprite;
 		protected var _title:ClickableText;
 		protected var _panes:ScrollableLayoutPanes;
 		protected var _leftButton:ResourcePanelNavButton;
 		protected var _rightButton:ResourcePanelNavButton;
-		protected var _content:Sprite;
 		protected var _relevantStar:RelevantStar;
 		protected var _relevantHeading:TextField;		
 		protected var _moreHeading:TextField;
 		protected var _titleStar:RelevantStar;
-		
+		protected var _pageNum:TextField;
 		protected var _closeButton:ResourcePanelCloseButton;
-		
-		
+		protected var _emptyMessage:Sprite;
+		protected var _emptyCustomModuleMessage:Sprite;
+		protected var _emptyReadOnlyModuleMessage:Sprite;
+		protected var _toggleShowAllText:ClickableText;
 		
 		protected var _panelWidth:Number = 800;
 		protected var _panelHeight:Number = 300;
@@ -77,6 +76,8 @@ package astroUNL.classaction.browser.views {
 		protected var _easeTime:Number = 250;
 		protected var _modulesList:ModulesList;
 		protected var _preparedTextItems:Object = {};
+		protected var _emptyMessageX:Number = _panelWidth/2;
+		protected var _emptyMessageY:Number = _panelHeight/2;
 		
 		protected var _selectedModule:Module;
 		protected var _selectedQuestion:Question;
@@ -96,7 +97,20 @@ package astroUNL.classaction.browser.views {
 		protected var _itemMinLeftOver:Number = -2;
 		
 		protected var _closeButtonY:Number = 18;
-		protected var _closeButtonX:Number = _panelWidth - _closeButtonY;
+		protected var _closeButtonX:Number = _panelWidth - 20;
+		
+		protected var _pageNumX:Number = _closeButtonX - 30;
+		protected var _pageNumY:Number = 19;
+		
+		protected var _toggleShowAllX:Number = 12;
+		protected var _toggleShowAllY:Number = 19;
+		
+		protected var _pageDescriptionX:Number = 12;
+		protected var _pageDescriptionY:Number = 19;
+		
+		protected var _pageDescription:Sprite;
+		protected var _showAllText:ClickableText;
+		protected var _showModuleText:ClickableText;
 		
 		protected var _horizontalDividerColor:uint = 0xe0e0e0;
 		protected var _horizontalDividerX:Number = 8;
@@ -105,22 +119,42 @@ package astroUNL.classaction.browser.views {
 		protected var _readOnly:Boolean;
 		
 		protected var _group:ResourcePanelsGroup;
+		
+		protected var _titleColorWithItems:uint = 0x404040;
+		protected var _titleColorWithoutItems:uint = 0xa0a0a0;
 				
+		protected var _showOptionSelectedFormat:TextFormat;
+		protected var _showOptionUnselectedFormat:TextFormat;
+		
+		protected var _showAllX:Number = 65;
+		protected var _showModuleX:Number = 200;
+		
 		public function ResourcePanel(group:ResourcePanelsGroup, type:String, readOnly:Boolean) {
 			
 			_group = group;
 			_type = type;
 			_readOnly = readOnly;
 			
+			_showAll = true;
+			
 			_titleFormat = new TextFormat("Verdana", 14, 0x404040, true);
 			_headingFormat = new TextFormat("Verdana", 13, 0x0, true);
-			_itemFormat = new TextFormat("Verdana", 13, 0x404040);		
+			_itemFormat = new TextFormat("Verdana", 13, 0x404040);
+			_pageNumFormat = new TextFormat("Verdana", 12, 0x404040, null, false);
+			_pageNumFormat.align = "right";
+			_emptyFormat = new TextFormat("Verdana", 13, 0x404040);
+			_emptyFormat.align = "center";
+			_emptyFormat.leading = 5;
+			_toggleShowAllFormat = new TextFormat("Verdana", 12, 0x404040, null, true);
+			_pageDescriptionFormat = new TextFormat("Verdana", 12, 0x404040, null, false);
+			_showOptionSelectedFormat = new TextFormat("Verdana", 12, 0x404040, false);
+			_showOptionUnselectedFormat = new TextFormat("Verdana", 12, 0xa0a0a0, false);
 			
 			_background = new Sprite();
 			addChild(_background);
 			
 			_title = new ClickableText("", null, _titleFormat);
-			_title.addEventListener(ClickableText.ON_CLICK, onTitleClicked);
+			_title.addEventListener(ClickableText.ON_CLICK, onTitleClicked, false, 0, true);
 			addChild(_title);
 			
 			_titleStar = new RelevantStar();
@@ -136,29 +170,112 @@ package astroUNL.classaction.browser.views {
 			_leftButton.x = _navButtonSpacing;
 			_leftButton.y = _panelHeight/2;
 			_leftButton.scaleX = -1;
-			_leftButton.addEventListener(MouseEvent.CLICK, onLeftButtonClicked);
+			_leftButton.addEventListener(MouseEvent.CLICK, onLeftButtonClicked, false, 0, true);
 			_leftButton.visible = false;
 			addChild(_leftButton);
 			
 			_rightButton = new ResourcePanelNavButton();
 			_rightButton.x = _panelWidth - _navButtonSpacing;
 			_rightButton.y = _panelHeight/2;
-			_rightButton.addEventListener(MouseEvent.CLICK, onRightButtonClicked);
+			_rightButton.addEventListener(MouseEvent.CLICK, onRightButtonClicked, false, 0, true);
 			_rightButton.visible = false;
 			addChild(_rightButton);
 			
-			_content = new Sprite();
-			addChild(_content);
-			
 			_relevantStar = new RelevantStar();
+			
+			_pageNum = new TextField();
+			_pageNum.width = 0;
+			_pageNum.height = 0;
+			_pageNum.x = _pageNumX;
+			_pageNum.y = _pageNumY;
+			_pageNum.autoSize = "right";
+			_pageNum.selectable = false;
+			_pageNum.embedFonts = true;
+			_pageNum.defaultTextFormat = _pageNumFormat;
+			addChild(_pageNum);
+			
+// !!! remove the toggle if decide to keep page description method
+			_toggleShowAllText = new ClickableText("show all", null, _toggleShowAllFormat);
+			_toggleShowAllText.addEventListener(ClickableText.ON_CLICK, onToggleShowAll, false, 0, true);
+			_toggleShowAllText.visible = false;
+_toggleShowAllText.alpha = 0;
+			_toggleShowAllText.x = _toggleShowAllX;
+			_toggleShowAllText.y = _toggleShowAllY - _toggleShowAllText.height/2;
+			addChild(_toggleShowAllText);
+			
+			var ct:ClickableText;
+			var tf:TextField;
+			
+			_pageDescription = new Sprite();
+			_pageDescription.x = _pageDescriptionX;
+			_pageDescription.y = _pageDescriptionY;
+			tf = new TextField();
+			tf.width = 0;
+			tf.height = 0;
+			tf.autoSize = "left";
+			tf.selectable = false;
+			tf.embedFonts = true;
+			tf.defaultTextFormat = _pageDescriptionFormat;
+			tf.text = "showing:";
+			tf.y = -tf.height/2;
+			_pageDescription.addChild(tf);
+			_showAllText = new ClickableText("all "+_type, null, _showOptionSelectedFormat);
+			_showAllText.addEventListener(ClickableText.ON_CLICK, onShowAll, false, 0, true);
+			_showAllText.x = tf.x + tf.width + 8;
+			_showAllText.y = -_showAllText.height/2;
+			_pageDescription.addChild(_showAllText);
+			_showModuleText = new ClickableText("a", null, _showOptionSelectedFormat);
+			_showModuleText.addEventListener(ClickableText.ON_CLICK, onShowModule, false, 0, true);
+			_showModuleText.x = _showAllText.x + _showAllText.width + 10;			
+			_showModuleText.y = -_showModuleText.height/2;
+			_pageDescription.addChild(_showModuleText);
+			addChild(_pageDescription);
 			
 			_closeButton = new ResourcePanelCloseButton();
 			_closeButton.x = _closeButtonX;
 			_closeButton.y = _closeButtonY;
-			_closeButton.addEventListener(MouseEvent.CLICK, onCloseButtonClicked);
+			_closeButton.addEventListener(MouseEvent.CLICK, onCloseButtonClicked, false, 0, true);
 			_closeButton.useHandCursor = true;
 			_closeButton.buttonMode = true;
 			addChild(_closeButton);
+			
+			_emptyMessage = new Sprite();
+			_emptyMessage.visible = false;
+			tf = new TextField();
+			tf.width = 0;
+			tf.height = 0;
+			tf.autoSize = "center";
+			tf.selectable = false;
+			tf.embedFonts = true;
+			tf.defaultTextFormat = _emptyFormat;
+			tf.text = "there are no " + type;
+			tf.y = -tf.height;
+			_emptyMessage.addChild(tf);
+			_emptyMessage.x = _emptyMessageX;
+			_emptyMessage.y = _emptyMessageY;
+			addChild(_emptyMessage);
+			
+			_emptyCustomModuleMessage = new Sprite();
+			_emptyCustomModuleMessage.visible = false;
+			ct = new ClickableText("this module has no "+type+"\rclick here to show all "+type, null, _emptyFormat);
+			ct.addEventListener(ClickableText.ON_CLICK, onShowAll, false, 0, true);
+			ct.x = -ct.width/2;
+			ct.y = -ct.height/2;
+			_emptyCustomModuleMessage.addChild(ct);
+			_emptyCustomModuleMessage.x = _emptyMessageX;
+			_emptyCustomModuleMessage.y = _emptyMessageY;
+			addChild(_emptyCustomModuleMessage);
+			
+			_emptyReadOnlyModuleMessage = new Sprite();
+			_emptyReadOnlyModuleMessage.visible = false;
+			ct = new ClickableText("this module has no "+type+"\rclick here to show all "+type, null, _emptyFormat);
+			ct.addEventListener(ClickableText.ON_CLICK, onShowAll, false, 0, true);
+			ct.x = -ct.width/2;
+			ct.y = -ct.height/2;
+			_emptyReadOnlyModuleMessage.addChild(ct);
+			_emptyReadOnlyModuleMessage.x = _emptyMessageX;
+			_emptyReadOnlyModuleMessage.y = _emptyMessageY;
+			addChild(_emptyReadOnlyModuleMessage);
 			
 			_typeCapped = getFirstCapped(type);
 			_relevantHeading = createHeading("Relevant "+_typeCapped);
@@ -176,8 +293,22 @@ package astroUNL.classaction.browser.views {
 			minimize();
 		}
 
-	
-		import flash.utils.getTimer;
+		protected function onToggleShowAll(evt:Event):void {
+			_showAll = !_showAll;
+			redraw();
+		}
+		
+		protected function onShowAll(evt:Event):void {
+			trace("onShowAll");
+			_showAll = true;
+			redraw();
+		}
+		
+		protected function onShowModule(evt:Event):void {
+			trace("onShowModule");
+			_showAll = false;
+			redraw();
+		}
 		
 		protected function onItemMouseOver(evt:MouseEvent):void {
 			var item:ResourceItem = evt.target.data.item;
@@ -192,7 +323,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onItemClicked(evt:Event):void {
 			
-			var item:ResourceItem = evt.target.data.item;			
+			var item:ResourceItem = evt.target.data.item;
 			
 			var filename:String = Downloader.baseURL + item.filename;
 			filename = filename.slice(0, filename.lastIndexOf(".")) + ".html";
@@ -206,11 +337,15 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function onLeftButtonClicked(evt:MouseEvent):void {
+			_group.setPreviewItem(null);
 			_panes.incrementPaneNum(-1, _easeTime);
+			refreshPageNum();
 		}
 		
 		protected function onRightButtonClicked(evt:MouseEvent):void {
+			_group.setPreviewItem(null);
 			_panes.incrementPaneNum(1, _easeTime);
+			refreshPageNum();
 		}
 		
 		protected function onModulesListUpdate(evt:Event):void {
@@ -223,15 +358,27 @@ package astroUNL.classaction.browser.views {
 		
 		public function set modulesList(arg:ModulesList):void {
 			_modulesList = arg;
-			_modulesList.addEventListener(ModulesList.UPDATE, onModulesListUpdate);
+			_modulesList.addEventListener(ModulesList.UPDATE, onModulesListUpdate, false, 0, true);
 			_preparedTextItems = {};		
 			redraw();
 		}
 		
 		public function setState(module:Module, question:Question):void {
+			if (module!=null) {
+				if (_selectedModule==null) {
+					_showAll = false;
+					_panes.paneNum = 0;
+				}
+				// else keep the same
+			}
+			else {
+				_showAll = true;
+				_panes.paneNum = 0;
+			}
+				
 			_selectedModule = module;
 			_selectedQuestion = question;
-			_showAll = (_selectedModule==null);
+			
 			redraw();
 		}
 		
@@ -243,12 +390,24 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function redrawTitle():void {
+			
+			_titleText = _typeCapped;
+			
+			if (_selectedModule!=null) {
+				if (getResourceList(_selectedModule).length==0) _titleFormat.color = _titleColorWithoutItems;
+				else _titleFormat.color = _titleColorWithItems;
+			}
+			else if (_totalItemsShown==0) _titleFormat.color = _titleColorWithoutItems;
+			else _titleFormat.color = _titleColorWithItems;
+			
+			_title.setFormat(_titleFormat);
+			
 			_title.setText(_titleText);
 			_title.x = _tabOffset + _titleMargin;
 			_title.y = -_title.height;
 			if (_numRelevant>0) {
 				_titleStar.visible = true;
-				_titleStar.x = _tabOffset + _titleMargin + 9;//_title.x + _title.width + 17;
+				_titleStar.x = _tabOffset + _titleMargin + 9;
 				_titleStar.y = _title.y + _title.height/2;
 				_title.x += 18;
 				_tabWidth = _title.width + 2*_titleMargin + 20;
@@ -257,19 +416,11 @@ package astroUNL.classaction.browser.views {
 				_titleStar.visible = false;
 				_tabWidth = _title.width + 2*_titleMargin;
 			}
+			
 			//trace("tabOffset: "+_tabOffset+", "+_type);
 		}
 		
 		protected var _titleText:String = "";
-		
-
-//		protected function setTitle(title:String, tabOffset:Number):void {
-//			_title.x = tabOffset + _titleMargin;
-//			_title.y = -_title.height;			
-//			_tabWidth = _title.width + 2*_titleMargin;
-//			_tabOffset = tabOffset;			
-//			redrawBackground();
-//		}
 		
 		public function minimize():void {
 			_maximized = false;
@@ -278,7 +429,10 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		public function maximize():void {
-			if (!_maximized) _panes.paneNum = 0;
+//			if (!_maximized) {
+//				_panes.paneNum = 0;
+//				refreshPageNum();
+//			}
 			_maximized = true;
 			y = -_panelHeight;
 			dispatchEvent(new Event(ResourcePanel.MAXIMIZED));
@@ -303,7 +457,7 @@ package astroUNL.classaction.browser.views {
 					prepObj = {};
 					prepObj.links = {};
 					_preparedTextItems["_"+module.id] = prepObj;
-					module.addEventListener(Module.UPDATE, onModuleUpdate);
+					module.addEventListener(Module.UPDATE, onModuleUpdate, false, 0, true);
 				}
 				else if (module.readOnly) {
 					continue;
@@ -321,94 +475,22 @@ package astroUNL.classaction.browser.views {
 				for (j=0; j<list.length; j++) {
 					if (prepObj.links[list[j].id]==undefined) {
 						prepObj.links[list[j].id] = new ClickableText(list[j].name, {item: list[j]}, _itemFormat, _panes.columnWidth);
-//						prepObj.links[list[j].id].contextMenu = new ContextMenu();
-//						prepObj.links[list[j].id].contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onItemMenuSelect);
 						ResourceContextMenuController.register(prepObj.links[list[j].id]);
-						prepObj.links[list[j].id].addEventListener(MouseEvent.MOUSE_OVER, onItemMouseOver);
-						prepObj.links[list[j].id].addEventListener(MouseEvent.MOUSE_OUT, onItemMouseOut);
-						prepObj.links[list[j].id].addEventListener(ClickableText.ON_CLICK, onItemClicked);
+						prepObj.links[list[j].id].addEventListener(MouseEvent.MOUSE_OVER, onItemMouseOver, false, 0, true);
+						prepObj.links[list[j].id].addEventListener(MouseEvent.MOUSE_OUT, onItemMouseOut, false, 0, true);
+						prepObj.links[list[j].id].addEventListener(ClickableText.ON_CLICK, onItemClicked, false, 0, true);
 					}
 				}
 			}
 		}
 		
-//		protected function onItemMenuSelect(evt:ContextMenuEvent):void {
-//			
-//			var menu:ContextMenu = (evt.contextMenuOwner as ClickableText).contextMenu;
-//			menu.hideBuiltInItems();
-//			menu.customItems = [];
-//			
-//			// the list of modules the item is included in
-//			var masterInList:Array = (evt.contextMenuOwner as ClickableText).data.modulesList;
-//			
-//			// when done these lists will be populated with the custom modules the
-//			// item is included and not included in
-//			var inList:Array = [];
-//			var outList:Array = [];
-//			
-//			// populate the in and out lists
-//			var i:int, j:int;
-//			for (i=0; i<_modulesList.modules.length; i++) {
-//				if (!_modulesList.modules[i].readOnly) {
-//					for (j=0; j<masterInList.length; j++) {
-//						if (_modulesList.modules[i]==masterInList[j]) {
-//							inList.push(_modulesList.modules[i]);
-//							break;
-//						}						
-//					}
-//					if (j>=masterInList.length) outList.push(_modulesList.modules[i]);
-//				}
-//			}
-//			
-//			_moduleLookup = new Dictionary();			
-//			var item:ContextMenuItem;
-//			
-//			// modules the resource could be added to
-//			if (outList.length>0) {
-//				item = new ContextMenuItem(_addToMenuText, inList.length>0);
-//				menu.customItems.push(item);
-//				for (i=0; i<outList.length; i++) {
-//					item = new ContextMenuItem(_moduleMenuTextPrefix+outList[i].name);
-//					item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemAddToModule);
-//					menu.customItems.push(item);
-//					_moduleLookup[item] = outList[i];
-//				}
-//			}
-//			
-//			// modules the resource could be removed from
-//			if (inList.length>0) {
-//				item = new ContextMenuItem(_removeFromMenuText);
-//				menu.customItems.push(item);			
-//				for (i=0; i<inList.length; i++) {
-//					item = new ContextMenuItem(_moduleMenuTextPrefix+inList[i].name);
-//					item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemRemoveFromModule);
-//					menu.customItems.push(item);
-//					_moduleLookup[item] = inList[i];
-//				}			
-//			}
-//		}
-//		
-//		// moduleLookup is used to lookup the module associated with a given context menu item
-//		protected var _moduleLookup:Dictionary;
-//		
-//		protected function onItemAddToModule(evt:ContextMenuEvent):void {
-//			_moduleLookup[evt.target].addResource((evt.contextMenuOwner as ClickableText).data);
-//		}
-//		
-//		protected function onItemRemoveFromModule(evt:ContextMenuEvent):void {
-//			_moduleLookup[evt.target].removeResource((evt.contextMenuOwner as ClickableText).data);
-//		}
-//		
-//		protected var _addToMenuText:String = "Add to…";
-//		protected var _removeFromMenuText:String = "Remove from…";
-//		protected var _moduleMenuTextPrefix:String = "…";
-		
 		protected var _numRelevant:int = 0;
 		
+import flash.utils.getTimer;
+
 		protected function redraw():void {
-			//var startTimer:Number = getTimer();
 			
-			if (_selectedModule==null) _showAll = true;
+			var startTimer:Number = getTimer();
 			
 			prepareTextItems();
 			
@@ -429,6 +511,9 @@ package astroUNL.classaction.browser.views {
 			
 			_numRelevant = 0;
 			
+			_emptyMessage.visible = false;
+			_emptyReadOnlyModuleMessage.visible = false;
+			_emptyCustomModuleMessage.visible = false;
 			
 			if (_showAll) {
 				var addedOk:Boolean;
@@ -451,6 +536,7 @@ package astroUNL.classaction.browser.views {
 						}
 					}
 				}
+				if (total==0) _emptyMessage.visible = true;
 			}
 			else {
 				preparedModuleItems = _preparedTextItems["_"+_selectedModule.id];
@@ -500,9 +586,43 @@ package astroUNL.classaction.browser.views {
 						}
 					}
 				}
+				if (total==0) {
+					if (_selectedModule.readOnly) _emptyReadOnlyModuleMessage.visible = true;
+					else _emptyCustomModuleMessage.visible = true;
+				}				
+			}		
+			
+			if (_selectedModule!=null) {
+				_toggleShowAllText.visible = true;
+				if (_showAll) _toggleShowAllText.setText("click here to show "+_type+" for "+_selectedModule.name);
+				else _toggleShowAllText.setText("click here to show all "+_type);
+			}
+			else _toggleShowAllText.visible = false;
+			
+			if (_selectedModule!=null) {
+				_showModuleText.visible = true;
+				if (_showAll) {
+					_showAllText.setFormat(_showOptionSelectedFormat);
+					_showAllText.setClickable(false);
+					_showModuleText.setFormat(_showOptionUnselectedFormat);
+					_showModuleText.setClickable(true);
+				}
+				else {
+					_showAllText.setFormat(_showOptionUnselectedFormat);
+					_showAllText.setClickable(true);
+					_showModuleText.setFormat(_showOptionSelectedFormat);
+					_showModuleText.setClickable(false);
+				}
+				// the module name can change while the panel is displayed
+				_showModuleText.setText(_type+" for "+_selectedModule.name);
+			}
+			else {
+				_showAllText.setFormat(_showOptionSelectedFormat);
+				_showAllText.setClickable(false);
+				_showModuleText.visible = false;
 			}
 			
-			_titleText = _typeCapped + " (" + total.toString() + ")";
+			_totalItemsShown = total;
 			
 			redrawTitle();
 			redrawBackground();
@@ -511,7 +631,16 @@ package astroUNL.classaction.browser.views {
 			
 			_panes.paneNum = oldPaneNum;
 			
-			//trace("redraw ResourcePanel: "+(getTimer()-startTimer)+", "+_type);
+			refreshPageNum();			
+			
+			trace("redraw: "+(getTimer()-startTimer));
+		}
+		
+		protected var _totalItemsShown:int;
+		
+		protected function refreshPageNum():void {
+			_pageNum.text = "page " + (_panes.paneNum+1) + " of " + _panes.numPanes;
+			_pageNum.y = _pageNumY - (_pageNum.height/2);
 		}
 				
 		protected function redrawBackground():void {
@@ -559,7 +688,8 @@ package astroUNL.classaction.browser.views {
 		}		
 				
 		protected function getResourceList(module:Module):Array {
-			if (_type==ResourcePanel.ANIMATIONS) return module.animationsList;
+			if (module==null) return [];
+			else if (_type==ResourcePanel.ANIMATIONS) return module.animationsList;
 			else if (_type==ResourcePanel.IMAGES) return module.imagesList;
 			else if (_type==ResourcePanel.OUTLINES) return module.outlinesList;
 			else if (_type==ResourcePanel.TABLES) return module.tablesList;

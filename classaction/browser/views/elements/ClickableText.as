@@ -122,6 +122,8 @@ package astroUNL.classaction.browser.views.elements {
 				_format.color = ClickableText.defaultFormat.color;
 				_format.bold = ClickableText.defaultFormat.bold;
 				_format.italic = ClickableText.defaultFormat.italic;
+				_format.align = ClickableText.defaultFormat.align;
+				_format.leading = ClickableText.defaultFormat.leading;
 			}
 			else {
 				_format.font = format.font;
@@ -129,6 +131,8 @@ package astroUNL.classaction.browser.views.elements {
 				_format.color = format.color;
 				_format.bold = format.bold;
 				_format.italic = format.italic;
+				_format.align = format.align;
+				_format.leading = format.leading;
 			}			
 			_field.defaultTextFormat = _format;
 			redraw();
@@ -165,7 +169,17 @@ package astroUNL.classaction.browser.views.elements {
 			for (i=0; i<_field.numLines; i++) {
 				m = _field.getLineMetrics(i);
 				_hitArea.graphics.beginFill(0x0000ff, 0.5);
-				_hitArea.graphics.drawRect(_field.x+2, _field.y+2+i*m.height, m.width, m.height);
+				
+				if (_field.defaultTextFormat.align=="left") {
+					_hitArea.graphics.drawRect(_field.x+2, _field.y+2+i*m.height, m.width, m.height);
+				}
+				else if (_field.defaultTextFormat.align=="center") {
+					_hitArea.graphics.drawRect(_field.x+((_field.width-m.width)/2), _field.y+2+i*m.height, m.width, m.height);
+				}
+				else {
+					_hitArea.graphics.drawRect(_field.x+_field.width-m.width-2, _field.y+2+i*m.height, m.width, m.height);
+				}
+				
 				_hitArea.graphics.endFill();
 			}
 		}

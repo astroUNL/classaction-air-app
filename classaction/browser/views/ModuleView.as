@@ -9,7 +9,7 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.views.elements.ClickableText;
 	import astroUNL.classaction.browser.events.MenuEvent;
 	
-	import flash.display.Sprite;	
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.utils.getTimer;
@@ -20,26 +20,41 @@ package astroUNL.classaction.browser.views {
 	import flash.events.TimerEvent;
 	import flash.utils.Dictionary;
 	
-//	
-//	import flash.ui.ContextMenu;
-//	import flash.ui.ContextMenuItem;
-//	import flash.events.ContextMenuEvent;
-	
 	
 	public class ModuleView extends Sprite {
 		
 		public static const QUESTION_SELECTED:String = "questionSelected";
+		public static const MODULES_LIST_SELECTED:String = "modulesListSelected";
 		
+		protected var _emptyFormat:TextFormat;
+		protected var _emptyMessage:ClickableText;
 		
-		public function ModuleView() {			
+		protected var _width:Number = 800;
+		protected var _height:Number = 500;
+		
+		public function ModuleView() {
+			
 			_headingFormat = new TextFormat("Verdana", 14, 0xffffff, true);
 			_preLoadFormat = new TextFormat("Verdana", 12, 0x808080);
 			_successFormat = new TextFormat("Verdana", 12, 0xffffff);
-			_failureFormat = new TextFormat("Verdana", 12, 0xff8080); 
+			_failureFormat = new TextFormat("Verdana", 12, 0xff8080);
+			_emptyFormat = new TextFormat("Verdana", 14, 0xffffff); 
+			_emptyFormat.align = "center";
+			_emptyFormat.leading = 5;
+			
+			_emptyMessage = new ClickableText("this module has no questions\rclick here to return to modules list", null, _emptyFormat);
+			_emptyMessage.addEventListener(ClickableText.ON_CLICK, onReturnToModulesList);
+			_emptyMessage.x = (_width-_emptyMessage.width)/2;
+			_emptyMessage.y = (_height-_emptyMessage.height)/2;
+			_emptyMessage.visible = false;
+			addChild(_emptyMessage);
 			
 			_timer = new Timer(20);
 			_timer.addEventListener(TimerEvent.TIMER, onTimer);
-			
+		}
+		
+		protected function onReturnToModulesList(evt:Event):void {
+			dispatchEvent(new Event(ModuleView.MODULES_LIST_SELECTED));
 		}
 		
 		protected var _timer:Timer;
@@ -94,8 +109,8 @@ package astroUNL.classaction.browser.views {
 			}
 			if (numFinished>=_ctsList.length) _timer.stop();
 			
-			trace("numFinished: "+numFinished);
-			trace("onTimer: "+(getTimer()-startTimer));
+//			trace("numFinished: "+numFinished);
+//			trace("onTimer: "+(getTimer()-startTimer));
 			
 			
 			evt.updateAfterEvent();
@@ -152,79 +167,6 @@ package astroUNL.classaction.browser.views {
 			else _timer.stop();
 		}
 		
-//		protected function onQuestionMenuSelect(evt:ContextMenuEvent):void {
-//			// this function copied from ResourcePanel
-//			
-//			var menu:ContextMenu = (evt.contextMenuOwner as ClickableText).contextMenu;
-//			menu.hideBuiltInItems();
-//			menu.customItems = [];
-//			
-//			// the list of modules the item is included in
-//			var masterInList:Array = (evt.contextMenuOwner as ClickableText).data.modulesList;
-//			
-//			// when done these lists will be populated with the custom modules the
-//			// item is included and not included in
-//			var inList:Array = [];
-//			var outList:Array = [];
-//			
-//			// populate the in and out lists
-//			var i:int, j:int;
-//			for (i=0; i<_modulesList.modules.length; i++) {
-//				if (!_modulesList.modules[i].readOnly) {
-//					for (j=0; j<masterInList.length; j++) {
-//						if (_modulesList.modules[i]==masterInList[j]) {
-//							inList.push(_modulesList.modules[i]);
-//							break;
-//						}						
-//					}
-//					if (j>=masterInList.length) outList.push(_modulesList.modules[i]);
-//				}
-//			}
-//			
-//			_moduleLookup = new Dictionary();			
-//			var item:ContextMenuItem;
-//			
-//			// modules the resource could be added to
-//			if (outList.length>0) {
-//				item = new ContextMenuItem(_addToMenuText, inList.length>0);
-//				menu.customItems.push(item);
-//				for (i=0; i<outList.length; i++) {
-//					item = new ContextMenuItem(_moduleMenuTextPrefix+outList[i].name);
-//					item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemAddToModule);
-//					menu.customItems.push(item);
-//					_moduleLookup[item] = outList[i];
-//				}
-//			}
-//			
-//			// modules the resource could be removed from
-//			if (inList.length>0) {
-//				item = new ContextMenuItem(_removeFromMenuText);
-//				menu.customItems.push(item);			
-//				for (i=0; i<inList.length; i++) {
-//					item = new ContextMenuItem(_moduleMenuTextPrefix+inList[i].name);
-//					item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemRemoveFromModule);
-//					menu.customItems.push(item);
-//					_moduleLookup[item] = inList[i];
-//				}			
-//			}
-//		}
-		
-//		// moduleLookup is used to lookup the module associated with a given context menu item
-//		protected var _moduleLookup:Dictionary;
-//		
-//		protected function onItemAddToModule(evt:ContextMenuEvent):void {
-//			_moduleLookup[evt.target].addQuestion((evt.contextMenuOwner as ClickableText).data);
-//		}
-//		
-//		protected function onItemRemoveFromModule(evt:ContextMenuEvent):void {
-//			_moduleLookup[evt.target].removeQuestion((evt.contextMenuOwner as ClickableText).data);
-//		}
-		
-//		protected var _addToMenuText:String = "Add to…";
-//		protected var _removeFromMenuText:String = "Remove from…";
-//		protected var _moduleMenuTextPrefix:String = "…";
-		
-		
 		protected var _leftX:Number = 20;
 		protected var _topY:Number = 20;
 		
@@ -255,7 +197,6 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		
-		
 		protected function redrawMenu():void {
 			
 			var startTimer:Number = getTimer();
@@ -277,24 +218,33 @@ package astroUNL.classaction.browser.views {
 				//
 			}
 			
+			var total:int = 0;
+			
 			if (module.warmupQuestionsList.length>0) {
 				addHeading("Warmup Questions");
 				addQuestions(module.warmupQuestionsList);
+				total++;
 			}
 			if (module.generalQuestionsList.length>0) {
 				addHeading("General Questions");
 				addQuestions(module.generalQuestionsList);
+				total++;
 			}
 			if (module.challengeQuestionsList.length>0) {
 				addHeading("Challenge Questions");
 				addQuestions(module.challengeQuestionsList);
+				total++;
 			}
 			if (module.discussionQuestionsList.length>0) {
 				addHeading("Discussion Questions");
 				addQuestions(module.discussionQuestionsList);
+				total++;
 			}
 			
-			trace("redrawMenu: "+(getTimer()-startTimer));			
+			_emptyMessage.visible = (total==0);
+			addChild(_emptyMessage); // since it's getting removed
+			
+//			trace("redrawMenu: "+(getTimer()-startTimer));			
 		}
 		
 		protected function onQuestionClicked(evt:Event):void {

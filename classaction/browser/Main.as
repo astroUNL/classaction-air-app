@@ -100,6 +100,7 @@ package astroUNL.classaction.browser {
 						
 			_moduleView = new ModuleView();
 			_moduleView.addEventListener(ModuleView.QUESTION_SELECTED, onQuestionSelected);
+			_moduleView.addEventListener(ModuleView.MODULES_LIST_SELECTED, onModulesListSelected);
 			_moduleView.x = 0;
 			_moduleView.y = 30;
 			addChild(_moduleView);
@@ -282,12 +283,12 @@ package astroUNL.classaction.browser {
 						}						
 					}
 				}
-				if ((_so.data.selectedQuestion is String) && _selectedModule!=null) {
+				if ((_so.data.selectedQuestion is String) && selectedModule!=null) {
 					// we require the selected question to be in the selected module, and since
 					// this may have changed since the last saving of state, we need to check
-					for (i=0; i<_selectedModule.allQuestionsList.length; i++) {
-						if (_so.data.selectedQuestion==_selectedModule.allQuestionsList[i].id) {
-							selectedQuestion = _selectedModule.allQuestionsList[i];								
+					for (i=0; i<selectedModule.allQuestionsList.length; i++) {
+						if (_so.data.selectedQuestion==selectedModule.allQuestionsList[i].id) {
+							selectedQuestion = selectedModule.allQuestionsList[i];								
 						}							
 					}
 				}
@@ -303,7 +304,7 @@ package astroUNL.classaction.browser {
 			}			
 		}
 		
-		protected function onModulesListSelected(evt:MenuEvent):void {
+		protected function onModulesListSelected(evt:Event):void {
 			setView(null, null);
 		}
 		
