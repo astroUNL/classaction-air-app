@@ -18,6 +18,7 @@ package astroUNL.classaction.browser.views {
 
 	import flash.system.Security;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -83,6 +84,7 @@ package astroUNL.classaction.browser.views {
 		protected var _selectedQuestion:Question;
 		protected var _tabOffset:Number;
 		protected var _tabWidth:Number;
+		protected var _tabHeight:Number;
 		protected var _maximized:Boolean;
 		protected var _showAll:Boolean = false;
 		
@@ -122,12 +124,16 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _titleColorWithItems:uint = 0x404040;
 		protected var _titleColorWithoutItems:uint = 0xa0a0a0;
-				
+		
 		protected var _showOptionSelectedFormat:TextFormat;
 		protected var _showOptionUnselectedFormat:TextFormat;
 		
 		protected var _showAllX:Number = 65;
 		protected var _showModuleX:Number = 200;
+		
+		protected var _tab:ResourcePanelTab;
+		protected var _tabDefaultWidth:Number;
+		protected var _tabDefaultHeight:Number;
 		
 		public function ResourcePanel(group:ResourcePanelsGroup, type:String, readOnly:Boolean) {
 			
@@ -152,6 +158,12 @@ package astroUNL.classaction.browser.views {
 			
 			_background = new Sprite();
 			addChild(_background);
+			
+			_tab = new ResourcePanelTab();
+			_tabDefaultWidth = _tab.width;			
+			var tabRect:Rectangle = _tab.getRect(_tab);
+			_tabDefaultHeight = _tab.height - (tabRect.y + tabRect.height); // the tab should have a flap below the origin to hide the panel border
+			addChild(_tab);
 			
 			_title = new ClickableText("", null, _titleFormat);
 			_title.addEventListener(ClickableText.ON_CLICK, onTitleClicked, false, 0, true);
@@ -403,18 +415,23 @@ _toggleShowAllText.alpha = 0;
 			_title.setFormat(_titleFormat);
 			
 			_title.setText(_titleText);
+			_titleMargin = (_tabDefaultWidth - (_tab.scale9Grid.right - _tab.scale9Grid.left))/2;
+			_tabWidth = _title.width + 2*_titleMargin;
 			_title.x = _tabOffset + _titleMargin;
 			_title.y = -_title.height;
+			
+			_tabHeight = -_title.y + (_tabDefaultHeight + _tab.scale9Grid.top) - 9;
+			
+//			_tab.height -_tab.scale9Grid.top
 			if (_numRelevant>0) {
 				_titleStar.visible = true;
 				_titleStar.x = _tabOffset + _titleMargin + 9;
 				_titleStar.y = _title.y + _title.height/2;
 				_title.x += 18;
-				_tabWidth = _title.width + 2*_titleMargin + 20;
+				_tabWidth += 20;
 			}
 			else {
 				_titleStar.visible = false;
-				_tabWidth = _title.width + 2*_titleMargin;
 			}
 			
 			//trace("tabOffset: "+_tabOffset+", "+_type);
@@ -644,15 +661,21 @@ import flash.utils.getTimer;
 		}
 				
 		protected function redrawBackground():void {
+			
+			_tab.scaleX = _tabWidth/_tabDefaultWidth;
+			_tab.x = _tabOffset + _tabWidth/2;
+			_tab.scaleY = _tabHeight/_tabDefaultHeight;
+			
+			
 			var g:Graphics = _background.graphics;
 			g.clear();
 			g.moveTo(0, 0);
 			g.lineStyle(0, _borderColor);
 			g.beginFill(_backgroundColor);
-			g.lineTo(_tabOffset, 0);
-			g.lineTo(_tabOffset, _title.y);
-			g.lineTo(_tabOffset+_tabWidth, _title.y);
-			g.lineTo(_tabOffset+_tabWidth, 0);
+//			g.lineTo(_tabOffset, 0);
+//			g.lineTo(_tabOffset, _title.y);
+//			g.lineTo(_tabOffset+_tabWidth, _title.y);
+//			g.lineTo(_tabOffset+_tabWidth, 0);
 			g.lineTo(_panelWidth, 0);
 			g.lineStyle();
 			g.lineTo(_panelWidth, _panelHeight);

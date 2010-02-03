@@ -61,7 +61,7 @@ package astroUNL.classaction.browser {
 			
 			_registeredCustomModules = new Dictionary();
 			
-			stage.showDefaultContextMenu = false;
+//			stage.showDefaultContextMenu = false;
 			
 			if (!_readOnly) {
 				try {
