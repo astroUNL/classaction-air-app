@@ -66,26 +66,25 @@ package astroUNL.classaction.browser.views {
 		protected var _toggleShowAllText:ClickableText;
 		
 		protected var _panelWidth:Number = 800;
-		protected var _panelHeight:Number = 300;
+		protected var _panelHeight:Number;
 		protected var _navButtonSpacing:Number = 20;
 		protected var _panesTopMargin:Number = 45;
 		protected var _panesBottomMargin:Number = 5;
-		protected var _panesWidth:Number = _panelWidth - 4*_navButtonSpacing;
-		protected var _panesHeight:Number = _panelHeight - _panesTopMargin - _panesBottomMargin;
+		protected var _panesWidth:Number;
+		protected var _panesHeight:Number;
 		protected var _columnSpacing:Number = 10;
 		protected var _numColumns:int = 3;
 		protected var _easeTime:Number = 250;
 		protected var _modulesList:ModulesList;
 		protected var _preparedTextItems:Object = {};
-		protected var _emptyMessageX:Number = _panelWidth/2;
-		protected var _emptyMessageY:Number = _panelHeight/2;
+		protected var _emptyMessageX:Number;
+		protected var _emptyMessageY:Number;
 		
 		protected var _selectedModule:Module;
 		protected var _selectedQuestion:Question;
 		protected var _tabOffset:Number;
 		protected var _tabWidth:Number;
 		protected var _tabHeight:Number;
-		protected var _maximized:Boolean;
 		protected var _showAll:Boolean = false;
 		
 		protected var _titleMargin:Number = 3;
@@ -135,12 +134,18 @@ package astroUNL.classaction.browser.views {
 		protected var _tabDefaultWidth:Number;
 		protected var _tabDefaultHeight:Number;
 		
-		public function ResourcePanel(group:ResourcePanelsGroup, type:String, readOnly:Boolean) {
+		public function ResourcePanel(group:ResourcePanelsGroup, type:String, panelHeight:Number, readOnly:Boolean) {
 			
 			_group = group;
 			_type = type;
+			_panelHeight = panelHeight;
 			_readOnly = readOnly;
 			
+			_panesWidth = _panelWidth - 4*_navButtonSpacing;
+			_panesHeight = _panelHeight - _panesTopMargin - _panesBottomMargin;
+			_emptyMessageX = _panelWidth/2;
+			_emptyMessageY = _panelHeight/2;
+						
 			_showAll = true;
 			
 			_titleFormat = new TextFormat("Verdana", 14, 0x404040, true);
@@ -297,12 +302,11 @@ _toggleShowAllText.alpha = 0;
 		protected var _typeCapped:String;
 		
 		protected function onTitleClicked(evt:Event):void {
-			if (_maximized) minimize();
-			else maximize();
+			dispatchEvent(new Event(ResourcePanel.MAXIMIZED));
 		}
 		
 		protected function onCloseButtonClicked(evt:MouseEvent):void {
-			minimize();
+			dispatchEvent(new Event(ResourcePanel.MINIMIZED));
 		}
 
 		protected function onToggleShowAll(evt:Event):void {
@@ -422,7 +426,6 @@ _toggleShowAllText.alpha = 0;
 			
 			_tabHeight = -_title.y + (_tabDefaultHeight + _tab.scale9Grid.top) - 9;
 			
-//			_tab.height -_tab.scale9Grid.top
 			if (_numRelevant>0) {
 				_titleStar.visible = true;
 				_titleStar.x = _tabOffset + _titleMargin + 9;
@@ -439,20 +442,22 @@ _toggleShowAllText.alpha = 0;
 		
 		protected var _titleText:String = "";
 		
-		public function minimize():void {
-			_maximized = false;
-			y = 0;			
-			dispatchEvent(new Event(ResourcePanel.MINIMIZED));
+		protected var _inFront:Boolean = false;
+		
+		public function get inFront():Boolean {
+			return _inFront;
 		}
 		
-		public function maximize():void {
-//			if (!_maximized) {
-//				_panes.paneNum = 0;
-//				refreshPageNum();
-//			}
-			_maximized = true;
-			y = -_panelHeight;
-			dispatchEvent(new Event(ResourcePanel.MAXIMIZED));
+		public function set inFront(arg:Boolean):void {
+			_inFront = arg;
+			if (_inFront) {
+				_tab.gotoAndStop("inFront");
+				_title.setClickable(false);
+			}
+			else {
+				_tab.gotoAndStop("notInFront");
+				_title.setClickable(true);
+			}
 		}
 		
 		protected function prepareTextItems():void {
@@ -521,7 +526,7 @@ import flash.utils.getTimer;
 			var link:ClickableText;
 			var preparedModuleItems:Object;
 			
-			var headingParams:Object = {topMargin: _headingTopMargin, bottomMargin: _headingBottomMargin, minLeftOver: _headingMinLeftOver};
+			var headingParams:Object = {topMargin: _headingTopMargin, bottomMargin: _headingBottomMargin, minLeftOver: _headingMinLeftOver, treatAsHeading: true};
 			var itemParams:Object = {leftMargin: _itemLeftMargin, bottomMargin: _itemBottomMargin, minLeftOver: _itemMinLeftOver};
 			
 			var total:int = 0;
@@ -539,6 +544,7 @@ import flash.utils.getTimer;
 					list = getResourceList(module);
 					preparedModuleItems = _preparedTextItems["_"+module.id];
 					if (list.length>0) {
+						headingParams.minLeftOver = _itemBottomMargin + preparedModuleItems.links[list[0].id].height;
 						_panes.addContent(preparedModuleItems.heading, headingParams);
 						for (j=0; j<list.length; j++) {
 							addedOk = _panes.addContent(preparedModuleItems.links[list[j].id], itemParams, false);

@@ -103,9 +103,10 @@ package astroUNL.classaction.browser.views.elements {
 				columnTopMargin = (params.columnTopMargin!=undefined) ? params.columnTopMargin : 0;
 			}
 			
-			//if (_cursorY==_topMargin) topMargin = 0;
-			
-			if (_cursorY<columnTopMargin) _cursorY = columnTopMargin;
+			if (_cursorY<=columnTopMargin) {
+				_cursorY = columnTopMargin;
+				topMargin = 0;
+			}
 			
 			var leftOver:Number = _columnBottomY - (_cursorY + topMargin + obj.height + bottomMargin);
 			if (leftOver<minLeftOver) {
