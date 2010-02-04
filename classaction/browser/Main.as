@@ -24,6 +24,7 @@ package astroUNL.classaction.browser {
 	import flash.utils.ByteArray;
 	
 	import flash.display.Sprite;
+	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.utils.getTimer;
 	import flash.system.Security;
@@ -130,7 +131,16 @@ package astroUNL.classaction.browser {
 			_zipDownloader.addEventListener(ZipDownloader.DONE, onZipDownloadDone);
 			_zipDownloader.visible = false;
 			addChild(_zipDownloader);
+			
+			_mask = new Shape();
+			_mask.graphics.beginFill(0xff0000, 0.5);
+			_mask.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+			_mask.graphics.endFill();
+			
+			mask = _mask;
 		}
+		
+		protected var _mask:Shape;
 		
 		protected function onPreviewItemChanged(evt:Event):void {
 			var item:ResourceItem = _resourcePanels.previewItem;

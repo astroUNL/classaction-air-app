@@ -56,35 +56,44 @@ package astroUNL.classaction.browser.views {
 		
 		public function init() {
 			
+			var margin:Number = 65;
+			var tabOffset:Number = 50;			
+			
 			if (AnimationsBank.total>0) {
 				_animationsPanel = new ResourcePanel(this, ResourcePanel.ANIMATIONS, _panelHeight, _readOnly);
 				_animationsPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
 				_animationsPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
-				_animationsPanel.setTabOffset(50);
+				_animationsPanel.setTabOffset(tabOffset);
 				addChild(_animationsPanel);
 			}
+			
+			tabOffset += _animationsPanel.tabWidth + margin;
 			
 			if (ImagesBank.total>0) {
 				_imagesPanel = new ResourcePanel(this, ResourcePanel.IMAGES, _panelHeight, _readOnly);
 				_imagesPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
 				_imagesPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
-				_imagesPanel.setTabOffset(235);
+				_imagesPanel.setTabOffset(tabOffset);
 				addChild(_imagesPanel);
 			}
+			
+			tabOffset += _imagesPanel.tabWidth + margin;
 			
 			if (OutlinesBank.total>0) {
 				_outlinesPanel = new ResourcePanel(this, ResourcePanel.OUTLINES, _panelHeight, _readOnly);
 				_outlinesPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
 				_outlinesPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
-				_outlinesPanel.setTabOffset(385);
+				_outlinesPanel.setTabOffset(tabOffset);
 				addChild(_outlinesPanel);
 			}
+			
+			tabOffset += _outlinesPanel.tabWidth + margin;
 			
 			if (TablesBank.total>0) {
 				_tablesPanel = new ResourcePanel(this, ResourcePanel.TABLES, _panelHeight, _readOnly);
 				_tablesPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
 				_tablesPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
-				_tablesPanel.setTabOffset(545);
+				_tablesPanel.setTabOffset(tabOffset);
 				addChild(_tablesPanel);
 			}
 			

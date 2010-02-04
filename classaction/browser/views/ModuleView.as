@@ -81,19 +81,19 @@ package astroUNL.classaction.browser.views {
 			_leftButton.y = _height/2;
 			_leftButton.scaleX = -1;
 			_leftButton.addEventListener(MouseEvent.CLICK, onLeftButtonClicked, false, 0, true);
-//			_leftButton.visible = false;
+			_leftButton.visible = false;
 			addChild(_leftButton);
 			
 			_rightButton = new ModuleViewNavButton();
 			_rightButton.x = _width - _navButtonSpacing;
 			_rightButton.y = _height/2;
 			_rightButton.addEventListener(MouseEvent.CLICK, onRightButtonClicked, false, 0, true);
-//			_rightButton.visible = false;
+			_rightButton.visible = false;
 			addChild(_rightButton);
 			
 			_timer = new Timer(20);
 			_timer.addEventListener(TimerEvent.TIMER, onTimer);
-					
+			
 			_warmupHeading = createHeading("Warmup Questions");
 			_generalHeading = createHeading("General Questions");
 			_challengeHeading = createHeading("Challenge Questions");
@@ -147,191 +147,12 @@ package astroUNL.classaction.browser.views {
 		protected var _successFormat:TextFormat;
 		protected var _failureFormat:TextFormat;
 		
-//		protected var _maxCursorY:Number = 400;
-//		protected var _maxHeadingY:Number = _maxCursorY - 100;
-//		protected var _columnWidth:Number = 280;
-		
-//		protected var _cursorX:Number = 0;
-//		protected var _cursorY:Number = 0;
-		
-//		protected var _headingPreMargin:Number = 10;
-//		protected var _headingPostMargin:Number = 4;
-		
-//		protected var _questionPostMargin:Number = 0;
-		
-		
-//		protected var _ctsList:Array;		
-		
-		
 		protected function onTimer(evt:TimerEvent):void {
 			var startTimer:Number = getTimer();
 			var allFinished:Boolean = refresh();
 			if (allFinished) _timer.stop();			
-			evt.updateAfterEvent();
-			
-			
-//			
-//			
-//			var format:TextFormat;
-//			var i:int;
-//			var numFinished:int = 0;
-//			
-//			for (i=0; i<_ctsList.length; i++) {
-//				
-//				if (_ctsList[i].question.downloadState<Downloader.DONE_SUCCESS) {
-//					format = _preLoadFormat;
-//				}
-//				else if (_ctsList[i].question.downloadState==Downloader.DONE_SUCCESS) {
-//					format = _successFormat;
-//					numFinished++;
-//				}
-//				else {
-//					format = _failureFormat;
-//					numFinished++;
-//				}
-//				
-//				_ctsList[i].clickableText.setFormat(format);
-//			}
-//			if (numFinished>=_ctsList.length) _timer.stop();
-//			
-////			trace("numFinished: "+numFinished);
-////			trace("onTimer: "+(getTimer()-startTimer));
-//			
-//			
+			evt.updateAfterEvent();			
 		}
-		
-		
-//		protected function addQuestions(list:Array):void {
-//			
-//			var ct:ClickableText;
-//			var name:String;
-//			var i:int;
-//			
-//			var format:TextFormat;
-//			
-//			var ctsList:Array = [];
-//			var numFinished:int = 0;
-//			
-//			for (i=0; i<list.length; i++) {
-//				name = (i<9) ? " " : "";
-//				name += (i+1).toString() + " - " + list[i].name;
-//								
-//				if (list[i].downloadState<Downloader.DONE_SUCCESS) {
-//					format = _preLoadFormat;
-//				}
-//				else if (list[i].downloadState==Downloader.DONE_SUCCESS) {
-//					format = _successFormat;
-//					numFinished++;
-//				}
-//				else {
-//					format = _failureFormat;
-//					numFinished++;
-//				}
-//				
-//				ct = new ClickableText(name, {item: list[i]}, format, 250);
-//				ct.x = _cursorX;
-//				ct.y = _cursorY;
-////				ct.contextMenu = new ContextMenu();
-////				ct.contextMenu.hideBuiltInItems();
-////				ct.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onQuestionMenuSelect);
-//				ResourceContextMenuController.register(ct);
-//				ct.addEventListener(ClickableText.ON_CLICK, onQuestionClicked, false, 0, true);
-//				addChild(ct);
-//				
-//				_cursorY += ct.height + _questionPostMargin;
-//				if (_cursorY>_maxCursorY) {
-//					_cursorY = _topY;
-//					_cursorX += _columnWidth;
-//				}
-//				
-//				_ctsList.push({clickableText: ct, question: list[i]});
-//			}
-//			
-//			if (numFinished<_ctsList.length) _timer.start();
-//			else _timer.stop();
-//		}
-		
-//		protected var _leftX:Number = 20;
-//		protected var _topY:Number = 20;
-//		
-//		protected function addHeading(text:String):void {
-//			if (_cursorY!=_topY) _cursorY += _headingPreMargin;
-//			if (_cursorY>_maxHeadingY) {
-//				_cursorY = _topY;
-//				_cursorX += _columnWidth;
-//			}
-//			var t:TextField = new TextField();
-//			t.x = _cursorX;
-//			t.y = _cursorY;
-//			t.text = text;
-//			t.autoSize = "left";
-//			t.height = 0;
-//			t.width = _columnWidth;
-//			t.multiline = true;
-//			t.wordWrap = true;			
-//			t.selectable = false;
-//			t.setTextFormat(_headingFormat);
-//			t.embedFonts = true;
-//			addChild(t);
-//			_cursorY += t.height + _headingPostMargin;			
-//			if (_cursorY>_maxCursorY) {
-//				_cursorY = _topY;
-//				_cursorX += _columnWidth;
-//			}
-//		}
-		
-		
-//		protected function redrawMenu():void {
-//			redraw();
-//			return;
-//			
-//			var startTimer:Number = getTimer();
-//			
-//			_cursorX = _leftX;
-//			_cursorY = _topY;		
-//			
-//			_ctsList = [];
-//			
-//			
-//			// this is inefficient -- may want to find a way to reuse the clickable text links
-//			// also, are we sure that these objects are getting garbage collected?
-//			try {
-//				while (getChildAt(0)) {
-//					removeChildAt(0);
-//				}
-//			}
-//			catch (err:Error) {
-//				//
-//			}
-//			
-//			var total:int = 0;
-//			
-//			if (module.warmupQuestionsList.length>0) {
-//				addHeading("Warmup Questions");
-//				addQuestions(module.warmupQuestionsList);
-//				total++;
-//			}
-//			if (module.generalQuestionsList.length>0) {
-//				addHeading("General Questions");
-//				addQuestions(module.generalQuestionsList);
-//				total++;
-//			}
-//			if (module.challengeQuestionsList.length>0) {
-//				addHeading("Challenge Questions");
-//				addQuestions(module.challengeQuestionsList);
-//				total++;
-//			}
-//			if (module.discussionQuestionsList.length>0) {
-//				addHeading("Discussion Questions");
-//				addQuestions(module.discussionQuestionsList);
-//				total++;
-//			}
-			
-//			_emptyMessage.visible = (total==0);
-//			addChild(_emptyMessage); // since it's getting removed
-//			
-//			trace("redrawMenu: "+(getTimer()-startTimer));			
-//		}
 		
 		protected function onQuestionClicked(evt:Event):void {
 			dispatchEvent(new MenuEvent(ModuleView.QUESTION_SELECTED, evt.target.data.item));
@@ -354,13 +175,6 @@ package astroUNL.classaction.browser.views {
 			_panes.paneNum = 0;
 			redraw();
 		}
-		
-		
-		/*******************************************************************/
-		
-		import flash.utils.Dictionary;
-		
-		
 		
 		protected function redraw():void {
 			// this function clears the panes and adds the module's content
@@ -398,10 +212,7 @@ package astroUNL.classaction.browser.views {
 				var links:Array = getLinks(questionsList);
 				_headingParams.minLeftOver = _questionParams.bottomMargin + links[0].height;
 				_panes.addContent(heading, _headingParams);
-				for (var i:int = 0; i<links.length; i++) {
-					trace("adding question: "+links[i].data.item.name+", "+links[i].data.item.id);
-					_panes.addContent(links[i], _questionParams);
-				}
+				for (var i:int = 0; i<links.length; i++) _panes.addContent(links[i], _questionParams);
 			}
 		}
 		
