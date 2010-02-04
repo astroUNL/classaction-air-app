@@ -209,7 +209,7 @@ package astroUNL.classaction.browser.views.elements {
 			with (_containerMask.graphics) {
 				clear();
 				
-				beginFill(0x00ff00, 0.5);
+				beginFill(0x00ff00);
 				drawRect(0, 0, _width, _height);
 				endFill();
 				
