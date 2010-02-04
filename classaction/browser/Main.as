@@ -98,11 +98,11 @@ package astroUNL.classaction.browser {
 			_modulesListView.y = 30;
 			addChild(_modulesListView);
 						
-			_moduleView = new ModuleView();
+			_moduleView = new ModuleView(800, 400);
 			_moduleView.addEventListener(ModuleView.QUESTION_SELECTED, onQuestionSelected);
 			_moduleView.addEventListener(ModuleView.MODULES_LIST_SELECTED, onModulesListSelected);
 			_moduleView.x = 0;
-			_moduleView.y = 30;
+			_moduleView.y = 50;
 			addChild(_moduleView);
 			
 			_questionView = new QuestionView();
@@ -255,7 +255,7 @@ package astroUNL.classaction.browser {
 				_resourcePanels.modulesList = _modulesList;
 				
 				_modulesListView.modulesList = _modulesList;
-				_moduleView.modulesList = _modulesList;
+//				_moduleView.modulesList = _modulesList;
 				
 				_zipDownloader.modulesList = _modulesList;
 

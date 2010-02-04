@@ -65,7 +65,7 @@ package astroUNL.classaction.browser.views.elements {
 		
 		public function appendPane(content:DisplayObject, doUpdate:Boolean=true):void {
 			var contentMask:Shape = new Shape();
-			contentMask.graphics.beginFill(0x0000ff, 0.05);
+			contentMask.graphics.beginFill(0x0000ff, 0.5);
 			contentMask.graphics.drawRect(0, 0, _width, _height);
 			contentMask.graphics.endFill();
 			var pane:Sprite = new Sprite();
@@ -136,6 +136,10 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public function setPaneNum(num:int, easeTime:Number=0):void {
+//			var n:int = _container.numChildren;
+//			if (num<0) num = 0;
+//			else if (num>=n) num = n;
+			
 			if (easeTime>0) {
 				var timeNow:Number = getTimer();
 				_paneNum = num;
@@ -144,10 +148,10 @@ package astroUNL.classaction.browser.views.elements {
 			}
 			else {
 				if (_easeTimer.running) _easeTimer.stop();
-				var n:int = _container.numChildren;
 				_currPaneNum = _paneNum = num;
 				_easer.init(_currPaneNum);
 			}
+			
 			update();
 		}
 		
@@ -202,11 +206,10 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected function redrawMasks():void {
-			
 			with (_containerMask.graphics) {
 				clear();
 				
-				beginFill(0xff0000);
+				beginFill(0x00ff00, 0.5);
 				drawRect(0, 0, _width, _height);
 				endFill();
 				
@@ -215,26 +218,28 @@ package astroUNL.classaction.browser.views.elements {
 					
 					m.createGradientBox(_fadeDistance, _height, 0, -_fadeDistance, 0);
 					moveTo(-_fadeDistance, 0);
-					beginGradientFill("linear", [0xff0000, 0xff0000], [0, 1], [0, 0xff], m);
+					beginGradientFill("linear", [0x00ff00, 0x00ff00], [0, 1], [0, 0xff], m);
 					drawRect(-_fadeDistance, 0, _fadeDistance, _height);
 					endFill();
 					
 					m.createGradientBox(_fadeDistance, _height, 0, _width, 0);
 					moveTo(_width, 0);
-					beginGradientFill("linear", [0xff0000, 0xff0000], [1, 0], [0, 0xff], m);
+					beginGradientFill("linear", [0x00ff00, 0x00ff00], [1, 0], [0, 0xff], m);
 					drawRect(_width, 0, _fadeDistance, _height);
 					endFill();
 				}
 			}
 			
-			for (var i:int = 0; i<_container.numChildren; i++) {
-				with (((_container.getChildAt(i) as Sprite).getChildAt(1) as Shape).graphics) {
-					clear();
-					beginFill(0x0000ff, 0.05);
-					drawRect(0, 0, _width, _height);
-					endFill();
-				}
-			}
+			// 2/4/10: I don't know what the following bit of code is for, but I think it might
+			// be a surviving piece of debugging/testing work			
+//			for (var i:int = 0; i<_container.numChildren; i++) {
+//				with (((_container.getChildAt(i) as Sprite).getChildAt(1) as Shape).graphics) {
+//					clear();
+//					beginFill(0xffffff, 0.8);
+//					drawRect(0, 0, _width, _height);
+//					endFill();
+//				}
+//			}
 		}
 		
 	}

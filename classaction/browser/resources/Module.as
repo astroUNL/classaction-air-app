@@ -265,7 +265,6 @@ package astroUNL.classaction.browser.resources {
 		
 		protected function onResourceUpdate(evt:Event):void {
 			dispatchEvent(new Event(Module.UPDATE));
-			trace("onResourceUpdate");
 		}
 		
 		public function addResource(item:ResourceItem):void {

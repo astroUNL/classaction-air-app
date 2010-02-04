@@ -62,7 +62,6 @@ package astroUNL.classaction.browser.views.elements {
 //				for (var i:int = 0; i<_numColumns; i++) {
 //					drawRect(_leftMargin + i*(_columnWidth + _columnSpacing), _topMargin, _columnWidth, columnHeight);					
 //				}
-//				
 //			}
 			
 		}

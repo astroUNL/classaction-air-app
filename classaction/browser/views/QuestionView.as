@@ -28,7 +28,6 @@ package astroUNL.classaction.browser.views {
 			
 			_errorMsg = new MessageBubble();
 			_errorMsg.visible = false;
-			_errorMsg.x = 300;
 			_errorMsg.y = 300;
 			addChild(_errorMsg);
 			
@@ -114,7 +113,7 @@ package astroUNL.classaction.browser.views {
 			else if (_question.downloadState==Downloader.DONE_FAILURE) {
 				
 				_errorMsg.setMessage("the question file failed to load");
-				
+				_errorMsg.x = 400 - _errorMsg.width/2;
 				_errorMsg.visible = true;
 				_preloader.visible = false;
 				_loader.visible = false;

@@ -5,14 +5,14 @@ package astroUNL.classaction.browser.views.elements {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
-	public class ResourcePanelNavButton extends MovieClip {
+	public class NavButton extends MovieClip {
 		
 		protected var _enabled:Boolean = true;
 		protected var _mouseOver:Boolean = false;
 		
-		public function ResourcePanelNavButton() {
+		public function NavButton() {
 			
-			stop();		
+			stop();
 			
 			buttonMode = true;
 			useHandCursor = true;
@@ -23,9 +23,9 @@ package astroUNL.classaction.browser.views.elements {
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 		}
-				
+		
 		protected function onClick(evt:MouseEvent):void {
-			if (!_enabled) evt.stopImmediatePropagation();			
+			if (!_enabled) evt.stopImmediatePropagation();
 		}
 		
 		protected function onMouseOut(evt:MouseEvent):void {

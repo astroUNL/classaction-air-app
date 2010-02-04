@@ -7,7 +7,6 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.resources.ResourceItem;
 	import astroUNL.classaction.browser.views.elements.ScrollableLayoutPanes;
 	import astroUNL.classaction.browser.views.elements.ClickableText;
-	import astroUNL.classaction.browser.views.elements.ResourcePanelNavButton;
 	import astroUNL.classaction.browser.views.elements.ResourceContextMenuController;
 	import astroUNL.classaction.browser.download.Downloader;
 
@@ -526,7 +525,7 @@ import flash.utils.getTimer;
 			var link:ClickableText;
 			var preparedModuleItems:Object;
 			
-			var headingParams:Object = {topMargin: _headingTopMargin, bottomMargin: _headingBottomMargin, minLeftOver: _headingMinLeftOver, treatAsHeading: true};
+			var headingParams:Object = {topMargin: _headingTopMargin, bottomMargin: _headingBottomMargin, minLeftOver: _headingMinLeftOver};
 			var itemParams:Object = {leftMargin: _itemLeftMargin, bottomMargin: _itemBottomMargin, minLeftOver: _itemMinLeftOver};
 			
 			var total:int = 0;
@@ -654,9 +653,9 @@ import flash.utils.getTimer;
 			
 			_panes.paneNum = oldPaneNum;
 			
-			refreshPageNum();			
+			refreshPageNum();
 			
-			trace("redraw: "+(getTimer()-startTimer));
+			trace("redraw resource panel: "+(getTimer()-startTimer)+", "+_type);
 		}
 		
 		protected var _totalItemsShown:int;

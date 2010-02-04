@@ -2,14 +2,10 @@
 package astroUNL.classaction.browser.views {
 	
 	import astroUNL.classaction.browser.resources.Module;
-//	import astroUNL.classaction.browser.resources.Question;
 	import astroUNL.classaction.browser.resources.ModulesList;
-//	import astroUNL.classaction.browser.resources.BinaryFile;
-//	import astroUNL.classaction.browser.download.Downloader;
 	import astroUNL.classaction.browser.events.MenuEvent;
 	import astroUNL.classaction.browser.views.elements.ScrollableLayoutPanes;
 	import astroUNL.classaction.browser.views.elements.ClickableText;
-	import astroUNL.classaction.browser.views.elements.ResourcePanelNavButton;
 	import astroUNL.classaction.browser.views.elements.EditableClickableText;
 	
 	import astroUNL.utils.keylistener.KeyListener;
@@ -19,19 +15,12 @@ package astroUNL.classaction.browser.views {
 	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
 	import flash.utils.getTimer;
+	import flash.utils.Dictionary;
 	import flash.text.TextFormat;
 	import flash.text.TextField;
-//	import flash.net.FileReference;
-//	import flash.utils.ByteArray;
-	import flash.utils.Dictionary;
-//	import flash.utils.Timer;
-//	import flash.events.TimerEvent;
 	import flash.ui.Keyboard;
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
-	
-//	import nochump.util.zip.ZipOutput;
-//	import nochump.util.zip.ZipEntry;
 	
 	public class ModulesListView extends Sprite {
 		
@@ -165,8 +154,6 @@ package astroUNL.classaction.browser.views {
 				var copy:Module = module.getCopy();
 				_modulesList.addModule(copy);
 				_moduleLinks[copy].setEditable(true);
-				
-			//	(evt.contextMenuOwner as ClickableText).
 			}		
 		}
 		
@@ -191,7 +178,6 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function redraw():void {
-			trace("redrawing!");
 			
 			_panes.reset();
 			
