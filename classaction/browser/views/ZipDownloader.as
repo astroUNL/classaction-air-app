@@ -1,8 +1,5 @@
 ﻿
-
 package astroUNL.classaction.browser.views {
-	
-	import flash.display.Sprite;
 	
 	import astroUNL.classaction.browser.resources.ModulesList;
 	import astroUNL.classaction.browser.resources.Question;
@@ -17,6 +14,10 @@ package astroUNL.classaction.browser.views {
 	import nochump.util.zip.ZipOutput;
 	import nochump.util.zip.ZipEntry;	
 	
+	import flash.display.Sprite;
+	import flash.display.Shape;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.net.FileReference;
 	import flash.utils.getTimer;
 	import flash.utils.Dictionary;
@@ -24,17 +25,14 @@ package astroUNL.classaction.browser.views {
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
 	import flash.events.Event;
-	
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
 	import flash.filters.BlurFilter;
 	
 	public class ZipDownloader extends Sprite {
 		
 		public static const DONE:String = "done";
 		
-		protected var _background:Sprite;
-		
+		protected var _downloadWindow:Sprite;
+		protected var _background:Sprite;		
 		protected var _browserSwf:BinaryFile;
 		protected var _startHtml:BinaryFile;
 		protected var _swfHtmlTemplateFile:BinaryFile;
@@ -50,6 +48,7 @@ package astroUNL.classaction.browser.views {
 		protected var _saveButton:ClickableText;		
 		protected var _cancelButton:ClickableText;
 		protected var _downloadProgress:ProgressIndicator;
+		protected var _progressBar:Shape;
 		
 		protected var _zipPoller:Timer;
 		protected var _zipStepTime:Number = 30;
@@ -77,29 +76,41 @@ package astroUNL.classaction.browser.views {
 			addChild(_backdrop);
 			
 			var kx:Number = 200;
+			var ky:Number = 120;
+			
+			_downloadWindow = new Sprite();
+			_downloadWindow.x = stage.stageWidth/2;
+			_downloadWindow.y = stage.stageHeight/2;
+			addChild(_downloadWindow);
 			
 			_background = new Sprite();
-			_background.graphics.beginFill(0x0, 0.5);
-			_background.graphics.drawRect((stage.stageWidth/2)-kx, 220, 2*kx, 240);
+			_background.graphics.beginFill(0x272D2E, 1);
+			_background.graphics.lineStyle(1, 0x404848);
+			_background.graphics.drawRect(-kx, -ky, 2*kx, 2*ky);
 			_background.graphics.endFill();
-			addChild(_background);
+			_downloadWindow.addChild(_background);
 			
 			_downloadProgress = new ProgressIndicator();
-			_downloadProgress.x = stage.stageWidth/2;
-			_downloadProgress.y = (stage.stageHeight/2) - 20;
-			addChild(_downloadProgress);
+			_downloadProgress.x = 0;
+			_downloadProgress.y = -50;
+			_downloadWindow.addChild(_downloadProgress);
+			
+			_progressBar = new Shape();
+			_progressBar.x = 0;
+			_progressBar.y = 0;
+			_downloadWindow.addChild(_progressBar);
 			
 			_saveButton = new ClickableText();
 			_saveButton.addEventListener(ClickableText.ON_CLICK, onSave);
-			_saveButton.x = stage.stageWidth/2;
-			_saveButton.y = (stage.stageHeight/2) + 50;
-			addChild(_saveButton);
+			_saveButton.x = 0;
+			_saveButton.y = 15;
+			_downloadWindow.addChild(_saveButton);
 			
 			_cancelButton = new ClickableText("cancel");
 			_cancelButton.addEventListener(ClickableText.ON_CLICK, onCancel);
-			_cancelButton.x = (stage.stageWidth/2) - (_cancelButton.width/2);
-			_cancelButton.y = (stage.stageHeight/2) + 100;
-			addChild(_cancelButton);
+			_cancelButton.x = 0 - (_cancelButton.width/2);
+			_cancelButton.y = 65;
+			_downloadWindow.addChild(_cancelButton);
 					 
 			_fr = new FileReference();
 			
@@ -115,7 +126,6 @@ package astroUNL.classaction.browser.views {
 			_zipPoller = new Timer(_zipStepTime*1.2);
 			_zipPoller.addEventListener(TimerEvent.TIMER, onZipPoll);
 		}
-		
 		
 		public function set modulesList(arg:ModulesList):void {
 			_modulesList = arg;
@@ -134,10 +144,11 @@ package astroUNL.classaction.browser.views {
 			visible = wasVisible;
 			
 			// set appearance
-			_downloadProgress.fadeIn();		
+			_downloadProgress.fadeIn();	
 			_saveButton.setText(_zipPrepMessage);
-			_saveButton.x = (stage.stageWidth/2) - (_saveButton.width/2);
+			_saveButton.x = -_saveButton.width/2;
 			_saveButton.setClickable(false);
+			_progressBar.visible = true;
 
 			if (!checkForDoneness()) {
 				// some of the files are not yet downloaded
@@ -164,6 +175,7 @@ package astroUNL.classaction.browser.views {
 				_downloadPoller.start();
 			}
 			else startZip();
+			
 		}
 				
 		protected function getThumbs(list:Array):void {
@@ -239,6 +251,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onDownloadPoll(evt:TimerEvent):void {
 			if (checkForDoneness()) startZip();
+			updateProgressBar();
 			trace("zip download poll, "+getTimer());
 		}
 		
@@ -318,6 +331,7 @@ package astroUNL.classaction.browser.views {
 			// start adding the resource item files
 			trace("starting the zip poller");
 			_zipPoller.start();			
+			
 		}
 		
 		protected function parseResourceList(list:Array, bankXML:XML):void {
@@ -341,6 +355,31 @@ package astroUNL.classaction.browser.views {
 			addItemsToZip();			
 			if (_currItemIndex>=_itemsList.length) finishZip();					
 			trace("on zip poll, "+_currItemIndex+" of "+_itemsList.length);
+			updateProgressBar();
+		}
+		
+		protected function updateProgressBar():void {
+			return;
+			
+			var barWidth:Number = 300;
+			var barHeight:Number = 15;
+			var barBorderThickness:Number = 1;
+			var barBorderColor:uint = 0xe0e0e0;
+			var barProgressColor:uint = 0xa0a0a0;
+			var barBackgroundColor:uint = 0x404040;
+			var progress:Number = barWidth*_currItemIndex/_itemsList.length;
+			_progressBar.graphics.clear();
+			_progressBar.graphics.lineStyle(barBorderThickness, barBorderColor);
+			_progressBar.graphics.drawRect(-barWidth/2, -barHeight/2, barWidth, barHeight);
+			_progressBar.graphics.lineStyle();
+			_progressBar.graphics.moveTo(0, 0);
+			_progressBar.graphics.beginFill(barProgressColor);
+			_progressBar.graphics.drawRect(-barWidth/2, -barHeight/2, progress, barHeight);
+			_progressBar.graphics.endFill();			
+			_progressBar.graphics.moveTo(0, 0);
+			_progressBar.graphics.beginFill(barBackgroundColor);
+			_progressBar.graphics.drawRect(-barWidth/2+progress, -barHeight/2, (barWidth-progress), barHeight);
+			_progressBar.graphics.endFill();			
 		}
 		
 		protected function addItemsToZip():void {
@@ -415,7 +454,6 @@ package astroUNL.classaction.browser.views {
 			} while (getTimer()<timeLimit && _currItemIndex<_itemsList.length);			
 			
 		}
-		
 	
 		protected function addXMLFileToZip(xml:XML, filename:String):void {			
 			var ba:ByteArray = new ByteArray();
@@ -427,118 +465,18 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function finishZip():void {
-			
 			trace("zip finished");
-			
 			_zip.finish();
-			
 			_zipPoller.stop();
-			
 			_downloadProgress.fadeOut(200);
 			_saveButton.setText(_zipReadyMessage);
-			_saveButton.x = (stage.stageWidth/2) - (_saveButton.width/2);
+			_saveButton.x = -_saveButton.width/2;
 			_saveButton.setClickable(true);
 			
+			_progressBar.visible = false;
+			
 		}
-		
-//		
-//		
-//		protected function makeZip():void {
-//			
-//			var startTimer:Number = getTimer();
-//			
-//			var i:int, j:int;
-//			
-//			
-//			var entry:ZipEntry;
-//			var ba:ByteArray = new ByteArray();
-//			var done:Object = {};
-//			var question:Question;
-//			
-//			var filename:String;
-//			
-////			var baseURL:String = "custom/classaction/";
-//			
-//			var modulesXML:XML = new XML("<modules></modules>");
-//			var questionsXML:XML = new XML("<QuestionBank></QuestionBank>");
-//			
-//			
-//			for (i=0; i<_modulesList.modules.length; i++) {
-//				if (!_modulesList.modules[i].readOnly) {
-//					for (j=0; j<_modulesList.modules[i].allQuestionsList.length; j++) {
-//						question = _modulesList.modules[i].allQuestionsList[j];
-//						if (done[question.id]==undefined) {
-//							
-//							// add the question to the zip file
-//							entry = new ZipEntry(baseURL+question.downloadURL);
-//							_zip.putNextEntry(entry);
-//							_zip.write(question.swfData);
-//							_zip.closeEntry();
-//							done[question.id] = true;
-//							
-//							// add the question data to the xml file
-//							questionsXML.appendChild(question.getXML());
-//						}						
-//					}
-//					
-//					// write the xml file for this custom module
-//					filename = _modulesList.modules[i].filename;
-//					ba.length = 0;
-//					ba.writeMultiByte(_modulesList.modules[i].getXMLString(), "iso-8859-1");
-//					entry = new ZipEntry(baseURL+filename);
-//					_zip.putNextEntry(entry);
-//					_zip.write(ba);
-//					_zip.closeEntry();
-//					
-//					// add this custom module to the modules list xml file
-//					modulesXML.appendChild(new XML("<module>"+filename+"</module>"));
-//				}				
-//			}
-//			
-//			
-//			// write the questions.xml file
-//			ba.length = 0;
-//			ba.writeMultiByte("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + (new XML(questionsXML)).toXMLString(), "iso-8859-1");
-//			entry = new ZipEntry(baseURL+"questions/questions.xml");
-//			_zip.putNextEntry(entry);
-//			_zip.write(ba);
-//			_zip.closeEntry();
-//			
-//			// write the moduleslist.xml file
-//			ba.length = 0;
-//			ba.writeMultiByte("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + (new XML(modulesXML)).toXMLString(), "iso-8859-1");
-//			entry = new ZipEntry(baseURL+"moduleslist.xml");
-//			_zip.putNextEntry(entry);
-//			_zip.write(ba);
-//			_zip.closeEntry();
-//			
-//			entry = new ZipEntry(baseURL+"browser.swf");
-//			_zip.putNextEntry(entry);
-//			_zip.write(_browserSwf.byteArray);
-//			_zip.closeEntry();
-//			
-//			entry = new ZipEntry("custom/start.html");
-//			_zip.putNextEntry(entry);
-//			_zip.write(_startHtml.byteArray);
-//			_zip.closeEntry();
-//			
-//			
-//			_zip.finish();
-//			
-////var zipOut:ZipOutput = new ZipOutput();
-////// Add entry to zip
-////var ze:ZipEntry = new ZipEntry(fileName);
-////zipOut.putNextEntry(ze);
-////zipOut.write(fileData);
-////zipOut.closeEntry();
-////// end the zip
-////zipOut.finish();
-////// access the zip data
-////var zipData:ByteArray = zipOut.byteArray;
-////			
-//			
-//			trace("makeZip: "+(getTimer()-startTimer));
-//		}
-		
+				
 	}
 }
+

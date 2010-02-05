@@ -40,7 +40,7 @@ package astroUNL.classaction.browser.views {
 		protected var _panelWidth:Number = 800;
 		protected var _panelHeight:Number = 550;
 		protected var _navButtonSpacing:Number = 20;
-		protected var _panesTopMargin:Number = 45;
+		protected var _panesTopMargin:Number = 0;
 		protected var _panesSideMargin:Number = 15;
 		protected var _panesBottomMargin:Number = 45;
 		protected var _panesWidth:Number = _panelWidth - 2*_navButtonSpacing;
@@ -63,18 +63,12 @@ package astroUNL.classaction.browser.views {
 		protected var _customHeading:TextField;
 		
 		protected var _readOnly:Boolean;
-//		protected var _browserSwf:BinaryFile;
-//		protected var _startHtml:BinaryFile;
 		
 		public function ModulesListView(readOnly:Boolean) {
 			
 			_moduleLinks = new Dictionary();
 			
 			_readOnly = readOnly;
-			
-//			_fr = new FileReference();
-//			_browserSwf = new BinaryFile("~browser.swf");			
-//			_startHtml = new BinaryFile("~start.html");
 			
 			_panes = new ScrollableLayoutPanes(_panesWidth, _panesHeight, _navButtonSpacing, _navButtonSpacing, {topMargin: 0, leftMargin: _panesSideMargin, rightMargin: _panesSideMargin, bottomMargin: 0, columnSpacing: _columnSpacing, numColumns: _numColumns});
 			_panes.x = _navButtonSpacing;
@@ -114,9 +108,6 @@ package astroUNL.classaction.browser.views {
 			_rightButton.addEventListener(MouseEvent.CLICK, onRightButtonClicked);
 			_rightButton.visible = false;
 			addChild(_rightButton);				
-			
-//			_downloadPoller = new Timer(20);
-//			_downloadPoller.addEventListener(TimerEvent.TIMER, onDownloadPoll);
 			
 		}
 		

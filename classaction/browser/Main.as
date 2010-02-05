@@ -96,10 +96,10 @@ package astroUNL.classaction.browser {
 			_modulesListView.addEventListener(ModulesListView.MODULE_SELECTED, onModuleSelected);
 			_modulesListView.addEventListener(ModulesListView.START_ZIP_DOWNLOAD, onZipDownloadStart);
 			_modulesListView.x = 0;
-			_modulesListView.y = 30;
+			_modulesListView.y = 50;
 			addChild(_modulesListView);
 						
-			_moduleView = new ModuleView(800, 400);
+			_moduleView = new ModuleView(800, 460);
 			_moduleView.addEventListener(ModuleView.QUESTION_SELECTED, onQuestionSelected);
 			_moduleView.addEventListener(ModuleView.MODULES_LIST_SELECTED, onModulesListSelected);
 			_moduleView.x = 0;

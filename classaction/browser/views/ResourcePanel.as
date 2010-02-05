@@ -63,8 +63,8 @@ package astroUNL.classaction.browser.views {
 		protected var _emptyCustomModuleMessage:Sprite;
 		protected var _emptyReadOnlyModuleMessage:Sprite;
 		protected var _toggleShowAllText:ClickableText;
-		
-		protected var _panelWidth:Number = 800;
+			
+		protected var _panelWidth:Number;
 		protected var _panelHeight:Number;
 		protected var _navButtonSpacing:Number = 20;
 		protected var _panesTopMargin:Number = 45;
@@ -87,8 +87,8 @@ package astroUNL.classaction.browser.views {
 		protected var _showAll:Boolean = false;
 		
 		protected var _titleMargin:Number = 3;
-		protected var _backgroundColor:uint = 0xfafafa;
-		protected var _borderColor:uint = 0xa0a0a0;
+		protected var _backgroundColor:uint = 0x272D2E;
+		protected var _borderColor:uint = 0x404848;
 		protected var _headingTopMargin:Number = 10;
 		protected var _headingBottomMargin:Number = 4;
 		protected var _headingMinLeftOver:Number = 25;
@@ -97,9 +97,9 @@ package astroUNL.classaction.browser.views {
 		protected var _itemMinLeftOver:Number = -2;
 		
 		protected var _closeButtonY:Number = 18;
-		protected var _closeButtonX:Number = _panelWidth - 20;
+		protected var _closeButtonX:Number;
 		
-		protected var _pageNumX:Number = _closeButtonX - 30;
+		protected var _pageNumX:Number;
 		protected var _pageNumY:Number = 19;
 		
 		protected var _toggleShowAllX:Number = 12;
@@ -112,7 +112,7 @@ package astroUNL.classaction.browser.views {
 		protected var _showAllText:ClickableText;
 		protected var _showModuleText:ClickableText;
 		
-		protected var _horizontalDividerColor:uint = 0xe0e0e0;
+		protected var _horizontalDividerColor:uint = 0x404848;
 		protected var _horizontalDividerX:Number = 8;
 		protected var _horizontalDividerY:Number = 34;
 		
@@ -120,8 +120,8 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _group:ResourcePanelsGroup;
 		
-		protected var _titleColorWithItems:uint = 0x404040;
-		protected var _titleColorWithoutItems:uint = 0xa0a0a0;
+		protected var _titleColorWithItems:uint = 0xffffff;
+		protected var _titleColorWithoutItems:uint = 0x808080;
 		
 		protected var _showOptionSelectedFormat:TextFormat;
 		protected var _showOptionUnselectedFormat:TextFormat;
@@ -133,10 +133,11 @@ package astroUNL.classaction.browser.views {
 		protected var _tabDefaultWidth:Number;
 		protected var _tabDefaultHeight:Number;
 		
-		public function ResourcePanel(group:ResourcePanelsGroup, type:String, panelHeight:Number, readOnly:Boolean) {
+		public function ResourcePanel(group:ResourcePanelsGroup, type:String, panelWidth:Number, panelHeight:Number, readOnly:Boolean) {
 			
 			_group = group;
 			_type = type;
+			_panelWidth = panelWidth;
 			_panelHeight = panelHeight;
 			_readOnly = readOnly;
 			
@@ -144,20 +145,25 @@ package astroUNL.classaction.browser.views {
 			_panesHeight = _panelHeight - _panesTopMargin - _panesBottomMargin;
 			_emptyMessageX = _panelWidth/2;
 			_emptyMessageY = _panelHeight/2;
+			
+			_closeButtonX = _panelWidth - 20;
+			_pageNumX = _closeButtonX - 30;
 						
 			_showAll = true;
 			
-			_titleFormat = new TextFormat("Verdana", 14, 0x404040, true);
-			_headingFormat = new TextFormat("Verdana", 13, 0x0, true);
-			_itemFormat = new TextFormat("Verdana", 13, 0x404040);
-			_pageNumFormat = new TextFormat("Verdana", 12, 0x404040, null, false);
+			var color1:uint = 0xf0f0f0;
+			
+			_titleFormat = new TextFormat("Verdana", 14, color1, true);
+			_headingFormat = new TextFormat("Verdana", 13, 0xffffff, true);
+			_itemFormat = new TextFormat("Verdana", 13, color1);
+			_pageNumFormat = new TextFormat("Verdana", 12, color1, null, false);
 			_pageNumFormat.align = "right";
-			_emptyFormat = new TextFormat("Verdana", 13, 0x404040);
+			_emptyFormat = new TextFormat("Verdana", 13, color1);
 			_emptyFormat.align = "center";
 			_emptyFormat.leading = 5;
-			_toggleShowAllFormat = new TextFormat("Verdana", 12, 0x404040, null, true);
-			_pageDescriptionFormat = new TextFormat("Verdana", 12, 0x404040, null, false);
-			_showOptionSelectedFormat = new TextFormat("Verdana", 12, 0x404040, false);
+			_toggleShowAllFormat = new TextFormat("Verdana", 12, color1, null, true);
+			_pageDescriptionFormat = new TextFormat("Verdana", 12, color1, null, false);
+			_showOptionSelectedFormat = new TextFormat("Verdana", 12, color1, false);
 			_showOptionUnselectedFormat = new TextFormat("Verdana", 12, 0xa0a0a0, false);
 			
 			_background = new Sprite();

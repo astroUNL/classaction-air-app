@@ -10,27 +10,25 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.resources.ImagesBank;
 	import astroUNL.classaction.browser.resources.OutlinesBank;
 	import astroUNL.classaction.browser.resources.TablesBank;
-	
-
 
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
 	
+	
 	public class ResourcePanelsGroup extends Sprite {
 		
 		public static const PREVIEW_ITEM_CHANGED:String = "previewItemChanged";
 		
-		protected var _animationsPanel:ResourcePanel;
-		protected var _imagesPanel:ResourcePanel;
-		protected var _outlinesPanel:ResourcePanel;
-		protected var _tablesPanel:ResourcePanel;
-		
-		protected var _panelsList:Array = [];
-		
+		protected var _panelWidth:Number = 800;
 		protected var _panelHeight:Number = 300;
-			
+		protected var _previewItem:ResourceItem;
+		protected var _panelsList:Vector.<ResourcePanel>;
 		protected var _readOnly:Boolean;
+		protected var _halo:ResourcePanelHalo;
+		protected var _previewPosition:Point;
+		protected var _tabSpacing:Number = 65;
+		protected var _tabOffset:Number;
 		
 		public function ResourcePanelsGroup(readOnly:Boolean) {
 			_readOnly = readOnly;						
@@ -44,67 +42,43 @@ package astroUNL.classaction.browser.views {
 			return _previewPosition;			
 		}
 		
-		protected var _previewPosition:Point;
-		
 		public function setPreviewItem(item:ResourceItem, pos:Point=null):void {
 			_previewItem = item;
 			_previewPosition = pos;
 			dispatchEvent(new Event(ResourcePanelsGroup.PREVIEW_ITEM_CHANGED));
 		}
 		
-		protected var _previewItem:ResourceItem;
-		
 		public function init() {
 			
-			var margin:Number = 65;
-			var tabOffset:Number = 50;			
+			_halo = new ResourcePanelHalo();
+			_halo.width = _panelWidth;
+			addChild(_halo);
 			
-			if (AnimationsBank.total>0) {
-				_animationsPanel = new ResourcePanel(this, ResourcePanel.ANIMATIONS, _panelHeight, _readOnly);
-				_animationsPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
-				_animationsPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
-				_animationsPanel.setTabOffset(tabOffset);
-				addChild(_animationsPanel);
-			}
+			_panelsList = new Vector.<ResourcePanel>();
+			_tabOffset = 50;
 			
-			tabOffset += _animationsPanel.tabWidth + margin;
-			
-			if (ImagesBank.total>0) {
-				_imagesPanel = new ResourcePanel(this, ResourcePanel.IMAGES, _panelHeight, _readOnly);
-				_imagesPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
-				_imagesPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
-				_imagesPanel.setTabOffset(tabOffset);
-				addChild(_imagesPanel);
-			}
-			
-			tabOffset += _imagesPanel.tabWidth + margin;
-			
-			if (OutlinesBank.total>0) {
-				_outlinesPanel = new ResourcePanel(this, ResourcePanel.OUTLINES, _panelHeight, _readOnly);
-				_outlinesPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
-				_outlinesPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
-				_outlinesPanel.setTabOffset(tabOffset);
-				addChild(_outlinesPanel);
-			}
-			
-			tabOffset += _outlinesPanel.tabWidth + margin;
-			
-			if (TablesBank.total>0) {
-				_tablesPanel = new ResourcePanel(this, ResourcePanel.TABLES, _panelHeight, _readOnly);
-				_tablesPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
-				_tablesPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
-				_tablesPanel.setTabOffset(tabOffset);
-				addChild(_tablesPanel);
-			}
-			
+			if (AnimationsBank.total>0) addPanel(ResourcePanel.ANIMATIONS);
+			if (ImagesBank.total>0) addPanel(ResourcePanel.IMAGES);
+			if (OutlinesBank.total>0) addPanel(ResourcePanel.OUTLINES);
+			if (TablesBank.total>0) addPanel(ResourcePanel.TABLES);
+		}
+		
+		protected function addPanel(type:String):void {
+			var newPanel:ResourcePanel = new ResourcePanel(this, type, _panelWidth, _panelHeight, _readOnly);
+			newPanel.addEventListener(ResourcePanel.MINIMIZED, onMinimize);
+			newPanel.addEventListener(ResourcePanel.MAXIMIZED, onMaximize);
+			newPanel.setTabOffset(_tabOffset);
+			addChild(newPanel);
+			_panelsList.push(newPanel);
+			_tabOffset += newPanel.tabWidth + _tabSpacing;
 		}
 		
 		public function setState(module:Module, question:Question):void {
-			for (var i:int = 0; i<numChildren; i++) (getChildAt(i) as ResourcePanel).setState(module, question);
+			for each (var panel:ResourcePanel in _panelsList) panel.setState(module, question);
 		}
 		
 		public function set modulesList(arg:ModulesList):void {
-			for (var i:int = 0; i<numChildren; i++) (getChildAt(i) as ResourcePanel).modulesList = arg;
+			for each (var panel:ResourcePanel in _panelsList) panel.modulesList = arg;
 		}
 		
 		protected function onMinimize(evt:Event):void {
@@ -114,21 +88,27 @@ package astroUNL.classaction.browser.views {
 		protected function onMaximize(evt:Event):void {
 			var maximizedPanel:ResourcePanel = (evt.target as ResourcePanel);
 			if (maximizedPanel!=null) {
-				setChildIndex(maximizedPanel, numChildren-1);
+				for each (var panel:ResourcePanel in _panelsList) {
+					if (panel!=maximizedPanel) {
+						panel.y = -_panelHeight;
+						panel.inFront = false;
+					}
+				}
 				maximizedPanel.y = -_panelHeight;
 				maximizedPanel.inFront = true;
-				for (var i:int = 0; i<(numChildren-1); i++) {
-					getChildAt(i).y = -_panelHeight;
-					(getChildAt(i) as ResourcePanel).inFront = false;
-				}
-			}			
+				setChildIndex(maximizedPanel, numChildren-1);
+			}	
+			_halo.y = -_panelHeight;
+			_halo.visible = true;
 		}
 		
 		public function minimizeAll():void {
-			for (var i:int = 0; i<numChildren; i++) {
-				getChildAt(i).y = 0;
-				(getChildAt(i) as ResourcePanel).inFront = false;
+			for each (var panel:ResourcePanel in _panelsList) {
+				panel.y = 0;
+				panel.inFront = false;
 			}
+			_halo.y = 0;
+			_halo.visible = false;
 			setPreviewItem(null);
 		}
 		
