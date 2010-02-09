@@ -202,7 +202,7 @@ package astroUNL.classaction.browser.views {
 			
 			_leftButton.visible = _rightButton.visible = (_panes.numPanes>1);
 			
-			trace("redraw module view: "+(getTimer()-startTimer));
+//			trace("redraw module view: "+(getTimer()-startTimer));
 			var allFinished:Boolean = refresh();
 			if (!allFinished) _timer.start();
 		}

@@ -320,13 +320,13 @@ _toggleShowAllText.alpha = 0;
 		}
 		
 		protected function onShowAll(evt:Event):void {
-			trace("onShowAll");
+//			trace("onShowAll");
 			_showAll = true;
 			redraw();
 		}
 		
 		protected function onShowModule(evt:Event):void {
-			trace("onShowModule");
+//			trace("onShowModule");
 			_showAll = false;
 			redraw();
 		}
@@ -661,7 +661,7 @@ import flash.utils.getTimer;
 			
 			refreshPageNum();
 			
-			trace("redraw resource panel: "+(getTimer()-startTimer)+", "+_type);
+//			trace("redraw resource panel: "+(getTimer()-startTimer)+", "+_type);
 		}
 		
 		protected var _totalItemsShown:int;

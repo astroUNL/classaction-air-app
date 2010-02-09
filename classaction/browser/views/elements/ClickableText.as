@@ -1,6 +1,8 @@
 ﻿
 package astroUNL.classaction.browser.views.elements {
 	
+	import astroUNL.utils.logger.Logger;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.text.TextField;
@@ -33,10 +35,6 @@ package astroUNL.classaction.browser.views.elements {
 		
 		public function ClickableText(text:String="", data:*=null, format:TextFormat=null, width:Number=0) {
 			
-			contextMenu = new ContextMenu();
-			contextMenu.hideBuiltInItems();
-			contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onContextMenuSelect, false, 0, true);
-			
 			_format = new TextFormat();
 			
 			_field = new TextField();
@@ -50,10 +48,29 @@ package astroUNL.classaction.browser.views.elements {
 			_field.mouseEnabled = false;
 			addChild(_field);
 			
+			// normally _hitArea.mouseEnabled would be set to false, but we need it to be true
+			// so that the context menu will work (we don't use the contextMenu of the ClickableText
+			// object since the hitArea won't apply as we would like)
 			_hitArea = new Sprite();
-			_hitArea.visible = false;
-			_hitArea.mouseEnabled = false;
+			_hitArea.alpha = 0;
 			addChild(_hitArea);
+			
+			_hitArea.contextMenu = new ContextMenu();
+			_hitArea.contextMenu.hideBuiltInItems();
+			_hitArea.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onContextMenuSelect, false, 0, true);
+			
+			// since the hit area is mouse enabled, we need to intercept mouse events and redispatch
+			// them from the ClickableText object (as outside code will expect)
+			_hitArea.addEventListener(MouseEvent.CLICK, onHitAreaMouseEvent, false, 0, true);
+			_hitArea.addEventListener(MouseEvent.DOUBLE_CLICK, onHitAreaMouseEvent, false, 0, true);
+			_hitArea.addEventListener(MouseEvent.MOUSE_DOWN, onHitAreaMouseEvent, false, 0, true);
+			_hitArea.addEventListener(MouseEvent.MOUSE_MOVE, onHitAreaMouseEvent, false, 0, true);
+			_hitArea.addEventListener(MouseEvent.MOUSE_OUT, onHitAreaMouseEvent, false, 0, true);
+			_hitArea.addEventListener(MouseEvent.MOUSE_OVER, onHitAreaMouseEvent, false, 0, true);
+			_hitArea.addEventListener(MouseEvent.MOUSE_UP, onHitAreaMouseEvent, false, 0, true);
+			_hitArea.addEventListener(MouseEvent.MOUSE_WHEEL, onHitAreaMouseEvent, false, 0, true);
+			_hitArea.addEventListener(MouseEvent.ROLL_OUT, onHitAreaMouseEvent, false, 0, true);
+			_hitArea.addEventListener(MouseEvent.ROLL_OVER, onHitAreaMouseEvent, false, 0, true);
 			
 			hitArea = _hitArea;
 			
@@ -69,45 +86,61 @@ package astroUNL.classaction.browser.views.elements {
 			setWidth(width);
 			
 			unlock();
-			
-			
 		}
 		
-		public function get text():String {
-			return _field.text;
+		// instead of working with the contextMenu of the ClickableText object directly, one
+		// must use the clearMenu and addMenuItem functions
+		
+		override public function get contextMenu():ContextMenu {
+			Logger.report("getting contextMenu of ClickableText not allowed");
+			return null;
+		}
+		
+		override public function set contextMenu(arg:ContextMenu):void {
+			Logger.report("setting contextMenu of ClickableText not allowed");
+		}
+		
+		public function clearMenu():void {
+			_hitArea.contextMenu.customItems = [];
 		}
 		
 		public function addMenuItem(label:String, listener:Function=null, separatorBefore:Boolean=false):ContextMenuItem {
 			var item:ContextMenuItem = new ContextMenuItem(label, separatorBefore);
-			if (listener!=null) item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, listener, false, 0, true);
-			contextMenu.customItems.push(item);
-			return item;
-		}		
-		
-		public function setClickable(arg:Boolean):void {
-			if (arg && !_clickable) doSetClickable(arg);
-			else if (!arg && _clickable) {
-				doSetClickable(arg);
-				showUnderline(false);
+			if (listener!=null) {
+				// since the menuItemSelect event will come from the hitArea, we need to intercept
+				// the event and rebroadcast so looks like it comes from the ClickableText object
+				// (this is what the onMenuItemSelect function does)
+				item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onMenuItemSelect, false, 0, true);
+				item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, listener, false, 0, true);
 			}
-			_clickable = arg;
+			_hitArea.contextMenu.customItems.push(item);
+			return item;
 		}
 		
-		protected function doSetClickable(arg:Boolean):void {
-			// this function is separate from setClickable for the benefit of the EditableClickableText class
-			if (arg) {
-				addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
-				addEventListener(MouseEvent.MOUSE_OVER, onMouseOverFunc, false, 0, true);
-				addEventListener(MouseEvent.MOUSE_OUT, onMouseOutFunc, false, 0, true);
+		public function addMenuSelectListener(listener:Function=null):void {
+			// the onContextMenuSelect takes on the task of rebroadcasting the menuSelect events
+			// so they look like they come from ClickableTextObject
+			_hitArea.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, listener, false, 0, true);			
+		}
+			
+		public function onMenuItemSelect(evt:ContextMenuEvent):void {
+			// the function rebroadcasts menuItemSelect events so they come from the ClickableText object
+			if (evt.contextMenuOwner==_hitArea) {
+				evt.stopImmediatePropagation();
+				evt.target.dispatchEvent(new ContextMenuEvent(evt.type, evt.bubbles, evt.cancelable, this, this));
 			}
-			else {
-				removeEventListener(MouseEvent.CLICK, onClick, false);
-				removeEventListener(MouseEvent.MOUSE_OVER, onMouseOverFunc, false);
-				removeEventListener(MouseEvent.MOUSE_OUT, onMouseOutFunc, false);
-			}
-			buttonMode = arg;
-			useHandCursor = arg;
-			tabEnabled = arg;
+		}
+		
+		protected function onHitAreaMouseEvent(evt:MouseEvent):void {
+			// this handler repropagates events so they come from the ClickableText object
+			// (we don't just set mouseEnabled of the hitArea to false since it needs to be
+			// true to work with the ClickableText)
+			evt.stopImmediatePropagation();
+			dispatchEvent(evt.clone());			
+		}
+		
+		public function get text():String {
+			return _field.text;
 		}
 		
 		public function setText(text:String=""):void {
@@ -133,7 +166,7 @@ package astroUNL.classaction.browser.views.elements {
 				_format.italic = format.italic;
 				_format.align = format.align;
 				_format.leading = format.leading;
-			}			
+			}
 			_field.defaultTextFormat = _format;
 			redraw();
 		}
@@ -141,6 +174,32 @@ package astroUNL.classaction.browser.views.elements {
 		public function setWidth(width:Number):void {
 			_width = width;
 			redraw();
+		}
+		
+		public function setClickable(arg:Boolean):void {
+			if (arg && !_clickable) doSetClickable(arg);
+			else if (!arg && _clickable) {
+				doSetClickable(arg);
+				showUnderline(false);
+			}
+			_clickable = arg;
+		}
+		
+		protected function doSetClickable(arg:Boolean):void {
+			// this function is separate from setClickable for the benefit of the EditableClickableText class
+			if (arg) {
+				addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
+				addEventListener(MouseEvent.MOUSE_OVER, onMouseOverFunc, false, 0, true);
+				addEventListener(MouseEvent.MOUSE_OUT, onMouseOutFunc, false, 0, true);
+			}
+			else {
+				removeEventListener(MouseEvent.CLICK, onClick, false);
+				removeEventListener(MouseEvent.MOUSE_OVER, onMouseOverFunc, false);
+				removeEventListener(MouseEvent.MOUSE_OUT, onMouseOutFunc, false);
+			}
+			buttonMode = arg;
+			useHandCursor = arg;
+			tabEnabled = arg;
 		}
 		
 		protected function redraw():void {
@@ -169,7 +228,6 @@ package astroUNL.classaction.browser.views.elements {
 			for (i=0; i<_field.numLines; i++) {
 				m = _field.getLineMetrics(i);
 				_hitArea.graphics.beginFill(0x0000ff, 0.5);
-				
 				if (_field.defaultTextFormat.align=="left") {
 					_hitArea.graphics.drawRect(_field.x+2, _field.y+2+i*m.height, m.width, m.height);
 				}
@@ -226,9 +284,19 @@ package astroUNL.classaction.browser.views.elements {
 		protected var _skipMouseOutPropagation:Boolean;
 		
 		protected function onContextMenuSelect(evt:ContextMenuEvent):void {
-			_skipMouseOutPropagation = true;
-			stage.addEventListener(MouseEvent.MOUSE_OVER, onStageMouseOver, false, 0, true);
-			addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage, false, 0, true);
+			if (evt.contextMenuOwner==_hitArea) {
+				_skipMouseOutPropagation = true;
+				stage.addEventListener(MouseEvent.MOUSE_OVER, onStageMouseOver, false, 0, true);
+				addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage, false, 0, true);
+				
+				// we've created a proxy mouse area for the context menu interaction, but we want the
+				// events to look like they're coming from this ClickableText object, so we cancel
+				// the event and redispatch it with the desired mouseTarget and contextMenuOwner values
+				// (this is also why we've checked the value of evt.contextMenuOwner at the beginning of
+				// this function -- we should only execute this code once)
+				evt.stopImmediatePropagation();
+				evt.target.dispatchEvent(new ContextMenuEvent(evt.type, evt.bubbles, evt.cancelable, this, this));
+			}
 		}
 		
 		protected function onStageMouseOver(evt:MouseEvent):void {

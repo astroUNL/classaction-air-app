@@ -37,9 +37,12 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public static function register(obj:InteractiveObject):void {
-			if (obj.contextMenu==null) obj.contextMenu = new ContextMenu();
-			obj.contextMenu.hideBuiltInItems();
-			obj.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onMenuSelect, false, 0, true);
+			var ct:ClickableText = obj as ClickableText;
+			if (ct==null) {
+				Logger.report("ResourceContextMenuController set up to work only with ClickableText objects");
+				return;
+			}
+			ct.addMenuSelectListener(onMenuSelect);
 		}
 		
 		public static function set modulesList(arg:ModulesList):void {
@@ -55,22 +58,22 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected static function onMenuSelect(evt:ContextMenuEvent):void {
-						
-			var menu:ContextMenu = evt.target as ContextMenu;
-			if (menu==null) return;
-			menu.customItems = [];
 			
-			var item:ResourceItem = (evt.contextMenuOwner as Object).data.item as ResourceItem;
+			var ct:ClickableText = evt.contextMenuOwner as ClickableText;
+			
+			var item:ResourceItem = ct.data.item as ResourceItem;
 			if (item==null) {
-				trace("************************************ bad bad bad");
+				Logger.report("item undefined in ResourceContextMenuController.onMenuSelect");
 				return;
 			}
-						
+			
+			ct.clearMenu();
+			
 			// when done these lists will be populated with the custom modules the
 			// item is included and not included in
 			var inList:Array = [];
 			var outList:Array = [];
-			
+
 			// populate the in and out lists
 			var i:int, j:int;
 			for (i=0; i<_modulesList.modules.length; i++) {
@@ -90,67 +93,25 @@ package astroUNL.classaction.browser.views.elements {
 			
 			// modules the resource could be added to
 			if (outList.length>0) {
-				menuItem = new ContextMenuItem(_addToMenuText);
-				menu.customItems.push(menuItem);
+				ct.addMenuItem(_addToMenuText);
 				for (i=0; i<outList.length; i++) {
-					menuItem = new ContextMenuItem(_moduleMenuTextPrefix+outList[i].name);
-					menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemAddToModule, false, 0, true);
-					menu.customItems.push(menuItem);
+					menuItem = ct.addMenuItem(_moduleMenuTextPrefix+outList[i].name, onItemAddToModule);
 					_moduleLookup[menuItem] = outList[i];
 				}
 			}
 			
 			// modules the resource could be removed from
 			if (inList.length>0) {
-				menuItem = new ContextMenuItem(_removeFromMenuText, outList.length>0);
-				menu.customItems.push(menuItem);			
+				ct.addMenuItem(_removeFromMenuText, null, outList.length>0);
 				for (i=0; i<inList.length; i++) {
-					menuItem = new ContextMenuItem(_moduleMenuTextPrefix+inList[i].name);
-					menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemRemoveFromModule, false, 0, true);
-					menu.customItems.push(menuItem);
+					menuItem = ct.addMenuItem(_moduleMenuTextPrefix+inList[i].name, onItemRemoveFromModule);
 					_moduleLookup[menuItem] = inList[i];
 				}			
 			}
-			
-			/* the ability to mark resources as relevant has temporarily removed since the changes
-			   do no persist between sessions
-			
-			// if there is a currently selected question and the item is something other than a question,
-			// then present the option to make the item a relevant resource (or to remove the item as a
-			// relevant resource if it already is such)
-			
-			if (_selectedQuestion!=null && item.type!=ResourceItem.QUESTION) {
-				var relevantIDsList:Array;
-				if (item.type==ResourceItem.ANIMATION) relevantIDsList = _selectedQuestion.relevantAnimationIDsList;
-				else if (item.type==ResourceItem.IMAGE) relevantIDsList = _selectedQuestion.relevantImageIDsList;
-				else if (item.type==ResourceItem.OUTLINE) relevantIDsList = _selectedQuestion.relevantOutlineIDsList;
-				else if (item.type==ResourceItem.TABLE) relevantIDsList = _selectedQuestion.relevantTableIDsList;
-				
-				if (relevantIDsList!=null) {
-					var useSeparator:Boolean = (inList.length>0 || outList.length>0);
-					for (i=0; i<relevantIDsList.length; i++) {
-						if (relevantIDsList[i]==item.id) {
-							// the item is already in the relevant resources list so give the option to remove it
-							menuItem = new ContextMenuItem(_removeRelevantText, useSeparator);
-							menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onRemoveRelevantItem, false, 0, true);
-							menu.customItems.push(menuItem);
-							break;
-						}
-					}
-					if (i>=relevantIDsList.length) {
-						// give the choice to make this a relevant resource
-						menuItem = new ContextMenuItem(_addRelevantText, useSeparator);
-						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onAddRelevantItem, false, 0, true);
-						menu.customItems.push(menuItem);
-					}
-				}
-				else Logger.report("invalid item type in ResourceContextMenuController.onMenuSelect");
-			}			
-			*/
 		}
 		
 		protected static function onAddRelevantItem(evt:ContextMenuEvent):void {
-			var item:ResourceItem = (evt.contextMenuOwner as Object).data.item as ResourceItem;
+			var item:ResourceItem = (evt.contextMenuOwner as ClickableText).data.item as ResourceItem;
 			if (item!=null && _selectedQuestion!=null && _selectedModule!=null) {
 				
 				// first, check that the resource belongs to the selected module, if not, add it
@@ -164,7 +125,7 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected static function onRemoveRelevantItem(evt:ContextMenuEvent):void {
-			var item:ResourceItem = (evt.contextMenuOwner as Object).data.item as ResourceItem;
+			var item:ResourceItem = (evt.contextMenuOwner as ClickableText).data.item as ResourceItem;
 			if (item!=null && _selectedQuestion!=null) _selectedQuestion.removeRelevantResource(item);
 		}
 		
@@ -174,21 +135,15 @@ package astroUNL.classaction.browser.views.elements {
 		protected static var _moduleLookup:Dictionary;
 		
 		protected static function onItemAddToModule(evt:ContextMenuEvent):void {
-			var item:ResourceItem = (evt.contextMenuOwner as Object).data.item as ResourceItem;
-			if (item!=null) {
-				if (item is Question) _moduleLookup[evt.target].addQuestion(item as Question);
-				else _moduleLookup[evt.target].addResource(item);
-			}
-			else trace("************************************ bad bad bad");
+			var item:ResourceItem = (evt.contextMenuOwner as ClickableText).data.item as ResourceItem;
+			if (item is Question) _moduleLookup[evt.target].addQuestion(item as Question);
+			else _moduleLookup[evt.target].addResource(item);
 		}
 		
 		protected static function onItemRemoveFromModule(evt:ContextMenuEvent):void {
-			var item:ResourceItem = (evt.contextMenuOwner as Object).data.item as ResourceItem;
-			if (item!=null) {
-				if (item is Question) _moduleLookup[evt.target].removeQuestion(item as Question);
-				else _moduleLookup[evt.target].removeResource(item);
-			}
-			else trace("************************************ bad bad bad");
+			var item:ResourceItem = (evt.contextMenuOwner as ClickableText).data.item as ResourceItem;
+			if (item is Question) _moduleLookup[evt.target].removeQuestion(item as Question);
+			else _moduleLookup[evt.target].removeResource(item);
 		}
 		
 	}
