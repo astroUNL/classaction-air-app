@@ -7,7 +7,6 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.resources.ResourceItem;
 	import astroUNL.classaction.browser.download.Downloader;
 	import astroUNL.classaction.browser.views.elements.ClickableText;
-	import astroUNL.classaction.browser.views.elements.ProgressIndicator;
 	
 	import astroUNL.utils.logger.Logger;
 	
@@ -47,7 +46,6 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _saveButton:ClickableText;		
 		protected var _cancelButton:ClickableText;
-		protected var _downloadProgress:ProgressIndicator;
 		protected var _progressBar:Shape;
 		
 		protected var _zipPoller:Timer;
@@ -55,6 +53,9 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _zipReadyMessage:String = "zip file is ready - click here to save";
 		protected var _zipPrepMessage:String = "please wait while the zip file is prepared";
+		
+		protected var _saveButtonPrepY:Number = -50;
+		protected var _saveButtonReadyY:Number = -40;
 		
 		protected var _modulesXML:XML;
 		protected var _questionsXML:XML;
@@ -76,7 +77,7 @@ package astroUNL.classaction.browser.views {
 			addChild(_backdrop);
 			
 			var kx:Number = 200;
-			var ky:Number = 120;
+			var ky:Number = 90;
 			
 			_downloadWindow = new Sprite();
 			_downloadWindow.x = stage.stageWidth/2;
@@ -90,26 +91,21 @@ package astroUNL.classaction.browser.views {
 			_background.graphics.endFill();
 			_downloadWindow.addChild(_background);
 			
-			_downloadProgress = new ProgressIndicator();
-			_downloadProgress.x = 0;
-			_downloadProgress.y = -50;
-			_downloadWindow.addChild(_downloadProgress);
-			
 			_progressBar = new Shape();
 			_progressBar.x = 0;
-			_progressBar.y = 0;
+			_progressBar.y = -20;
 			_downloadWindow.addChild(_progressBar);
 			
 			_saveButton = new ClickableText();
 			_saveButton.addEventListener(ClickableText.ON_CLICK, onSave);
 			_saveButton.x = 0;
-			_saveButton.y = 15;
+			_saveButton.y = -50;
 			_downloadWindow.addChild(_saveButton);
 			
 			_cancelButton = new ClickableText("cancel");
 			_cancelButton.addEventListener(ClickableText.ON_CLICK, onCancel);
 			_cancelButton.x = 0 - (_cancelButton.width/2);
-			_cancelButton.y = 65;
+			_cancelButton.y = 20;
 			_downloadWindow.addChild(_cancelButton);
 					 
 			_fr = new FileReference();
@@ -144,9 +140,9 @@ package astroUNL.classaction.browser.views {
 			visible = wasVisible;
 			
 			// set appearance
-			_downloadProgress.fadeIn();	
 			_saveButton.setText(_zipPrepMessage);
 			_saveButton.x = -_saveButton.width/2;
+			_saveButton.y = _saveButtonPrepY;
 			_saveButton.setClickable(false);
 			_progressBar.visible = true;
 
@@ -176,7 +172,12 @@ package astroUNL.classaction.browser.views {
 			}
 			else startZip();
 			
+			_initialQueueLength = Downloader.queueLength;
+			
+			updateProgressBar();
 		}
+		
+		protected var _initialQueueLength:int;
 				
 		protected function getThumbs(list:Array):void {
 			var i:int;
@@ -191,7 +192,6 @@ package astroUNL.classaction.browser.views {
 		protected function onCancel(evt:Event):void {
 			if (_downloadPoller.running) _downloadPoller.stop();
 			if (_zipPoller.running) _zipPoller.stop();
-			_downloadProgress.stop();
 			dispatchEvent(new Event(ZipDownloader.DONE));
 		}
 		
@@ -199,7 +199,6 @@ package astroUNL.classaction.browser.views {
 			// some of this should be impossible
 			if (_downloadPoller.running) _downloadPoller.stop();
 			if (_zipPoller.running) _zipPoller.stop();
-			_downloadProgress.stop();
 			_fr.save(_zip.byteArray, "custom.zip");
 			dispatchEvent(new Event(ZipDownloader.DONE));
 		}
@@ -252,10 +251,7 @@ package astroUNL.classaction.browser.views {
 		protected function onDownloadPoll(evt:TimerEvent):void {
 			if (checkForDoneness()) startZip();
 			updateProgressBar();
-			trace("zip download poll, "+getTimer());
 		}
-		
-		
 		
 		protected var _zip:ZipOutput;
 		protected var _itemsList:Array;
@@ -263,7 +259,7 @@ package astroUNL.classaction.browser.views {
 		protected var _addedItems:Dictionary;
 		
 		protected function startZip():void {
-		
+			
 			_zip = new ZipOutput();
 			
 			_itemsList = [];
@@ -315,7 +311,7 @@ package astroUNL.classaction.browser.views {
 			addXMLFileToZip(imagesXML, baseURL+"images/images.xml");
 			addXMLFileToZip(outlinesXML, baseURL+"outlines/outlines.xml");
 			addXMLFileToZip(tablesXML, baseURL+"tables/tables.xml");
-			
+						
 			// add the browser.swf file
 			entry = new ZipEntry(baseURL+"browser.swf");
 			_zip.putNextEntry(entry);
@@ -329,7 +325,6 @@ package astroUNL.classaction.browser.views {
 			_zip.closeEntry();
 			
 			// start adding the resource item files
-			trace("starting the zip poller");
 			_zipPoller.start();			
 			
 		}
@@ -353,32 +348,45 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onZipPoll(evt:TimerEvent):void {
 			addItemsToZip();			
-			if (_currItemIndex>=_itemsList.length) finishZip();					
-			trace("on zip poll, "+_currItemIndex+" of "+_itemsList.length);
+			if (_currItemIndex>=_itemsList.length) finishZip();
 			updateProgressBar();
 		}
 		
-		protected function updateProgressBar():void {
-			return;
+		protected function updateProgressBar():void {			
+			
+			// downloading a zip has two phases: downloading the necessary files and
+			// packaging them into a zip file			
+			// zipFrac is the fraction of the total download progress that is assigned
+			// to the packaging of the zip file (assuming there are files yet to be downloaded,
+			// otherwise zipFrac is set to 100%)
+			var zipFrac:Number = (_initialQueueLength==0) ? 1 : 0.66;
+						
+			var progress:Number = 0;
+			
+			if (_initialQueueLength!=0) progress += (1-zipFrac)*(1-(Downloader.queueLength/_initialQueueLength));
+			
+			if (_itemsList!=null) {
+				if (_itemsList.length==0) progress += zipFrac;
+				else progress += zipFrac*_currItemIndex/_itemsList.length;
+			}
+			
+			if (progress>1) progress = 1; // could theoretically happen if there are unrelated items on the download queue
 			
 			var barWidth:Number = 300;
+			var progressWidth:Number = barWidth*progress;
 			var barHeight:Number = 15;
 			var barBorderThickness:Number = 1;
-			var barBorderColor:uint = 0xe0e0e0;
-			var barProgressColor:uint = 0xa0a0a0;
-			var barBackgroundColor:uint = 0x404040;
-			var progress:Number = barWidth*_currItemIndex/_itemsList.length;
+			var barProgressColor:uint = 0xA8B5B5;
+			var barBackgroundColor:uint = 0x101211;
 			_progressBar.graphics.clear();
-			_progressBar.graphics.lineStyle(barBorderThickness, barBorderColor);
-			_progressBar.graphics.drawRect(-barWidth/2, -barHeight/2, barWidth, barHeight);
 			_progressBar.graphics.lineStyle();
 			_progressBar.graphics.moveTo(0, 0);
 			_progressBar.graphics.beginFill(barProgressColor);
-			_progressBar.graphics.drawRect(-barWidth/2, -barHeight/2, progress, barHeight);
+			_progressBar.graphics.drawRect(-barWidth/2, -barHeight/2, progressWidth, barHeight);
 			_progressBar.graphics.endFill();			
 			_progressBar.graphics.moveTo(0, 0);
 			_progressBar.graphics.beginFill(barBackgroundColor);
-			_progressBar.graphics.drawRect(-barWidth/2+progress, -barHeight/2, (barWidth-progress), barHeight);
+			_progressBar.graphics.drawRect(-barWidth/2+progressWidth, -barHeight/2, (barWidth-progressWidth), barHeight);
 			_progressBar.graphics.endFill();			
 		}
 		
@@ -465,12 +473,11 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function finishZip():void {
-			trace("zip finished");
 			_zip.finish();
 			_zipPoller.stop();
-			_downloadProgress.fadeOut(200);
 			_saveButton.setText(_zipReadyMessage);
 			_saveButton.x = -_saveButton.width/2;
+			_saveButton.y = _saveButtonReadyY;
 			_saveButton.setClickable(true);
 			
 			_progressBar.visible = false;

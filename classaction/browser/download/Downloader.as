@@ -91,6 +91,10 @@ package astroUNL.classaction.browser.download {
 			}
 		}
 		
+		public static function get queueLength():int {
+			return _queue.length;
+		}
+		
 		protected static function onProgress(evt:ProgressEvent):void {
 			getLoaderInfoObj(evt.target as URLLoader).item.onDownloadProgress(evt.bytesLoaded, evt.bytesTotal);
 		}		
