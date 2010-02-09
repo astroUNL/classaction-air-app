@@ -28,6 +28,9 @@ package astroUNL.classaction.browser.views {
 	import flash.utils.Dictionary;
 	import flash.external.ExternalInterface;
 	
+	import flash.filters.GlowFilter;
+	
+	
 	public class ResourcePanel extends Sprite {
 		
 		public static const MINIMIZED:String = "minimized";
@@ -133,6 +136,8 @@ package astroUNL.classaction.browser.views {
 		protected var _tabDefaultWidth:Number;
 		protected var _tabDefaultHeight:Number;
 		
+		protected var _selectedOptionGlow:GlowFilter;
+		
 		public function ResourcePanel(group:ResourcePanelsGroup, type:String, panelWidth:Number, panelHeight:Number, readOnly:Boolean) {
 			
 			_group = group;
@@ -164,7 +169,8 @@ package astroUNL.classaction.browser.views {
 			_toggleShowAllFormat = new TextFormat("Verdana", 12, color1, null, true);
 			_pageDescriptionFormat = new TextFormat("Verdana", 12, color1, null, false);
 			_showOptionSelectedFormat = new TextFormat("Verdana", 12, color1, false);
-			_showOptionUnselectedFormat = new TextFormat("Verdana", 12, 0xa0a0a0, false);
+			_showOptionUnselectedFormat = new TextFormat("Verdana", 12, 0xd8d8d8, false); //0xa0a0a0
+			_selectedOptionGlow = new GlowFilter(0xA0D6D6, 0.5, 8, 8, 3, 3);
 			
 			_background = new Sprite();
 			addChild(_background);
@@ -634,12 +640,18 @@ import flash.utils.getTimer;
 					_showAllText.setClickable(false);
 					_showModuleText.setFormat(_showOptionUnselectedFormat);
 					_showModuleText.setClickable(true);
+					
+					_showAllText.filters = [_selectedOptionGlow];
+					_showModuleText.filters = [];
 				}
 				else {
 					_showAllText.setFormat(_showOptionUnselectedFormat);
 					_showAllText.setClickable(true);
 					_showModuleText.setFormat(_showOptionSelectedFormat);
 					_showModuleText.setClickable(false);
+					
+					_showAllText.filters = [];
+					_showModuleText.filters = [_selectedOptionGlow];
 				}
 				// the module name can change while the panel is displayed
 				_showModuleText.setText(_type+" for "+_selectedModule.name);
@@ -648,6 +660,8 @@ import flash.utils.getTimer;
 				_showAllText.setFormat(_showOptionSelectedFormat);
 				_showAllText.setClickable(false);
 				_showModuleText.visible = false;
+				
+				_showAllText.filters = [];
 			}
 			
 			_totalItemsShown = total;

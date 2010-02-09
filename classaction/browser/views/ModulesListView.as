@@ -185,7 +185,7 @@ package astroUNL.classaction.browser.views {
 						ct = new ClickableText(_modulesList.modules[i].name, _modulesList.modules[i], _itemFormat, _panes.columnWidth);		
 						ct.addEventListener(ClickableText.ON_CLICK, onModuleClicked, false, 0, true);
 						ct.addMenuSelectListener(onReadOnlyMenuSelect);
-						ct.addMenuItem(_copyModuleText, onModuleCopyRequest);						
+						if (!_readOnly) ct.addMenuItem(_copyModuleText, onModuleCopyRequest);						
 						_moduleLinks[modulesList.modules[i]] = ct;
 					}
 					_panes.addContent(_moduleLinks[modulesList.modules[i]], itemParams);
@@ -215,7 +215,7 @@ package astroUNL.classaction.browser.views {
 						ct.addEventListener(EditableClickableText.EDIT_DONE, onModuleNameEntered, false, 0, true);
 						ct.addEventListener(ClickableText.ON_CLICK, onModuleClicked, false, 0, true);
 						ct.addMenuSelectListener(onCustomMenuSelect);
-						ct.addMenuItem(_copyModuleText, onModuleCopyRequest);
+						if (!_readOnly) ct.addMenuItem(_copyModuleText, onModuleCopyRequest);
 						ct.addMenuItem(_deleteItemText, onModuleDeleteRequest);									
 						_moduleLinks[modulesList.modules[i]] = ct;
 					}	

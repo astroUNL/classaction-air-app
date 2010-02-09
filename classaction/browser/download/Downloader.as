@@ -78,15 +78,10 @@ package astroUNL.classaction.browser.download {
 		
 		public static function cancel(priority:int=0):void {
 			// removes all items from the queue with priority less than or equal to the given priority
-			trace("cancel");
 			for (var i:int = _queue.length-1; i>=0; i--) {
 				if (_queue[i].item.downloadPriority<=priority) {
 					_queue[i].item.downloadPriority.onDownloadStatusChanged(Downloader.NOT_QUEUED);
-					trace(" removed: " +_queue[i].item.downloadPriority);
 					_queue.splice(i, 1);
-				}
-				else {
-					trace(" left: "+_queue[i].itme.downloadPriority);
 				}
 			}
 		}
