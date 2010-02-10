@@ -109,21 +109,10 @@ package astroUNL.classaction.browser.views.elements {
 				_field.setTextFormat(_format);
 				
 				if (_clickable) doSetClickable(true);
-//				if (_enabled) doSetEnabled(true);
 
+				_hitArea.mouseEnabled = true;
 				_field.mouseEnabled = false;
 				_halo.mouseEnabled = false;
-				//mouseChildren = false;
-				
-//				if (_enabled) {
-//					addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
-//					addEventListener(MouseEvent.MOUSE_OVER, onMouseOverFunc, false, 0, true);
-//					addEventListener(MouseEvent.MOUSE_OUT, onMouseOutFunc, false, 0, true);
-//				}
-//				
-//				buttonMode = true;
-//				useHandCursor = true;
-//				tabEnabled = true;
 				
 				_editable = false;
 				
@@ -145,22 +134,11 @@ package astroUNL.classaction.browser.views.elements {
 				_field.setTextFormat(_editingFormat);
 				
 				if (_clickable) doSetClickable(false);
-//				if (_enabled) doSetEnabled(false);
 				
+				_hitArea.mouseEnabled = false;
 				_field.mouseEnabled = true;
 				_halo.mouseEnabled = true;
-				//mouseChildren = true;
 				
-//				if (_enabled) {
-//					removeEventListener(MouseEvent.CLICK, onClick, false);
-//					removeEventListener(MouseEvent.MOUSE_OVER, onMouseOverFunc, false);
-//					removeEventListener(MouseEvent.MOUSE_OUT, onMouseOutFunc, false);
-//				}
-//				
-//				buttonMode = false;
-//				useHandCursor = false;
-//				tabEnabled = false;
-					
 				_numLines = _field.numLines;
 				_editable = true;
 				
