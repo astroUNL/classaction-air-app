@@ -76,6 +76,11 @@ package astroUNL.classaction.browser.resources {
 			}
 		}
 		
+		public function hasQuestion(question:Question):Boolean {
+			for each (var q:Question in allQuestionsList) if (q==question) return true;
+			return false;
+		}		
+		
 		protected var _serializationSuccess:Boolean = false;
 		
 		public function get serializationSuccess():Boolean {

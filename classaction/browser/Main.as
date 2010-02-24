@@ -12,6 +12,7 @@ package astroUNL.classaction.browser {
 	import astroUNL.classaction.browser.views.ModuleView;
 	import astroUNL.classaction.browser.views.QuestionView;
 	import astroUNL.classaction.browser.views.BreadcrumbsBar;
+	import astroUNL.classaction.browser.views.NavBar;
 	import astroUNL.classaction.browser.views.ZipDownloader;
 	import astroUNL.classaction.browser.download.Downloader;
 	import astroUNL.classaction.browser.resources.QuestionsBank;
@@ -111,10 +112,16 @@ package astroUNL.classaction.browser {
 			_questionView.y = 40;
 			addChild(_questionView);
 			
+			_nav = new NavBar();
+			_nav.addEventListener(NavBar.NAV, onNav);
+			_nav.x = 25;
+			_nav.y = 14;
+			addChild(_nav);
+			
 			_breadcrumbs = new BreadcrumbsBar();
 			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULE_SELECTED, onModuleSelected);
 			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULES_LIST_SELECTED, onModulesListSelected);
-			_breadcrumbs.x = 20;
+			_breadcrumbs.x = 2*_nav.x;
 			_breadcrumbs.y = 5;
 			addChild(_breadcrumbs);
 			
@@ -268,6 +275,8 @@ package astroUNL.classaction.browser {
 //				_moduleView.modulesList = _modulesList;
 				
 				_zipDownloader.modulesList = _modulesList;
+				
+				_nav.modulesList = _modulesList;
 
 				ResourceContextMenuController.modulesList = _modulesList;
 				
@@ -326,6 +335,11 @@ package astroUNL.classaction.browser {
 			setView(_selectedModule, evt.data);
 		}
 		
+		protected function onNav(evt:Event):void {
+			trace("onNav");
+			setView(_nav.module, _nav.question);			
+		}
+		
 		protected var _selectedModule:Module;
 		protected var _selectedQuestion:Question;
 		
@@ -364,6 +378,8 @@ package astroUNL.classaction.browser {
 			
 			_resourcePanels.setState(_selectedModule, _selectedQuestion);
 			_breadcrumbs.setState(_selectedModule, _selectedQuestion);
+			
+			_nav.setState(_selectedModule, _selectedQuestion);
 
 			ResourceContextMenuController.setState(_selectedModule, _selectedQuestion);
 			
@@ -378,6 +394,7 @@ package astroUNL.classaction.browser {
 		protected var _moduleView:ModuleView;
 		protected var _questionView:QuestionView;
 		protected var _breadcrumbs:BreadcrumbsBar;
+		protected var _nav:NavBar;
 		
 		protected function onZipDownloadStart(evt:Event):void {
 			_zipDownloader.visible = true;

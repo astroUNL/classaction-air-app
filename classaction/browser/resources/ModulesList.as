@@ -32,6 +32,10 @@ package astroUNL.classaction.browser.resources {
 			Downloader.get(this);			
 		}
 		
+		public function hasModule(module:Module):Boolean {
+			for each (var m:Module in modules) if (m==module) return true;
+			return false;			
+		}
 		
 		public function get downloadURL():String {
 			return _filename;
