@@ -3,12 +3,9 @@
 	import astroUNL.classaction.browser.download.IDownloadable;
 	import astroUNL.classaction.browser.download.Downloader;
 	
-	
 	import flash.events.EventDispatcher;
-	
 	import flash.utils.ByteArray;
 	import flash.net.URLLoaderDataFormat;
-	
 	
 	
 	public class ResourceItem extends EventDispatcher implements IDownloadable {
@@ -26,6 +23,7 @@
 		public var id:String;
 		public var name:String;
 		public var description:String;
+		public var keywords:Array = [];
 		public var filename:String;
 		public var width:Number;
 		public var height:Number;
@@ -46,7 +44,10 @@
 				filename = itemXML.File;
 				width = itemXML.Width;
 				height = itemXML.Height;
-								
+				
+				var keywordXML:XML;
+				for each (keywordXML in itemXML.Keywords.elements()) keywords.push(keywordXML.toString());
+				
 				var thumbFilename:String = "";
 				if (type==ResourceItem.ANIMATION) thumbFilename = filename.slice(0, filename.lastIndexOf(".")) + ".jpg";
 				else if (type==ResourceItem.IMAGE) thumbFilename = filename.slice(0, filename.lastIndexOf(".")) + "_thumb" + filename.slice(filename.lastIndexOf("."));
@@ -64,16 +65,17 @@
 			xml.@id = id;
 			xml.appendChild(new XML("<Name>"+name+"</Name>"));
 			xml.appendChild(new XML("<Description>"+description+"</Description>"));
-			xml.appendChild(new XML("<Keywords></Keywords>"));
+			
+			var keywordsXML:XML = new XML("<Keywords></Keywords>");
+			for each (var keyword:String in keywords) keywordsXML.appendChild(new XML("<Keyword>"+keyword+"</Keyword>"));
+			xml.appendChild(keywordsXML);
+			
 			xml.appendChild(new XML("<File>"+filename+"</File>"));
 			xml.appendChild(new XML("<Width>"+width+"</Width>"));
 			xml.appendChild(new XML("<Height>"+height+"</Height>"));
-			
 			return xml;
 		}
-		
-		
-		
+				
 		// the stuff below takes care the IDownloadable requirements
 		
 		protected var _downloadState:int = Downloader.NOT_QUEUED;

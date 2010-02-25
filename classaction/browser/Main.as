@@ -13,6 +13,7 @@ package astroUNL.classaction.browser {
 	import astroUNL.classaction.browser.views.QuestionView;
 	import astroUNL.classaction.browser.views.BreadcrumbsBar;
 	import astroUNL.classaction.browser.views.NavBar;
+	import astroUNL.classaction.browser.views.SearchBar;
 	import astroUNL.classaction.browser.views.ZipDownloader;
 	import astroUNL.classaction.browser.download.Downloader;
 	import astroUNL.classaction.browser.resources.QuestionsBank;
@@ -79,7 +80,7 @@ package astroUNL.classaction.browser {
 			
 			if (Security.sandboxType==Security.REMOTE) Downloader.init("");
 			else if (_readOnly) Downloader.init("classaction/");
-			else if (Capabilities.isDebugger) Downloader.init("C:/Documents and Settings/Chris/Desktop/new classaction/");
+			else if (Capabilities.isDebugger) Downloader.init("C:/Documents and Settings/Chris/Desktop/astro/classaction/");
 			else Downloader.init("");
 			
 			_background = new Sprite();
@@ -124,6 +125,12 @@ package astroUNL.classaction.browser {
 			_breadcrumbs.x = 2*_nav.x;
 			_breadcrumbs.y = 5;
 			addChild(_breadcrumbs);
+			
+			_search = new SearchBar();
+			_search.x = stage.stageWidth - 5;
+			_search.y = 5;
+			_search.visible = false;
+			addChild(_search);
 			
 			_resourcePanels = new ResourcePanelsGroup(_readOnly);
 			_resourcePanels.x = 0;
@@ -268,6 +275,8 @@ package astroUNL.classaction.browser {
 				
 				// now we're ready to present the views
 				
+				_search.visible = true;
+				
 				_resourcePanels.init();
 				_resourcePanels.modulesList = _modulesList;
 				
@@ -395,6 +404,7 @@ package astroUNL.classaction.browser {
 		protected var _questionView:QuestionView;
 		protected var _breadcrumbs:BreadcrumbsBar;
 		protected var _nav:NavBar;
+		protected var _search:SearchBar;
 		
 		protected function onZipDownloadStart(evt:Event):void {
 			_zipDownloader.visible = true;
