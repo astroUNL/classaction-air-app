@@ -13,12 +13,14 @@ package astroUNL.classaction.browser {
 	import astroUNL.classaction.browser.views.QuestionView;
 	import astroUNL.classaction.browser.views.BreadcrumbsBar;
 	import astroUNL.classaction.browser.views.NavBar;
-	import astroUNL.classaction.browser.views.SearchBar;
+	import astroUNL.classaction.browser.views.SearchPanel;
 	import astroUNL.classaction.browser.views.ZipDownloader;
 	import astroUNL.classaction.browser.download.Downloader;
 	import astroUNL.classaction.browser.resources.QuestionsBank;
 	import astroUNL.classaction.browser.resources.ResourceBanksLoader;
 	import astroUNL.classaction.browser.views.elements.ResourceContextMenuController;
+	import astroUNL.classaction.browser.views.elements.PopupManager;
+	import astroUNL.classaction.browser.views.elements.PopupWindow;
 	
 	import astroUNL.utils.keylistener.KeyListener;
 	import astroUNL.utils.logger.Logger;
@@ -29,6 +31,7 @@ package astroUNL.classaction.browser {
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.utils.getTimer;
+	import flash.geom.Rectangle;
 	import flash.system.Security;
 	import flash.system.Capabilities;
 	
@@ -126,11 +129,14 @@ package astroUNL.classaction.browser {
 			_breadcrumbs.y = 5;
 			addChild(_breadcrumbs);
 			
-			_search = new SearchBar();
-			_search.x = stage.stageWidth - 5;
-			_search.y = 5;
-			_search.visible = false;
-			addChild(_search);
+			_search = new SearchPanel();
+			_search.addEventListener(SearchPanel.QUESTION_SELECTED, onQuestionSelectedViaSearch);
+			
+			_popups = new PopupManager();
+			_popups.addPopup(new PopupWindow("Search", _search));
+			_popups.bounds = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
+			_popups.visible = false;
+			addChild(_popups);
 			
 			_resourcePanels = new ResourcePanelsGroup(_readOnly);
 			_resourcePanels.x = 0;
@@ -275,7 +281,7 @@ package astroUNL.classaction.browser {
 				
 				// now we're ready to present the views
 				
-				_search.visible = true;
+				_popups.visible = true;
 				
 				_resourcePanels.init();
 				_resourcePanels.modulesList = _modulesList;
@@ -293,7 +299,7 @@ package astroUNL.classaction.browser {
 				loadStoredState();
 				
 			}
-		}		
+		}
 		
 		protected function loadStoredState():void {			
 			// if a valid previous state has been saved in the shared object, use it,
@@ -344,8 +350,11 @@ package astroUNL.classaction.browser {
 			setView(_selectedModule, evt.data);
 		}
 		
+		protected function onQuestionSelectedViaSearch(evt:Event):void {
+			setView(_search.selectedModule, _search.selectedQuestion);
+		}
+		
 		protected function onNav(evt:Event):void {
-			trace("onNav");
 			setView(_nav.module, _nav.question);			
 		}
 		
@@ -404,7 +413,8 @@ package astroUNL.classaction.browser {
 		protected var _questionView:QuestionView;
 		protected var _breadcrumbs:BreadcrumbsBar;
 		protected var _nav:NavBar;
-		protected var _search:SearchBar;
+		protected var _search:SearchPanel;
+		protected var _popups:PopupManager;
 		
 		protected function onZipDownloadStart(evt:Event):void {
 			_zipDownloader.visible = true;

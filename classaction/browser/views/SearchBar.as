@@ -39,50 +39,40 @@ package astroUNL.classaction.browser.views {
 			addChild(_hits);
 			
 			_hitsPool = new Vector.<ClickableText>();
+			
 			_hitFormat = new TextFormat("Trebuchet MS", 13, 0x000000);
-			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+//			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
 		protected function clearHits():void {
-			for (var i:int = 0; i<_hitsPool.length; i++) _hitsPool[i].visible = false;
+			while (_hits.numChildren>0) _hitsPool.push(_hits.removeChildAt(0));
 			_hitPanes.reset();
 		}
-		
-		protected function getHit(item:ResourceItem):ClickableText {
-			var hit:ClickableText;
-						
-			var i:int;
-			for (i=0; i<_hitsPool.length; i++) {
-				
-				
-				_hitsPool[i].visible
-				
-			}
-			if (i>=_hitsPool.length) {
-				hit = new ClickableText(item.name, null, _hitFormat, _hitWidth);
-			
-			}
-			
-			
-			
+		//
+//		protected function getHit():ClickableText {
 //			var hit:ClickableText;
-//			if (_hitsPool.length>0) {
-//				hit = _hitsPool.pop();
-//				hit.name = item.name;
+//			if (i>=_hitsPool.length) {
+//				hit = new ClickableText("", null, _hitFormat, _hitWidth);
+//				
 //			}
-//			else hit = new ClickableText(item.name, null, _hits, _hitsWidth);
-//			_hits.addChild(hit);
-
-			return hit;
-		}
-		
-//		protected function removeAllLinks():void {
-//			while (_hits.numChildren>0) _hitsPool.push(_hits.removeChildAt(0));
+//			
+//			
+//			
+////			var hit:ClickableText;
+////			if (_hitsPool.length>0) {
+////				hit = _hitsPool.pop();
+////				hit.name = item.name;
+////			}
+////			else hit = new ClickableText(item.name, null, _hits, _hitsWidth);
+////			_hits.addChild(hit);
+//
+//			return hit;
 //		}
+//		
 		
-		protected function onAddedToStage(evt:Event):void {
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDownFunc);
-		}
+//		protected function onAddedToStage(evt:Event):void {
+//			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDownFunc);
+//		}
 		
 		protected function findHits(pattern:RegExp, lookup:Object, hits:Array):void {
 			var score:int;
@@ -119,11 +109,11 @@ package astroUNL.classaction.browser.views {
 			}			
 		}
 		
-		protected function onKeyDownFunc(evt:KeyboardEvent):void {
-			if (evt.keyCode==Keyboard.ENTER) {
-				doSearch(new RegExp(searchField.text, "i"));
-			}
-		}
+//		protected function onKeyDownFunc(evt:KeyboardEvent):void {
+//			if (evt.keyCode==Keyboard.ENTER) {
+//				doSearch(new RegExp(searchField.text, "i"));
+//			}
+//		}
 		
 	}
 }

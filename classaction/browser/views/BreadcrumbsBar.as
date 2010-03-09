@@ -125,15 +125,29 @@ package astroUNL.classaction.browser.views {
 					var i:int;
 					var list:Array;
 					
-					if (question.questionType==Question.WARM_UP) list = module.warmupQuestionsList;
-					else if (question.questionType==Question.GENERAL) list = module.generalQuestionsList;
-					else if (question.questionType==Question.CHALLENGE) list = module.challengeQuestionsList;
-					else if (question.questionType==Question.DISCUSSION) list = module.discussionQuestionsList;
+					var prefix:String;
+					
+					if (question.questionType==Question.WARM_UP) {
+						prefix = "W";
+						list = module.warmupQuestionsList;
+					}
+					else if (question.questionType==Question.GENERAL) {
+						prefix = "G";
+						list = module.generalQuestionsList;
+					}
+					else if (question.questionType==Question.CHALLENGE) {
+						prefix = "C";
+						list = module.challengeQuestionsList;
+					}
+					else if (question.questionType==Question.DISCUSSION) {
+						prefix = "D";
+						list = module.discussionQuestionsList;
+					}
 					else list = [];
 					
 					for (i=0; i<list.length; i++) if (list[i]==question) break;
 					
-					if (i<list.length) _questionLink.setText(String(i+1)+" - "+_question.name);
+					if (i<list.length) _questionLink.setText(prefix+String(i+1)+" - "+_question.name);
 					else _questionLink.setText(_question.name);
 					
 					_questionLink.visible = true;

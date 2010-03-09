@@ -66,6 +66,10 @@ package astroUNL.classaction.browser.views.elements {
 			
 		}
 		
+		public function get cursorY():Number {
+			return _cursorY;			
+		}
+		
 		public function advanceColumn():void {
 			_column++;
 			if (_column>=_numColumns) startNewPane();
