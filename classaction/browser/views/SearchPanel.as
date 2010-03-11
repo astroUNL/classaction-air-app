@@ -48,7 +48,6 @@ package astroUNL.classaction.browser.views {
 		protected var _panesMargin:Number = 1.5*_margin;
 		
 		protected var _panelHeightMin:Number = 40;
-//		protected var _panelHeightMax:Number = 250;
 		protected var _panelWidth:Number = 290;
 		protected var _panelHeight:Number;
 		
@@ -62,12 +61,17 @@ package astroUNL.classaction.browser.views {
 		protected var _maskedContent:Sprite;
 		protected var _mask:Shape;
 		protected var _message:TextField;
+		protected var _paneNum:TextField;
 		
 		protected var _searchFieldBackground:Shape;
-		protected var _searchFieldBackgroundColor:uint = 0x0C0E0E;//1c2020;
+		protected var _searchFieldBackgroundColor:uint = 0x0C0E0E;
 		protected var _searchFieldBorderColor:uint = 0x303635;
 		
 		protected var _backgroundColor:uint = 0x272D2E;
+		
+		protected var _back:SearchPanelButton;
+		protected var _forward:SearchPanelButton;
+		protected var _navButtonSpread:Number = 36;
 		
 		public function SearchPanel() {
 			
@@ -101,11 +105,39 @@ package astroUNL.classaction.browser.views {
 			_message.x = _margin;
 			_message.y = _messageY;
 			_message.defaultTextFormat = new TextFormat("Verdana", 12, 0xffffff, false, true);
-			addChild(_message);
+			_maskedContent.addChild(_message);
 			
 			_panes = new ScrollableLayoutPanes(_panesWidth, _panesHeightLimit, 0, 5, {topMargin: 0, leftMargin: 0, rightMargin: 0, bottomMargin: 0, columnSpacing: 0, numColumns: 1});
 			_panes.x = _panesMargin;
 			_maskedContent.addChild(_panes);
+			
+			_paneNum = new TextField();
+			_paneNum.wordWrap = true;
+			_paneNum.embedFonts = true;
+			_paneNum.selectable = false;
+			_paneNum.width = _panelWidth;
+			_paneNum.height = 0;
+			_paneNum.x = 0;
+			_paneNum.defaultTextFormat = new TextFormat("Verdana", 12, 0xffffff, false, false, null, null, null, "center");
+			_paneNum.autoSize = "center";
+			_paneNum.text = " ";
+			_paneNum.height = _paneNum.height; // this is necessary
+			_paneNum.autoSize = "none";
+			_maskedContent.addChild(_paneNum);
+			
+			_back = new SearchPanelButton();
+			_back.x = (_panelWidth/2) - _navButtonSpread;
+			_back.rotation = 180;
+			_back.addEventListener(MouseEvent.CLICK, onBack);
+			_back.visible = false;
+			_maskedContent.addChild(_back);
+			
+			_forward = new SearchPanelButton();
+			_forward.x = (_panelWidth/2) + _navButtonSpread;
+			_forward.addEventListener(MouseEvent.CLICK, onForward);
+			_forward.visible = false;
+			_maskedContent.addChild(_forward);	
+			
 			
 			_mask = new Shape();
 			addChild(_mask);
@@ -120,8 +152,12 @@ package astroUNL.classaction.browser.views {
 			_hitFormat = new TextFormat("Verdana", 13, 0xffffff);
 			
 			
-			
-			
+			searchButton.useHandCursor = true;
+			searchButton.setStyle("upSkin", CAB_Button_upSkin);
+			searchButton.setStyle("overSkin", CAB_Button_upSkin);
+			searchButton.setStyle("downSkin", CAB_Button_downSkin);
+			searchButton.setStyle("embedFonts", true);
+			searchButton.setStyle("textFormat", new TextFormat("Verdana", 11, 0xffffff, false, false));
 			searchButton.addEventListener(MouseEvent.CLICK, doSearch);
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -180,7 +216,6 @@ package astroUNL.classaction.browser.views {
 			if (num<10) hit.setText(" "+String(num)+". "+item.name);
 			else hit.setText(String(num)+". "+item.name);
 			hit.data = item;
-			trace("height: "+hit.height);
 			_panes.addContent(hit, _hitParams);
 		}
 		
@@ -269,22 +304,63 @@ package astroUNL.classaction.browser.views {
 			else _message.text = "nothing found for \"" + searchField.text + "\"";
 			
 			_panes.y = _message.y + 3 + _message.height;
-						
+			
 			var timeNow:Number = getTimer();
 			
 			var targetHeight:Number;
 			
-			if (hitsAdded==0) targetHeight = _panes.y + _margin;
-			else if (_panes.numPanes<=1) targetHeight = _panes.y + _panes.cursorY + _margin;
-			else targetHeight = _panes.y + _panesHeightLimit + _margin;
+			if (hitsAdded==0) {
+				targetHeight = _panes.y + _margin;
+				_paneNum.visible = _back.visible = _forward.visible = false;
+			}
+			else if (_panes.numPanes<=1) {
+				targetHeight = _panes.y + _panes.cursorY + _margin;
+				_paneNum.visible = _back.visible = _forward.visible = false;
+			}
+			else {
+				_back.y = _forward.y = _panes.y + _panesHeightLimit + 0.33*_margin + (_forward.height/2);
+				_paneNum.y = _forward.y - (_paneNum.height/2);
+				targetHeight = _forward.y + (_forward.height/2) + 0.75*_margin;
+				_paneNum.visible = _back.visible = _forward.visible = true;
+				refreshPaneNumControl();
+			}
 			
 			_heightEaser.setTarget(timeNow, _panelHeight, timeNow+_expandTime, targetHeight);
 			
 			_heightTimer.start();
 		}
 		
+		protected var _easeTime:Number = 200;
 		
+		protected function onBack(evt:MouseEvent):void {
+			_panes.incrementPaneNum(-1, _easeTime);
+			refreshPaneNumControl();
+		}
 		
+		protected function onForward(evt:MouseEvent):void {
+			_panes.incrementPaneNum(1, _easeTime);
+			refreshPaneNumControl();
+		}
+		
+		protected function refreshPaneNumControl():void {
+			if (_panes.numPanes<=1) {
+				_back.enabled = false;
+				_forward.enabled = false;
+			}
+			else if (_panes.paneNum==0) {
+				_back.enabled = false;
+				_forward.enabled = true;
+			}
+			else if (_panes.paneNum==(_panes.numPanes-1)) {
+				_back.enabled = true;
+				_forward.enabled = false;
+			}
+			else {
+				_back.enabled = true;
+				_forward.enabled = true;
+			}
+			_paneNum.text = String(_panes.paneNum+1) + " of " + String(_panes.numPanes);
+		}
 		
 		override public function set width(arg:Number):void {
 			//

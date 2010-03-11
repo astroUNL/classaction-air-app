@@ -451,6 +451,10 @@ _toggleShowAllText.alpha = 0;
 			//trace("tabOffset: "+_tabOffset+", "+_type);
 		}
 		
+		public function get tabHeight():Number {
+			return _tabHeight;
+		}
+		
 		protected var _titleText:String = "";
 		
 		protected var _inFront:Boolean = false;

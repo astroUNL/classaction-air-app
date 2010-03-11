@@ -112,6 +112,14 @@ package astroUNL.classaction.browser.views {
 			setPreviewItem(null);
 		}
 		
+		public function get maxTabHeight():Number {
+			var h:Number = 0;
+			for each (var panel:ResourcePanel in _panelsList) {
+				if (panel.tabHeight>h) h = panel.tabHeight;
+			}
+			return h;
+		}
+		
 	}	
 }
 

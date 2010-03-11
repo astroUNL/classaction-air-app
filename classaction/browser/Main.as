@@ -11,6 +11,7 @@ package astroUNL.classaction.browser {
 	import astroUNL.classaction.browser.views.ModulesListView;
 	import astroUNL.classaction.browser.views.ModuleView;
 	import astroUNL.classaction.browser.views.QuestionView;
+	import astroUNL.classaction.browser.views.HeaderBar;
 	import astroUNL.classaction.browser.views.BreadcrumbsBar;
 	import astroUNL.classaction.browser.views.NavBar;
 	import astroUNL.classaction.browser.views.SearchPanel;
@@ -60,7 +61,7 @@ package astroUNL.classaction.browser {
 		// stage when returning from a context menu (this is needed since there's no
 		// mouseEnter to match the mouseLeave event)
 		protected var _background:Sprite;
-		protected var _backgroundColor:uint = 0x000000;
+		protected var _backgroundColor:uint = 0x0;
 		protected var _backgroundAlpha:Number = 0;
 		
 		protected function onAddedToStage(evt:Event):void {
@@ -87,9 +88,6 @@ package astroUNL.classaction.browser {
 			else Downloader.init("");
 			
 			_background = new Sprite();
-			_background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
-			_background.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
-			_background.graphics.endFill();
 			addChild(_background);
 			
 			addChild(KeyListener.getListenerProxy());
@@ -116,6 +114,23 @@ package astroUNL.classaction.browser {
 			_questionView.y = 40;
 			addChild(_questionView);
 			
+			_popups = new PopupManager();
+			_popups.visible = false;
+			addChild(_popups);
+			
+			_search = new SearchPanel();
+			_search.addEventListener(SearchPanel.QUESTION_SELECTED, onQuestionSelectedViaSearch);
+			_searchPopup = new PopupWindow(HeaderBar.SEARCH, _search);
+			_popups.addPopup(_searchPopup);
+			
+			_aboutPopup = new PopupWindow(HeaderBar.ABOUT, new About());
+			_popups.addPopup(_aboutPopup);
+			
+			_header = new HeaderBar(stage.stageWidth);
+			_header.visible = false;
+			_header.addEventListener(Event.SELECT, onHeaderSelection);
+			addChild(_header);
+			
 			_nav = new NavBar();
 			_nav.addEventListener(NavBar.NAV, onNav);
 			_nav.x = 25;
@@ -129,20 +144,17 @@ package astroUNL.classaction.browser {
 			_breadcrumbs.y = 5;
 			addChild(_breadcrumbs);
 			
-			_search = new SearchPanel();
-			_search.addEventListener(SearchPanel.QUESTION_SELECTED, onQuestionSelectedViaSearch);
-			
-			_popups = new PopupManager();
-			_popups.addPopup(new PopupWindow("Search", _search));
-			_popups.bounds = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-			_popups.visible = false;
-			addChild(_popups);
-			
 			_resourcePanels = new ResourcePanelsGroup(_readOnly);
 			_resourcePanels.x = 0;
 			_resourcePanels.y = stage.stageHeight;
 			_resourcePanels.addEventListener(ResourcePanelsGroup.PREVIEW_ITEM_CHANGED, onPreviewItemChanged);
 			addChild(_resourcePanels);
+			
+			var popupsTop:Number = _header.height + _popupsMargin;
+			var popupsVRange:Number = stage.stageHeight - popupsTop - _resourcePanels.maxTabHeight - _popupsMargin - _searchPopup.titlebarHeight; 
+			_popups.bounds = new Rectangle(_popupsMargin, popupsTop, stage.stageWidth-2*_popupsMargin, popupsVRange);
+			_searchPopup.moveTo(Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, false);
+			_aboutPopup.moveTo(Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, false);
 			
 			_resourcePreview = new ResourcePreview();
 			addChild(_resourcePreview);
@@ -158,6 +170,11 @@ package astroUNL.classaction.browser {
 			_mask.graphics.endFill();
 			
 			mask = _mask;
+			
+			_background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
+			_background.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+			_background.graphics.endFill();
+			
 		}
 		
 		protected var _mask:Shape;
@@ -281,13 +298,13 @@ package astroUNL.classaction.browser {
 				
 				// now we're ready to present the views
 				
+				_header.visible = true;
 				_popups.visible = true;
 				
 				_resourcePanels.init();
 				_resourcePanels.modulesList = _modulesList;
 				
 				_modulesListView.modulesList = _modulesList;
-//				_moduleView.modulesList = _modulesList;
 				
 				_zipDownloader.modulesList = _modulesList;
 				
@@ -295,9 +312,7 @@ package astroUNL.classaction.browser {
 
 				ResourceContextMenuController.modulesList = _modulesList;
 				
-
 				loadStoredState();
-				
 			}
 		}
 		
@@ -329,6 +344,20 @@ package astroUNL.classaction.browser {
 				setView(selectedModule, selectedQuestion);
 			}
 			else setView(null, null);
+		}
+		
+		protected function onHeaderSelection(evt:Event):void {
+			if (_header.selection==HeaderBar.SEARCH) {
+				_popups.hideAllButOne(_searchPopup);
+				_searchPopup.moveTo(Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, true);
+			}
+			else if (_header.selection==HeaderBar.ABOUT) {
+				_popups.hideAllButOne(_aboutPopup);
+				_aboutPopup.moveTo(Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, true);
+			}			
+			else {
+				_popups.hideAll();
+			}
 		}
 		
 		protected function storeState():void {
@@ -408,14 +437,20 @@ package astroUNL.classaction.browser {
 		
 		protected var _topPriority:int = 1;
 		
+		protected var _popupsMargin:Number = 3;
+		
 		protected var _modulesListView:ModulesListView;
 		protected var _moduleView:ModuleView;
 		protected var _questionView:QuestionView;
+		protected var _header:HeaderBar;
 		protected var _breadcrumbs:BreadcrumbsBar;
 		protected var _nav:NavBar;
 		protected var _search:SearchPanel;
 		protected var _popups:PopupManager;
 		
+		protected var _searchPopup:PopupWindow;			
+		protected var _aboutPopup:PopupWindow;
+				
 		protected function onZipDownloadStart(evt:Event):void {
 			_zipDownloader.visible = true;
 			_zipDownloader.start();

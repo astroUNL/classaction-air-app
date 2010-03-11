@@ -29,17 +29,18 @@ package astroUNL.classaction.browser.views.elements {
 		
 		protected var _contentMask:Shape;
 		
+		protected var _perimeter:Shape;
+		
 		protected var _xEaser:CubicEaser;
 		protected var _yEaser:CubicEaser;
 		protected var _positionTimer:Timer;
 		protected var _positionEaseDuration:Number = 250;
 		
-		
 		protected var _expandEaser:CubicEaser;
 		protected var _expandTimer:Timer;
 		protected var _expandEaseDuration:Number = 250;
-		
-		
+
+
 		public function PopupWindow(initTitle:String, initContent:DisplayObject=null) {
 			
 			_xEaser = new CubicEaser(0);
@@ -51,7 +52,6 @@ package astroUNL.classaction.browser.views.elements {
 			
 			_expandTimer = new Timer(20);
 			_expandTimer.addEventListener(TimerEvent.TIMER, onExpandTimer);
-			
 			
 			_titlebar = new Sprite();
 			_titlebar.doubleClickEnabled = true;
@@ -71,8 +71,6 @@ package astroUNL.classaction.browser.views.elements {
 			_title.text = "8";
 			_title.height = _title.height; // ridiculous, but necessary
 			_title.autoSize = "none";
-			_title.background = true;
-			_title.backgroundColor = 0x00ff00;
 			addChild(_title);
 			
 			_expandButton = new PopupExpandButton();
@@ -80,10 +78,15 @@ package astroUNL.classaction.browser.views.elements {
 			addChild(_expandButton);
 			
 			_closeButton = new PopupCloseButton();
+			_closeButton.buttonMode = true;
+			_closeButton.addEventListener(MouseEvent.CLICK, close);
 			addChild(_closeButton);
 			
 			_contentMask = new Shape();
 			addChild(_contentMask);
+			
+			_perimeter = new Shape();
+			addChild(_perimeter);
 			
 			title = initTitle;
 			if (initContent!=null) content = initContent;
@@ -169,6 +172,14 @@ package astroUNL.classaction.browser.views.elements {
 			evt.updateAfterEvent();
 		}
 		
+		public function open(evt:Event=null):void {
+			visible = true;
+		}
+		
+		public function close(evt:Event=null):void {
+			visible = false;
+		}
+		
 		protected function toggleExpanded(evt:Event=null):void {
 			if (expandEnabled) expanded = !expanded;
 		}
@@ -187,6 +198,7 @@ package astroUNL.classaction.browser.views.elements {
 		
 		protected function onExpandTimer(evt:TimerEvent):void {
 			refreshExpansion();
+			refreshPerimeter();
 			if (getTimer()>=_expandEaser.targetTime) _expandTimer.stop();			
 		}
 		
@@ -197,7 +209,7 @@ package astroUNL.classaction.browser.views.elements {
 			else if (u>1) u = 1;
 			_content.y = (u-1)*_content.height;
 		}
-			
+		
 		protected var _dragOffsetX:Number, _dragOffsetY:Number;
 		
 		protected function onTitlebarMouseDown(evt:MouseEvent):void {
@@ -235,6 +247,7 @@ package astroUNL.classaction.browser.views.elements {
 			_content.y = 0;			
 			_content.mask = _contentMask;
 			addChild(_content);
+			swapChildren(_content, _perimeter);
 			onContentResized();
 		}
 		
@@ -242,13 +255,17 @@ package astroUNL.classaction.browser.views.elements {
 			_width = _content.width;
 			refreshTitlebar();
 			refreshContentMask();
+			refreshExpansion();
+			refreshPerimeter();
 			keepInBounds();
 		}
 		
 		protected var _titlebarPadding:Number = 3;
+		protected var _titlebarExtraPaddingForText:Number = 2;
 		protected var _perimeterThickness:Number = 1;
-		protected var _perimeterColor:uint = 0xff0000;
-		protected var _titlebarColor:uint = 0xff0000;
+		protected var _perimeterColor:uint = 0x3A4545;
+		protected var _perimeterAlpha:Number = 1;
+		protected var _titlebarColor:uint = 0x3A4545;
 		protected var _titlebarHeight:Number;
 		
 		protected function refreshTitlebar():void {
@@ -263,8 +280,8 @@ package astroUNL.classaction.browser.views.elements {
 				cx -= _expandButton.width + _titlebarPadding;
 			}
 			
-			_title.x = _titlebarPadding;
-			_title.width = cx - _titlebarPadding;
+			_title.x = _titlebarPadding + _titlebarExtraPaddingForText;
+			_title.width = cx - _titlebarPadding - _titlebarExtraPaddingForText;
 			
 			_titlebarHeight = _title.height + 2*_titlebarPadding;
 			
@@ -273,17 +290,23 @@ package astroUNL.classaction.browser.views.elements {
 			_title.y = -_title.height - _titlebarPadding;
 			
 			_titlebar.graphics.clear();
-//			_titlebar.graphics.lineStyle(_perimeterThickness, _perimeterColor);
+			
 			_titlebar.graphics.beginFill(_titlebarColor);
 			_titlebar.graphics.drawRect(0, -_titlebarHeight, _width, _titlebarHeight);
+			_titlebar.graphics.endFill();
 		}
 		
 		protected function refreshContentMask():void {
-			trace("height: "+_content.height);
 			_contentMask.graphics.clear();
 			_contentMask.graphics.beginFill(0xff0000);
 			_contentMask.graphics.drawRect(0, 0, _width, _content.height);
-			_contentMask.graphics.endFill();			
+			_contentMask.graphics.endFill();
+		}
+		
+		protected function refreshPerimeter():void {
+			_perimeter.graphics.clear();
+			_perimeter.graphics.lineStyle(_perimeterThickness, _perimeterColor, _perimeterAlpha);
+			_perimeter.graphics.drawRect(0, -_titlebarHeight, _width, _content.height+_titlebarHeight+_content.y);
 		}
 		
 		public function get expandEnabled():Boolean {
@@ -296,12 +319,16 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public function get closeEnabled():Boolean {
-			return _closeButton;			
+			return _closeButton.visible;			
 		}
 		
 		public function set closeEnabled(arg:Boolean):void {
 			_closeButton.visible = arg;
 			refreshTitlebar();
+		}
+		
+		public function get titlebarHeight():Number {
+			return _titlebarHeight;
 		}
 		
 		public function get title():String {
