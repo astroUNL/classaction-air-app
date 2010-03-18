@@ -10,7 +10,6 @@ package astroUNL.classaction.browser.download {
 	import flash.events.ProgressEvent;
 	import flash.system.Security;
 	
-	import flash.utils.getTimer;
 	
 	public class Downloader {
 		
@@ -22,7 +21,7 @@ package astroUNL.classaction.browser.download {
 		public static const DONE_SUCCESS:int = 2;
 		public static const DONE_FAILURE:int = 3;
 		
-        protected static var _queue:Array = [];
+        protected static var _queue:Vector.<IDownloadable> = new Vector.<IDownloadable>();
 		protected static var _numLoaders:int = 4;
 		protected static var _loaders:Array = [];
 		
@@ -79,8 +78,8 @@ package astroUNL.classaction.browser.download {
 		public static function cancel(priority:int=0):void {
 			// removes all items from the queue with priority less than or equal to the given priority
 			for (var i:int = _queue.length-1; i>=0; i--) {
-				if (_queue[i].item.downloadPriority<=priority) {
-					_queue[i].item.downloadPriority.onDownloadStatusChanged(Downloader.NOT_QUEUED);
+				if (_queue[i].downloadPriority<=priority) {
+					_queue[i].onDownloadStateChanged(Downloader.NOT_QUEUED);
 					_queue.splice(i, 1);
 				}
 			}
@@ -141,10 +140,8 @@ package astroUNL.classaction.browser.download {
 										
 					// if we haven't yet sorted the queue by priority, do so now
 					if (!sorted) {
-						var startTimer:Number = getTimer();
-						_queue.sortOn("downloadPriority", Array.NUMERIC | Array.DESCENDING);
+						_queue.sort(Downloader.sortOnPriority);
 						sorted = true;
-		//				trace("sort time in keepBusy: "+(getTimer()-startTimer)+", num elements: "+_queue.length);
 					}
 					
 					z.item = _queue.shift();
@@ -158,10 +155,13 @@ package astroUNL.classaction.browser.download {
 				}
 				
 				if (_queue.length==0) {
-		//			trace("cleared out the queue");
 					return;
 				}
 			}			
+		}
+		
+		protected static function sortOnPriority(x:IDownloadable, y:IDownloadable):Number {
+			return (y.downloadPriority - x.downloadPriority);
 		}
 				
 		protected static function getLoaderInfoObj(loader:URLLoader):Object {
