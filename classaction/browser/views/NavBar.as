@@ -38,7 +38,7 @@ package astroUNL.classaction.browser.views {
 			
 			visible = false;
 			
-			var shift:Number = 5;
+			var shift:Number = 6.5;
 			
 			_back = new NavBarButton();
 			_back.rotation = 180;
