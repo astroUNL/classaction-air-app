@@ -1,7 +1,8 @@
 ﻿
 package astroUNL.classaction.browser.views {
 	
-	
+	import br.hellokeita.utils.StringUtils;
+		
 	import astroUNL.classaction.browser.resources.ResourceItem;
 	import astroUNL.classaction.browser.resources.Module;
 	import astroUNL.classaction.browser.resources.Question;
@@ -22,6 +23,7 @@ package astroUNL.classaction.browser.views {
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.ui.Keyboard;
+	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
 	import flash.utils.Timer;
 	import flash.utils.getTimer;
@@ -259,57 +261,103 @@ package astroUNL.classaction.browser.views {
 			return _selectedQuestion;		
 		}
 		
-		protected function findHits(pattern:RegExp, lookup:Object, hits:Array):void {
-			var score:int;
+		// these weights describe the relative importance of finding a match in various parts of an item's searchable text
+		protected var _nameWeight:Number = 1.5;
+		protected var _descriptionWeight:Number = 1;
+		protected var _keywordWeight:Number = 1.3;
+		
+		protected function findHits(pattern:RegExp, lookup:Object, hits:Dictionary):void {
+			var score:Number;
 			var matches:Array = [];
+			var i:int;
 			for each (var item:ResourceItem in lookup) { 
 				score = 0;
 				matches = item.name.match(pattern);
-				if (matches!=null) score += matches.length;
+				if (matches!=null) score += _nameWeight*matches.length;
 				matches = item.description.match(pattern);
-				if (matches!=null) score += matches.length;
+				if (matches!=null) score += _descriptionWeight*matches.length;
 				for each (var keyword:String in item.keywords) {
 					matches = keyword.match(pattern);
-					if (matches!=null) score += matches.length;
+					if (matches!=null) score += _keywordWeight*matches.length;
 				}
-				if (score>0) hits.push({item: item, score: score});
+				if (score>0) {
+					if (hits[item]==undefined) {
+						hits[item] = {item: item, score: score, numMatches: 1};						
+					}
+					else {
+						hits[item].score += score;
+						hits[item].numMatches += 1;						
+					}
+				}
 			}
 		}
-				
+		
 		protected function doSearch(evt:Event=null):void {
 			
-			var pattern:RegExp = new RegExp(searchField.text, "i")
+			var startTimer:Number = getTimer();
+			
+			var i:int, j:int;
 			
 			clearLinks();
-			var hits:Array = [];				
-			findHits(pattern, QuestionsBank.lookup, hits);
-			//findHits(pattern, AnimationsBank.lookup, hits);
-			//findHits(pattern, ImagesBank.lookup, hits);
-			//findHits(pattern, OutlinesBank.lookup, hits);
-			//findHits(pattern, TablesBank.lookup, hits);				
-			hits.sortOn("score", Array.DESCENDING | Array.NUMERIC);
 			
-			var hitsAdded:int = 0;
+			// if there are multiple search terms we show the items that match multiple terms before items that match fewer terms, regardless of score
+			// within a group of items that match the same number of terms we sort by the score (which is assigned by the findHits function)
 			
-			for (var i:int = 0; i<hits.length; i++) {
-				if (hits[i].item.type==ResourceItem.QUESTION && hits[i].item.modulesList.length>0) {
-					addLink(hits[i].item, i+1);
-					hitsAdded++;
+			// hitsDict is used to collect the hits by item in an efficient way
+			// after all the hits have been collected they are put into the hits array
+			var hitsDict:Dictionary = new Dictionary();
+			
+			// hits is a two dimensional array;
+			// each entry in hits is a list of hit objects that have .item and .score properties
+			//  hits[0] - contains the items that match all search terms
+			//  hits[1] - contains the items that match all but one search term
+			//  ....
+			//  hits[hits.length-1] - contains the items that match only one search term
+			var hits:Array = [];
+			
+			var pattern:RegExp;
+			var term:String;
+			var terms:Array = searchField.text.split(/\s/);
+			
+			// find the hits
+			for (i=0; i<terms.length; i++) {
+				term = StringUtils.trim(terms[i]);
+				if (term!="") {
+					hits.push([]);
+					pattern = new RegExp(term, "i");
+					findHits(pattern, QuestionsBank.lookup, hitsDict);
 				}
-			}			
-						
+			}
+			
+			var hit:Object;			
+			var numHits:int = 0;
+			
+			// repackage the hits into the hits array
+			for each (hit in hitsDict) hits[hits.length-hit.numMatches].push(hit);
+			
+			// present the sorted hits
+			for (i=0; i<hits.length; i++) {
+				hits[i].sortOn("score", Array.DESCENDING | Array.NUMERIC);
+				for (j=0; j<hits[i].length; j++) {
+					hit = hits[i][j];
+					if (hit.item.type==ResourceItem.QUESTION && hit.item.modulesList.length>0) {
+						numHits++;
+						addLink(hit.item, numHits);
+					}
+//					trace(" "+numHits+", "+j+", "+hit.score+", "+hit.numMatches+", "+hit.item.name);				
+				}
+			}
+							
 			_message.text = "";
 			_message.height = 0;
-			if (hitsAdded>0) _message.text = "results for \"" + searchField.text + "\":";
-			else _message.text = "nothing found for \"" + searchField.text + "\"";
+			if (numHits>0) _message.text = "results for \"" + StringUtils.trim(searchField.text) + "\":";
+			else _message.text = "nothing found for \"" + StringUtils.trim(searchField.text) + "\"";
 			
 			_panes.y = _message.y + 3 + _message.height;
 			
-			var timeNow:Number = getTimer();
-			
 			var targetHeight:Number;
 			
-			if (hitsAdded==0) {
+			if (numHits==0) {
 				targetHeight = _panes.y + _margin;
 				_paneNum.visible = _back.visible = _forward.visible = false;
 			}
@@ -325,9 +373,12 @@ package astroUNL.classaction.browser.views {
 				refreshPaneNumControl();
 			}
 			
+			var timeNow:Number = getTimer();
 			_heightEaser.setTarget(timeNow, _panelHeight, timeNow+_expandTime, targetHeight);
 			
 			_heightTimer.start();
+			
+			trace("sort time: "+(getTimer()-startTimer));
 		}
 		
 		protected var _easeTime:Number = 200;
