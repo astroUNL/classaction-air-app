@@ -184,12 +184,13 @@ package astroUNL.naap {
 			}
 			
 			if (content!=null) content.y = (titleBar!=null) ? titleBar.height : 0;
-			if (titleBar!=null) titleBar.width = content.width;
-			
-			trace("content.width: "+content.width);
-			
+						
 			if (content!=null && titleBar!=null) {
+				titleBar.width = content.width;
 				_height = content.height + titleBar.height;
+			}
+			else {
+				titleBar.width = 250;				
 			}
 			
 			var defaultTF:TextFormat = UIComponent.getStyleDefinition().defaultTextFormat as TextFormat;

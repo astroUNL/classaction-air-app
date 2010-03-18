@@ -128,7 +128,6 @@ package astroUNL.naap {
 			_helpWindow.center();
 			_aboutWindow.center();
 			
-			
 			/*
 			trace("windowMargin: "+windowMargin);
 			trace("window ranges:");
