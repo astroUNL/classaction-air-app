@@ -8,6 +8,8 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.views.elements.ResourceContextMenuController;
 	import astroUNL.classaction.browser.events.MenuEvent;
 	
+	import astroUNL.utils.logger.Logger;	
+	
 	import flash.display.Sprite;
 	import flash.text.TextFormat;
 	import flash.text.TextField;
@@ -94,10 +96,12 @@ package astroUNL.classaction.browser.views {
 			reposition();			
 		}
 		
+		protected var _nextQuestion:Question;
+		protected var _prevQuestion:Question;
+		
 		public function setState(module:Module=null, question:Question=null):void {
 			
 			if (_module!=null) _module.removeEventListener(Module.UPDATE, onModuleUpdate, false);
-			
 			if (module!=null) module.addEventListener(Module.UPDATE, onModuleUpdate, false, 0, true);
 			
 			_module = module;
@@ -105,6 +109,10 @@ package astroUNL.classaction.browser.views {
 			
 			_modulesListLink.visible = true;
 			_separator1.visible = true;
+			
+			// we set these later on, if their values are found
+			_nextQuestion = null;
+			_prevQuestion = null;
 			
 			if (module!=null) {
 				_modulesListLink.setClickable(true);
@@ -122,33 +130,60 @@ package astroUNL.classaction.browser.views {
 				
 				if (question!=null) {
 					
-					var i:int;
-					var list:Array;
+					// please note that the code here assumes that each of the question types constants (which
+					// are defined in Question) are unique integers in the range [0,3]
+					var typesList:Array = [];
+					typesList[Question.WARM_UP] = {prefix: "W", list: module.warmupQuestionsList};
+					typesList[Question.GENERAL] = {prefix: "G", list: module.generalQuestionsList};
+					typesList[Question.CHALLENGE] = {prefix: "C", list: module.challengeQuestionsList};
+					typesList[Question.DISCUSSION] = {prefix: "D", list: module.discussionQuestionsList};
 					
-					var prefix:String;
-					
-					if (question.questionType==Question.WARM_UP) {
-						prefix = "W";
-						list = module.warmupQuestionsList;
+					if (typesList[question.questionType]!=undefined) {
+						var list:Array = typesList[question.questionType].list;
+						var prefix:String = typesList[question.questionType].prefix;
+						
+						var qNum:int;
+						for (qNum=0; qNum<list.length; qNum++) if (list[qNum]==question) break;
+						
+						if (qNum<list.length) {
+							
+							var i:int;
+							
+							if (qNum==0) {
+								// at the beginning of the current section
+								var prevList:Array = [];
+								for (i=1; i<=typesList.length; i++) {
+									prevList = typesList[(question.questionType-i+typesList.length)%typesList.length].list;
+									if (prevList.length!=0) break;
+								}
+								if (prevList.length!=0) _prevQuestion = prevList[prevList.length-1];
+								else _prevQuestion = null;								
+							}
+							else _prevQuestion = list[qNum-1];
+							
+							if (qNum==(list.length-1)) {
+								// at the end of the current section
+								var nextList:Array = [];
+								for (i=1; i<=typesList.length; i++) {
+									nextList = typesList[(question.questionType+i)%typesList.length].list;
+									if (nextList.length!=0) break;
+								}
+								if (nextList.length!=0) _nextQuestion = nextList[0];
+								else _nextQuestion = null;								
+							}
+							else _nextQuestion = list[qNum+1];
+							
+							_questionLink.setText(prefix+String(qNum+1)+" - "+_question.name);
+						}
+						else {
+							Logger.report("question not found in module's list in breadcrumbs");
+							_questionLink.setText(_question.name);
+						}
 					}
-					else if (question.questionType==Question.GENERAL) {
-						prefix = "G";
-						list = module.generalQuestionsList;
+					else {
+						Logger.report("invalid question type encountered in breadcrumbs");
+						_questionLink.setText(_question.name);
 					}
-					else if (question.questionType==Question.CHALLENGE) {
-						prefix = "C";
-						list = module.challengeQuestionsList;
-					}
-					else if (question.questionType==Question.DISCUSSION) {
-						prefix = "D";
-						list = module.discussionQuestionsList;
-					}
-					else list = [];
-					
-					for (i=0; i<list.length; i++) if (list[i]==question) break;
-					
-					if (i<list.length) _questionLink.setText(prefix+String(i+1)+" - "+_question.name);
-					else _questionLink.setText(_question.name);
 					
 					_questionLink.visible = true;
 					
@@ -179,6 +214,10 @@ package astroUNL.classaction.browser.views {
 				_separator1.visible = false;
 				_separator2.visible = false;
 			}
+			
+//			trace("");
+//			trace("prev question: "+((_prevQuestion!=null) ? _prevQuestion.name : "null"));
+//			trace("next question: "+((_nextQuestion!=null) ? _nextQuestion.name : "null"));
 			
 			reposition();
 		}
