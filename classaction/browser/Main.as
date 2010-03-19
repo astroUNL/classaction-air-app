@@ -138,10 +138,11 @@ package astroUNL.classaction.browser {
 			addChild(_nav);
 			
 			_breadcrumbs = new BreadcrumbsBar();
+			_breadcrumbs.addEventListener(BreadcrumbsBar.QUESTION_SELECTED, onQuestionSelected);
 			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULE_SELECTED, onModuleSelected);
 			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULES_LIST_SELECTED, onModulesListSelected);
 			_breadcrumbs.x = 2*_nav.x;
-			_breadcrumbs.y = 5;
+			_breadcrumbs.y = 4;
 			addChild(_breadcrumbs);
 			
 			_resourcePanels = new ResourcePanelsGroup(_readOnly);

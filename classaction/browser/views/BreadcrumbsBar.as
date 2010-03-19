@@ -18,14 +18,18 @@ package astroUNL.classaction.browser.views {
 	
 	public class BreadcrumbsBar extends Sprite {
 		
+		public static const QUESTION_SELECTED:String = "questionSelected";
 		public static const MODULE_SELECTED:String = "moduleSelected";
 		public static const MODULES_LIST_SELECTED:String = "modulesListSelected";
-		
 		
 		protected var _modulesListLink:ClickableText;
 		protected var _moduleLink:ClickableText;
 		protected var _editableModuleLink:EditableClickableText;
 		protected var _questionLink:ClickableText;
+		protected var _questionNum:ClickableText;
+		
+		protected var _prevButton:QuestionNavButton;
+		protected var _nextButton:QuestionNavButton;
 		
 		protected var _separator:String = "»";
 		protected var _separator1:ClickableText;
@@ -33,8 +37,11 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _separatorTextFormat:TextFormat;
 		protected var _linkTextFormat:TextFormat;
+		protected var _questionNumFormat:TextFormat;
 		
+		protected var _questionButtonSpacing:Number = 10;
 		protected var _spacing:Number = 4;
+		protected var _questionNumWidth:Number;
 		
 		protected var _module:Module;
 		protected var _question:Question;
@@ -42,7 +49,8 @@ package astroUNL.classaction.browser.views {
 		public function BreadcrumbsBar() {
 			
 			_linkTextFormat = new TextFormat("Verdana", 12, 0xffffff, true);
-			_separatorTextFormat = new TextFormat("Verdana", 12, 0xffffff, true);
+			_questionNumFormat = new TextFormat("Verdana", 11, 0xffffff, true, null, null, null, null, "center");
+			_separatorTextFormat = new TextFormat("Verdana", 11, 0xffffff, true);
 			
 			_separator1 = new ClickableText(_separator, null, _separatorTextFormat);
 			_separator1.visible = false;
@@ -76,6 +84,34 @@ package astroUNL.classaction.browser.views {
 			_questionLink.setClickable(false);
 			addChild(_questionLink);
 			
+			_questionNum = new ClickableText("888", null, _questionNumFormat);
+			_questionNum.visible = false;
+			_questionNum.setClickable(false);
+			_questionNum.y = 1;
+			addChild(_questionNum);
+			
+			trace(_questionNum.width);
+			
+			// the actual width will vary, but we use this one for constant spacing
+			_questionNumWidth = _questionNum.width;
+			
+//			var midX:Number = _questionNum.height/2;
+			var halfQuestionButtonGap:Number = 1.5;
+			
+			_prevButton = new QuestionNavButton();
+			_prevButton.addEventListener(MouseEvent.CLICK, gotoPrevQuestion);
+			_prevButton.rotation = 90;
+			_prevButton.visible = false;
+			_prevButton.y = _questionNum.height;
+			addChild(_prevButton);
+			
+			_nextButton = new QuestionNavButton();
+			_nextButton.addEventListener(MouseEvent.CLICK, gotoNextQuestion);
+			_nextButton.rotation = -90;
+			_nextButton.visible = false;
+			_nextButton.y = 3;
+			addChild(_nextButton);
+			
 			ResourceContextMenuController.register(_questionLink);
 		}
 		
@@ -94,6 +130,16 @@ package astroUNL.classaction.browser.views {
 
 		protected function onModuleUpdate(evt:Event):void {
 			reposition();			
+		}
+		
+		protected function gotoPrevQuestion(evt:MouseEvent):void {
+			trace("previous question");
+			if (_prevQuestion!=null) dispatchEvent(new MenuEvent(BreadcrumbsBar.QUESTION_SELECTED, _prevQuestion));
+		}
+		
+		protected function gotoNextQuestion(evt:MouseEvent):void {
+			trace("next question");			
+			if (_nextQuestion!=null) dispatchEvent(new MenuEvent(BreadcrumbsBar.QUESTION_SELECTED, _nextQuestion));
 		}
 		
 		protected var _nextQuestion:Question;
@@ -173,17 +219,20 @@ package astroUNL.classaction.browser.views {
 							}
 							else _nextQuestion = list[qNum+1];
 							
-							_questionLink.setText(prefix+String(qNum+1)+" - "+_question.name);
+							_questionNum.setText(prefix+String(qNum+1));
+							_questionNum.visible = true;
 						}
 						else {
-							Logger.report("question not found in module's list in breadcrumbs");
-							_questionLink.setText(_question.name);
+							Logger.report("question not found in module's list in breadcrumbs, module: "+_module.name+", question: "+_question.name);
+							_questionNum.visible = false;
 						}
 					}
 					else {
-						Logger.report("invalid question type encountered in breadcrumbs");
-						_questionLink.setText(_question.name);
+						Logger.report("invalid question type encountered in breadcrumbs, question: "+_question.name+", type: "+String(_question.questionType));
+						_questionNum.visible = false;
 					}
+					
+					_questionLink.setText(_question.name);
 					
 					_questionLink.visible = true;
 					
@@ -196,6 +245,7 @@ package astroUNL.classaction.browser.views {
 				}
 				else {
 					_questionLink.visible = false;
+					_questionNum.visible = false;
 					
 					_moduleLink.setClickable(false);
 					_editableModuleLink.setClickable(false);
@@ -210,10 +260,13 @@ package astroUNL.classaction.browser.views {
 				_moduleLink.visible = false;
 				_editableModuleLink.visible = false;
 				_questionLink.visible = false;
+				_questionNum.visible = false;
 				
 				_separator1.visible = false;
 				_separator2.visible = false;
 			}
+			
+			_prevButton.visible = _nextButton.visible = _questionNum.visible;
 			
 //			trace("");
 //			trace("prev question: "+((_prevQuestion!=null) ? _prevQuestion.name : "null"));
@@ -229,7 +282,15 @@ package astroUNL.classaction.browser.views {
 			if (_module!=null) {
 				if (_module.readOnly) _separator2.x = _moduleLink.x + _moduleLink.width + _spacing;
 				else _separator2.x = _editableModuleLink.x + _editableModuleLink.width + _spacing;
-				_questionLink.x = _separator2.x + _separator2.width + _spacing;
+				
+				var midQNumX:Number = _separator2.x + _separator2.width + _spacing + _questionNumWidth/2;
+				
+				_questionNum.x = midQNumX - _questionNum.width/2;
+				
+				_prevButton.x =  midQNumX;
+				_nextButton.x = midQNumX;
+				
+				_questionLink.x = midQNumX + (_questionNumWidth/2) + _spacing;
 			}
 		}
 		
