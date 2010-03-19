@@ -39,9 +39,9 @@ package astroUNL.classaction.browser.views {
 		protected var _linkTextFormat:TextFormat;
 		protected var _questionNumFormat:TextFormat;
 		
-		protected var _questionButtonSpacing:Number = 10;
 		protected var _spacing:Number = 4;
-		protected var _questionNumWidth:Number;
+		protected var _questionButtonLeftSpacing:Number = 11;
+		protected var _questionButtonRightSpacing:Number = 7;
 		
 		protected var _module:Module;
 		protected var _question:Question;
@@ -49,8 +49,8 @@ package astroUNL.classaction.browser.views {
 		public function BreadcrumbsBar() {
 			
 			_linkTextFormat = new TextFormat("Verdana", 12, 0xffffff, true);
-			_questionNumFormat = new TextFormat("Verdana", 11, 0xffffff, true, null, null, null, null, "center");
-			_separatorTextFormat = new TextFormat("Verdana", 11, 0xffffff, true);
+			_questionNumFormat = new TextFormat("Verdana", 11, 0xC2C5C4, true, null, null, null, null, "center");
+			_separatorTextFormat = new TextFormat("Verdana", 11, 0xC2C5C4, true);
 			
 			_separator1 = new ClickableText(_separator, null, _separatorTextFormat);
 			_separator1.visible = false;
@@ -90,26 +90,21 @@ package astroUNL.classaction.browser.views {
 			_questionNum.y = 1;
 			addChild(_questionNum);
 			
-			trace(_questionNum.width);
-			
-			// the actual width will vary, but we use this one for constant spacing
-			_questionNumWidth = _questionNum.width;
-			
-//			var midX:Number = _questionNum.height/2;
+			var midY:Number = 1 + _questionNum.height/2;
 			var halfQuestionButtonGap:Number = 1.5;
 			
 			_prevButton = new QuestionNavButton();
 			_prevButton.addEventListener(MouseEvent.CLICK, gotoPrevQuestion);
 			_prevButton.rotation = 90;
 			_prevButton.visible = false;
-			_prevButton.y = _questionNum.height;
+			_prevButton.y = midY + halfQuestionButtonGap;
 			addChild(_prevButton);
 			
 			_nextButton = new QuestionNavButton();
 			_nextButton.addEventListener(MouseEvent.CLICK, gotoNextQuestion);
 			_nextButton.rotation = -90;
 			_nextButton.visible = false;
-			_nextButton.y = 3;
+			_nextButton.y = midY - halfQuestionButtonGap;
 			addChild(_nextButton);
 			
 			ResourceContextMenuController.register(_questionLink);
@@ -121,7 +116,6 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onModulesListClicked(evt:Event):void {
 			dispatchEvent(new MenuEvent(BreadcrumbsBar.MODULES_LIST_SELECTED, null));
-			
 		}
 		
 		protected function onModuleClicked(evt:Event):void {
@@ -133,12 +127,10 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function gotoPrevQuestion(evt:MouseEvent):void {
-			trace("previous question");
 			if (_prevQuestion!=null) dispatchEvent(new MenuEvent(BreadcrumbsBar.QUESTION_SELECTED, _prevQuestion));
 		}
 		
 		protected function gotoNextQuestion(evt:MouseEvent):void {
-			trace("next question");			
 			if (_nextQuestion!=null) dispatchEvent(new MenuEvent(BreadcrumbsBar.QUESTION_SELECTED, _nextQuestion));
 		}
 		
@@ -282,15 +274,10 @@ package astroUNL.classaction.browser.views {
 			if (_module!=null) {
 				if (_module.readOnly) _separator2.x = _moduleLink.x + _moduleLink.width + _spacing;
 				else _separator2.x = _editableModuleLink.x + _editableModuleLink.width + _spacing;
-				
-				var midQNumX:Number = _separator2.x + _separator2.width + _spacing + _questionNumWidth/2;
-				
-				_questionNum.x = midQNumX - _questionNum.width/2;
-				
-				_prevButton.x =  midQNumX;
-				_nextButton.x = midQNumX;
-				
-				_questionLink.x = midQNumX + (_questionNumWidth/2) + _spacing;
+				_prevButton.x = _separator2.x + _separator2.width + _questionButtonLeftSpacing;
+				_nextButton.x = _prevButton.x;
+				_questionNum.x = _prevButton.x + _questionButtonRightSpacing;				
+				_questionLink.x = _questionNum.x + _questionNum.width + _spacing;
 			}
 		}
 		

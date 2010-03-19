@@ -84,7 +84,7 @@ package astroUNL.classaction.browser {
 			
 			if (Security.sandboxType==Security.REMOTE) Downloader.init("");
 			else if (_readOnly) Downloader.init("classaction/");
-			else if (Capabilities.isDebugger) Downloader.init("C:/Documents and Settings/Chris/Desktop/astro/classaction/");
+			else if (Capabilities.isDebugger) Downloader.init("C:/Documents and Settings/Chris/Desktop/My Dropbox/shared/astro site/classaction/");
 			else Downloader.init("");
 			
 			_background = new Sprite();

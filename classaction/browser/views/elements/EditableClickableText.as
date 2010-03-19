@@ -160,8 +160,8 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		protected function onFocusIn(evt:FocusEvent):void {
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, false, 0, true);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false, 0, true);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDownFunc, false, 0, true);
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDownFunc, false, 0, true);
 		}
 		
 		protected function onFocusOut(evt:FocusEvent):void {
@@ -170,8 +170,8 @@ package astroUNL.classaction.browser.views.elements {
 			if (_field.text=="") _field.text = _text;
 			setText(_field.text);
 			
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, false);
-			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false);
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDownFunc, false);
+			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDownFunc, false);
 			dispatchEvent(new Event(EditableClickableText.EDIT_DONE));
 			
 			// there's some kind of intermittent bug where underlines persist after editing
@@ -181,11 +181,11 @@ package astroUNL.classaction.browser.views.elements {
 			setEditable(false);
 		}
 		
-		protected function onKeyDown(evt:KeyboardEvent):void {
+		protected function onKeyDownFunc(evt:KeyboardEvent):void {
 			if (evt.keyCode==Keyboard.ENTER) stage.focus = null;
 		}
 		
-		protected function onMouseDown(evt:MouseEvent):void {
+		protected function onMouseDownFunc(evt:MouseEvent):void {
 			if (evt.target!=_field && evt.target!=_halo) stage.focus = null;
 		}
 		
