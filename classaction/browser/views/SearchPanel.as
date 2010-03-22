@@ -153,7 +153,6 @@ package astroUNL.classaction.browser.views {
 			_hitParams = {};
 			_hitFormat = new TextFormat("Verdana", 13, 0xffffff);
 			
-			
 			searchButton.useHandCursor = true;
 			searchButton.setStyle("upSkin", CAB_Button_upSkin);
 			searchButton.setStyle("overSkin", CAB_Button_upSkin);
@@ -165,6 +164,10 @@ package astroUNL.classaction.browser.views {
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
 			redraw();
+		}
+		
+		public function takeFocus():void {
+			stage.focus = searchField;		
 		}
 		
 		protected function onHeightTimer(evt:TimerEvent):void {

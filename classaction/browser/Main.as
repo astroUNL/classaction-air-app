@@ -351,6 +351,7 @@ package astroUNL.classaction.browser {
 			if (_header.selection==HeaderBar.SEARCH) {
 				_popups.hideAllButOne(_searchPopup);
 				_searchPopup.moveTo(Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, true);
+				_search.takeFocus();
 			}
 			else if (_header.selection==HeaderBar.ABOUT) {
 				_popups.hideAllButOne(_aboutPopup);
