@@ -95,16 +95,16 @@ package astroUNL.classaction.browser.views {
 			
 			_prevButton = new QuestionNavButton();
 			_prevButton.addEventListener(MouseEvent.CLICK, gotoPrevQuestion);
-			_prevButton.rotation = 90;
 			_prevButton.visible = false;
-			_prevButton.y = midY + halfQuestionButtonGap;
+			_prevButton.rotation = -90;
+			_prevButton.y = midY - halfQuestionButtonGap;
 			addChild(_prevButton);
 			
 			_nextButton = new QuestionNavButton();
 			_nextButton.addEventListener(MouseEvent.CLICK, gotoNextQuestion);
-			_nextButton.rotation = -90;
 			_nextButton.visible = false;
-			_nextButton.y = midY - halfQuestionButtonGap;
+			_nextButton.rotation = 90;
+			_nextButton.y = midY + halfQuestionButtonGap;
 			addChild(_nextButton);
 			
 			ResourceContextMenuController.register(_questionLink);
