@@ -2,6 +2,9 @@
 package astroUNL.classaction.browser.views {
 	
 	import astroUNL.classaction.browser.views.elements.DropDownMenu;
+	import astroUNL.classaction.browser.resources.Module;
+	import astroUNL.classaction.browser.resources.Question;
+	import astroUNL.classaction.browser.resources.ModulesList;
 	
 	import flash.display.Sprite;
 	import flash.display.Shape;
@@ -10,11 +13,20 @@ package astroUNL.classaction.browser.views {
 	
 	public class HeaderBar extends Sprite {
 		
+		public static const QUESTION_SELECTED:String = "questionSelected";
+		public static const MODULE_SELECTED:String = "moduleSelected";
+		public static const MODULES_LIST_SELECTED:String = "modulesListSelected";
+		
+		public static const MENU_ITEM_SELECTED:String = "menuItemSelected";
+		
 		public static const SEARCH:String = "Search";
 		public static const ABOUT:String = "About";
 		
 		protected var _logoMenu:DropDownMenu;
 		protected var _menusMask:Shape;
+		
+		protected var _navControl:NavButtons;
+		protected var _breadcrumbs:Breadcrumbs;
 		
 		
 		protected var _width:Number;
@@ -26,6 +38,18 @@ package astroUNL.classaction.browser.views {
 	// eventually, width will have to be dynamically settable
 		
 		public function HeaderBar(width:Number) {
+			
+			// the navigation events dispatched by the nav control and breadcrumbs bubble up
+			
+			_navControl = new NavControl();
+			_navControl.x = 25;
+			_navControl.y = 14;
+			addChild(_navControl);
+			
+			_breadcrumbs = new Breadcrumbs();
+			_breadcrumbs.x = 2*_navControl.x;
+			_breadcrumbs.y = 4;
+			addChild(_breadcrumbs);
 			
 			_width = 800; // width
 			_height = 29;
@@ -51,12 +75,25 @@ package astroUNL.classaction.browser.views {
 			redrawMask();
 		}
 		
+		public function setState(module:Module, question:Question):void {
+			_breadcrumbs.setState(module, question);
+			_navControl.setState(module, question);			
+		}
+		
+		public function get modulesList():ModulesList {
+			return _navControl.modulesList;
+		}
+		
+		public function set modulesList(list:ModulesList):void {
+			_navControl.modulesList = list;
+		}	
+		
 		public function get selection():String {
 			return _logoMenu.selection;
 		}
 		
 		protected function onLogoMenuSelection(evt:Event):void {
-			dispatchEvent(new Event(Event.SELECT));				
+			dispatchEvent(new Event(HeaderBar.MENU_ITEM_SELECTED));				
 			_logoMenu.close();
 		}
 		

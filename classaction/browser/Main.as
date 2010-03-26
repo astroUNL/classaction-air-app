@@ -2,6 +2,7 @@
 package astroUNL.classaction.browser {
 	
 	import astroUNL.classaction.browser.events.MenuEvent;
+	import astroUNL.classaction.browser.events.StateChangeRequestEvent;
 	import astroUNL.classaction.browser.resources.ModulesList;
 	import astroUNL.classaction.browser.resources.Module;
 	import astroUNL.classaction.browser.resources.Question;
@@ -12,7 +13,7 @@ package astroUNL.classaction.browser {
 	import astroUNL.classaction.browser.views.ModuleView;
 	import astroUNL.classaction.browser.views.QuestionView;
 	import astroUNL.classaction.browser.views.HeaderBar;
-	import astroUNL.classaction.browser.views.BreadcrumbsBar;
+//	import astroUNL.classaction.browser.views.BreadcrumbsBar;
 	import astroUNL.classaction.browser.views.NavBar;
 	import astroUNL.classaction.browser.views.SearchPanel;
 	import astroUNL.classaction.browser.views.ZipDownloader;
@@ -128,22 +129,23 @@ package astroUNL.classaction.browser {
 			
 			_header = new HeaderBar(stage.stageWidth);
 			_header.visible = false;
-			_header.addEventListener(Event.SELECT, onHeaderSelection);
+			_header.addEventListener(HeaderBar.MENU_ITEM_SELECTED, onHeaderSelection);
+			_header.addEventListener(StateChangeRequestEvent.STATE_CHANGE_REQUESTED, onStateChangeRequested);
 			addChild(_header);
 			
-			_nav = new NavBar();
-			_nav.addEventListener(NavBar.NAV, onNav);
-			_nav.x = 25;
-			_nav.y = 14;
-			addChild(_nav);
+//			_nav = new NavBar();
+//			_nav.addEventListener(NavBar.NAV, onNav);
+//			_nav.x = 25;
+//			_nav.y = 14;
+//			addChild(_nav);
 			
-			_breadcrumbs = new BreadcrumbsBar();
-			_breadcrumbs.addEventListener(BreadcrumbsBar.QUESTION_SELECTED, onQuestionSelected);
-			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULE_SELECTED, onModuleSelected);
-			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULES_LIST_SELECTED, onModulesListSelected);
-			_breadcrumbs.x = 2*_nav.x;
-			_breadcrumbs.y = 4;
-			addChild(_breadcrumbs);
+//			_breadcrumbs = new BreadcrumbsBar();
+//			_breadcrumbs.addEventListener(BreadcrumbsBar.QUESTION_SELECTED, onQuestionSelected);
+//			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULE_SELECTED, onModuleSelected);
+//			_breadcrumbs.addEventListener(BreadcrumbsBar.MODULES_LIST_SELECTED, onModulesListSelected);
+//			_breadcrumbs.x = 2*_nav.x;
+//			_breadcrumbs.y = 4;
+//			addChild(_breadcrumbs);
 			
 			_resourcePanels = new ResourcePanelsGroup(_readOnly);
 			_resourcePanels.x = 0;
@@ -179,6 +181,8 @@ package astroUNL.classaction.browser {
 		}
 		
 		protected var _mask:Shape;
+		
+		
 		
 		protected function onPreviewItemChanged(evt:Event):void {
 			var item:ResourceItem = _resourcePanels.previewItem;
@@ -309,7 +313,8 @@ package astroUNL.classaction.browser {
 				
 				_zipDownloader.modulesList = _modulesList;
 				
-				_nav.modulesList = _modulesList;
+//				_nav.modulesList = _modulesList;
+				_header.modulesList = _modulesList;
 
 				ResourceContextMenuController.modulesList = _modulesList;
 				
@@ -369,6 +374,14 @@ package astroUNL.classaction.browser {
 			}			
 		}
 		
+		
+		protected function onStateChangeRequested(evt:StateChangeRequestEvent):void {
+			trace("onStateChangeRequested");
+			trace(" module: "+evt.module);
+			trace(" question: "+evt.question);
+			setView(evt.module, evt.question);			
+		}
+		
 		protected function onModulesListSelected(evt:Event):void {
 			setView(null, null);
 		}
@@ -385,9 +398,10 @@ package astroUNL.classaction.browser {
 			setView(_search.selectedModule, _search.selectedQuestion);
 		}
 		
-		protected function onNav(evt:Event):void {
-			setView(_nav.module, _nav.question);			
-		}
+		
+//		protected function onNav(evt:Event):void {
+//			setView(_nav.module, _nav.question);			
+//		}
 		
 		protected var _selectedModule:Module;
 		protected var _selectedQuestion:Question;
@@ -426,9 +440,11 @@ package astroUNL.classaction.browser {
 			_questionView.question = _selectedQuestion;
 			
 			_resourcePanels.setState(_selectedModule, _selectedQuestion);
-			_breadcrumbs.setState(_selectedModule, _selectedQuestion);
+//			_breadcrumbs.setState(_selectedModule, _selectedQuestion);
 			
-			_nav.setState(_selectedModule, _selectedQuestion);
+			_header.setState(_selectedModule, _selectedQuestion);
+			
+//			_nav.setState(_selectedModule, _selectedQuestion);
 
 			ResourceContextMenuController.setState(_selectedModule, _selectedQuestion);
 			
@@ -445,8 +461,8 @@ package astroUNL.classaction.browser {
 		protected var _moduleView:ModuleView;
 		protected var _questionView:QuestionView;
 		protected var _header:HeaderBar;
-		protected var _breadcrumbs:BreadcrumbsBar;
-		protected var _nav:NavBar;
+//		protected var _breadcrumbs:BreadcrumbsBar;
+//		protected var _nav:NavBar;
 		protected var _search:SearchPanel;
 		protected var _popups:PopupManager;
 		

@@ -552,6 +552,9 @@ package astroUNL.classaction.browser.resources {
 			return _loadFinished;
 		}
 		
+		override public function toString():String {
+			return _name + " (Module)";
+		}
 	}
 }
 
