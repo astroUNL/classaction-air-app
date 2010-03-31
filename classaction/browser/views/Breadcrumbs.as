@@ -16,12 +16,9 @@ package astroUNL.classaction.browser.views {
 	import flash.text.TextField;
 	import flash.events.MouseEvent;
 	import flash.events.Event;
+	import flash.geom.Matrix;
 	
 	public class Breadcrumbs extends Sprite {
-		
-//		public static const QUESTION_SELECTED:String = "questionSelected";
-//		public static const MODULE_SELECTED:String = "moduleSelected";
-//		public static const MODULES_LIST_SELECTED:String = "modulesListSelected";
 		
 		protected var _modulesListLink:ClickableText;
 		protected var _moduleLink:ClickableText;
@@ -61,7 +58,11 @@ package astroUNL.classaction.browser.views {
 			addChild(_content);
 			
 			_mask = new Shape();
+			_mask.cacheAsBitmap = true;
 			addChild(_mask);
+			
+			cacheAsBitmap = true;
+			mask = _mask;
 			
 			_separator1 = new ClickableText(_separator, null, _separatorTextFormat);
 			_separator1.visible = false;
@@ -124,6 +125,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _maxWidth:Number = 0;
 		protected var _maxWidthLimit:Number = 5000;
+		protected var _fadeoutDistance:Number = 25;
 		
 		public function get maxWidth():Number {
 			return _maxWidth;
@@ -138,9 +140,23 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function redrawMask():void {
+			
 			_mask.graphics.clear();
-			_mask.graphics.beginFill(0xffff00, 0.3);
-			_mask.graphics.drawRect(0, -5, Math.min(_maxWidth, _maxWidthLimit), 10);
+			
+			var w:Number = Math.min(_maxWidth, _maxWidthLimit);
+			var fx:Number = Math.floor(_maxWidth - _fadeoutDistance);
+			var h:Number = _questionLink.height + 20;			
+			var m:Matrix = new Matrix();
+			m.createGradientBox(_fadeoutDistance, h, 0, fx, 0);
+			
+			// draw the solid part
+			_mask.graphics.beginFill(0x00ff00);
+			_mask.graphics.drawRect(0, _questionLink.y-10, fx, h);
+			_mask.graphics.endFill();
+			
+			// draw the fadeout part
+			_mask.graphics.beginGradientFill("linear", [0x00ff00, 0x00ff00], [1, 0], [0, 0xff], m);
+			_mask.graphics.drawRect(fx, _questionLink.y-10, _fadeoutDistance, h);
 			_mask.graphics.endFill();
 		}
 		
@@ -150,12 +166,10 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onModulesListClicked(evt:Event):void {
 			dispatchEvent(new StateChangeRequestEvent(null, null, true));
-//			dispatchEvent(new MenuEvent(BreadcrumbsBar.MODULES_LIST_SELECTED, null));
 		}
 		
 		protected function onModuleClicked(evt:Event):void {
 			if (_module!=null) dispatchEvent(new StateChangeRequestEvent(_module, null, true));
-//			if (_module!=null) dispatchEvent(new MenuEvent(BreadcrumbsBar.MODULE_SELECTED, _module));
 		}
 
 		protected function onModuleUpdate(evt:Event):void {
@@ -164,12 +178,10 @@ package astroUNL.classaction.browser.views {
 		
 		protected function gotoPrevQuestion(evt:MouseEvent):void {
 			if (_prevQuestion!=null) dispatchEvent(new StateChangeRequestEvent(_module, _prevQuestion, true));
-//			if (_prevQuestion!=null) dispatchEvent(new MenuEvent(BreadcrumbsBar.QUESTION_SELECTED, _prevQuestion));
 		}
 		
 		protected function gotoNextQuestion(evt:MouseEvent):void {
 			if (_nextQuestion!=null) dispatchEvent(new StateChangeRequestEvent(_module, _nextQuestion, true));
-//			if (_nextQuestion!=null) dispatchEvent(new MenuEvent(BreadcrumbsBar.QUESTION_SELECTED, _nextQuestion));
 		}
 		
 		protected var _nextQuestion:Question;
@@ -298,10 +310,6 @@ package astroUNL.classaction.browser.views {
 			}
 			
 			_prevButton.visible = _nextButton.visible = _questionNum.visible;
-			
-//			trace("");
-//			trace("prev question: "+((_prevQuestion!=null) ? _prevQuestion.name : "null"));
-//			trace("next question: "+((_nextQuestion!=null) ? _nextQuestion.name : "null"));
 			
 			reposition();
 		}

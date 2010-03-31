@@ -34,8 +34,6 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _logoMenuWidth:Number = 80;
 		
-	// eventually, width will have to be dynamically settable
-		
 		public function HeaderBar(width:Number) {
 			
 			// the navigation events dispatched by the nav control and breadcrumbs bubble up
@@ -100,7 +98,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected function redrawMask():void {
 			_menusMask.graphics.clear();
-			_menusMask.graphics.beginFill(0xffff80, 0.2);
+			_menusMask.graphics.beginFill(0xffff80);
 			_menusMask.graphics.drawRect(0, _height, _width, _dropLimit);
 			_menusMask.graphics.endFill();
 		}
@@ -122,11 +120,8 @@ package astroUNL.classaction.browser.views {
 			_width = arg;
 			logo.x = _width - 80;
 			_logoMenu.x = logo.x;
+			_breadcrumbs.maxWidth = logo.x - _breadcrumbs.x;
 			redrawMask();
-			
-			
-			trace("setting header width to "+arg);
-			//
 		}
 		
 	}	

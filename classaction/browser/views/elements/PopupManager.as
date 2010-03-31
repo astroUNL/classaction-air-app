@@ -40,7 +40,7 @@ package astroUNL.classaction.browser.views.elements {
 		
 		public function set bounds(b:Rectangle):void {
 			_bounds = b;
-			for each (var popup:PopupWindow in _popups) popup.keepInBounds();			
+			for each (var popup:PopupWindow in _popups) popup.keepInBounds(popup.isOpen);
 		}
 	}
 	

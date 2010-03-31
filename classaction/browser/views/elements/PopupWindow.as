@@ -172,6 +172,14 @@ package astroUNL.classaction.browser.views.elements {
 			evt.updateAfterEvent();
 		}
 		
+		public function get isOpen():Boolean {
+			return visible;
+		}
+		
+		public function set isOpen(arg:Boolean):void {
+			visible = arg;
+		}
+		
 		public function open(evt:Event=null):void {
 			visible = true;
 		}

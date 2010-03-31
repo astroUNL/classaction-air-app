@@ -31,7 +31,7 @@ package astroUNL.classaction.browser.views {
 		protected var _tabOffset:Number;
 		
 		public function ResourcePanelsGroup(readOnly:Boolean) {
-			_readOnly = readOnly;						
+			_readOnly = readOnly;
 		}
 		
 		public function get previewItem():ResourceItem {
@@ -61,6 +61,19 @@ package astroUNL.classaction.browser.views {
 			if (ImagesBank.total>0) addPanel(ResourcePanel.IMAGES);
 			if (OutlinesBank.total>0) addPanel(ResourcePanel.OUTLINES);
 			if (TablesBank.total>0) addPanel(ResourcePanel.TABLES);
+		}
+		
+		public function get panelWidths():Number {
+			return _panelWidth;
+		}
+		
+import flash.utils.getTimer;
+		public function set panelWidths(arg:Number):void {
+			var startTimer:Number = getTimer();
+			_panelWidth = arg;
+			if (_halo!=null) _halo.width = _panelWidth;
+			for each (var panel:ResourcePanel in _panelsList) panel.panelWidth = _panelWidth;
+			trace("set panelWidths, "+(getTimer()-startTimer));
 		}
 		
 		protected function addPanel(type:String):void {
