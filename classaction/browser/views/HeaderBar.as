@@ -25,12 +25,11 @@ package astroUNL.classaction.browser.views {
 		protected var _logoMenu:DropDownMenu;
 		protected var _menusMask:Shape;
 		
-		protected var _navControl:NavButtons;
+		protected var _navControl:NavControl;
 		protected var _breadcrumbs:Breadcrumbs;
-		
-		
-		protected var _width:Number;
-		protected var _height:Number;
+				
+		protected var _width:Number = 800;
+		protected const _height:Number = 29;
 		protected var _dropLimit:Number = 1600;
 		
 		protected var _logoMenuWidth:Number = 80;
@@ -51,9 +50,6 @@ package astroUNL.classaction.browser.views {
 			_breadcrumbs.y = 4;
 			addChild(_breadcrumbs);
 			
-			_width = 800; // width
-			_height = 29;
-			
 			_menusMask = new Shape();
 			addChild(_menusMask);
 			
@@ -62,7 +58,6 @@ package astroUNL.classaction.browser.views {
 			_logoMenu = new DropDownMenu(_logoMenuWidth);
 			_logoMenu.addSelection(HeaderBar.SEARCH);
 			_logoMenu.addSelection(HeaderBar.ABOUT);
-			_logoMenu.x = logo.x;
 			_logoMenu.y = _height;
 			_logoMenu.addEventListener(Event.SELECT, onLogoMenuSelection);
 			addChild(_logoMenu);
@@ -71,6 +66,8 @@ package astroUNL.classaction.browser.views {
 			
 			logo.buttonMode = true;
 			logo.addEventListener(MouseEvent.CLICK, onLogoClicked);
+			
+			this.width = width;
 			
 			redrawMask();
 		}
@@ -103,7 +100,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected function redrawMask():void {
 			_menusMask.graphics.clear();
-			_menusMask.graphics.beginFill(0xffff80);
+			_menusMask.graphics.beginFill(0xffff80, 0.2);
 			_menusMask.graphics.drawRect(0, _height, _width, _dropLimit);
 			_menusMask.graphics.endFill();
 		}
@@ -120,7 +117,15 @@ package astroUNL.classaction.browser.views {
 			return _width;			
 		}
 		
-		override public function set width(arg:Number):void {
+		override public function set width(arg:Number):void {			
+			background.width = arg;
+			_width = arg;
+			logo.x = _width - 80;
+			_logoMenu.x = logo.x;
+			redrawMask();
+			
+			
+			trace("setting header width to "+arg);
 			//
 		}
 		

@@ -26,13 +26,17 @@ package astroUNL.classaction.browser.views {
 		protected var _modulesList:ModulesList;
 		protected var _id:int = 0; // assigns unique numbers to queue items, for debugging
 		
+		// setStateCalled is a flag used to verify that setState gets called during a nav event -- if it
+		// doesn't, then a queue panic occurs
+		protected var _setStateCalled:Boolean = false; 
+		
 		public function NavControl() {
 			
 			var shift:Number = 6.5;
 			
 			_back = new NavButton();
-			_back.rotation = 180;
 			_back.addEventListener(MouseEvent.CLICK, onBack);
+			_back.rotation = 180;
 			_back.x = -shift;
 			addChild(_back);
 			
@@ -41,10 +45,22 @@ package astroUNL.classaction.browser.views {
 			_forward.x = shift;
 			addChild(_forward);
 			
-			update();
+			updateButtons();
 		}
 		
-		protected var _setStateCalled:Boolean = false;
+		protected function updateButtons():void {
+			// this function updates the buttons so that they are appropriately enabled or
+			// disabled depending on where we are in the queue
+			// it should be called whenever the currently selected item is set
+			if (_currItem==null) {
+				_forward.enabled = false;
+				_back.enabled = false;
+			}
+			else {
+				_forward.enabled = (_currItem.next!=null);
+				_back.enabled = (_currItem.prev!=null);
+			}
+		}
 		
 		public function setState(module:Module, question:Question):void {
 			// called by the main controller when the state has changed
@@ -59,16 +75,18 @@ package astroUNL.classaction.browser.views {
 				else {
 					// a successful navigation
 					_currItem = _navItem;
-					update();
 				}
 			}
 			else {
 				// a new state
 				addNewStateToQueue(module, question);
 			}
+			enforceLengthLimit();
+			updateButtons();
 		}
 		
 		protected function addNewStateToQueue(module:Module, question:Question):void {
+			// this function adds a new state to the queue and makes it the selected item
 			var item:NavItem;
 			item = new NavItem();
 			item.module = module;
@@ -80,15 +98,6 @@ package astroUNL.classaction.browser.views {
 				item.prev = _currItem;
 			}
 			_currItem = item;
-			enforceLengthLimit();
-			update();
-		}
-		
-		protected function panic():void {
-			Logger.report("queue panic in NavButtons");
-			_currItem = null;
-			_navItem = _currItem; // this step prevents a redundant panic call in doNav
-			update();			
 		}
 		
 		public function get modulesList():ModulesList {
@@ -103,38 +112,6 @@ package astroUNL.classaction.browser.views {
 			_modulesList.addEventListener(ModulesList.UPDATE, onModuleListUpdate);
 			onModuleListUpdate();
 		}
-		
-		protected function update():void {
-			// this function updates the buttons so that they are appropriately enabled or
-			// disabled depending on where we are in the queue
-			// it should be called whenever the currently selected item is set
-			if (_currItem==null) {
-				_forward.enabled = false;
-				_back.enabled = false;
-			}
-			else {
-				_forward.enabled = (_currItem.next!=null);
-				_back.enabled = (_currItem.prev!=null);
-			}
-		}
-		
-//		protected function traceQueue():void {
-//			if (_currItem!=null) {
-//				trace("queue:");
-//				var item:NavItem = _currItem;
-//				var moduleName:String, questionName:String;
-//				while (item.prev!=null) item = item.prev;
-//				var pre:String;
-//				do {
-//					pre = (item==_currItem) ? " +" : "  ";
-//					moduleName = (item.module!=null) ? item.module.name : "null";
-//					questionName = (item.question!=null) ? item.question.name : "null";
-//					trace(pre+" "+item.id+", "+moduleName+", "+questionName);
-//					item = item.next;
-//				} while (item!=null);
-//			}
-//			else trace("queue:\r ...empty...");
-//		}
 		
 		protected function onBack(evt:MouseEvent):void {
 			if (_currItem!=null && _currItem.prev!=null) doNav(_currItem.prev);
@@ -216,13 +193,14 @@ package astroUNL.classaction.browser.views {
 		protected function doNav(item:NavItem):void {
 			// this function is called when the currently selected item needs to change
 			// (it is up to the Main controller to actually call setState)
+			// due to how prune is programmed, if setState is not called then we need to reset the queue (panic)
 			_setStateCalled = false;
 			_navInProgress = true;
 			_navItem = item;
 			if (_navItem!=null) dispatchEvent(new StateChangeRequestEvent(_navItem.module, _navItem.question, true));
 			else dispatchEvent(new StateChangeRequestEvent(null, null));
 			_navInProgress = false;
-			if (!_setStateCalled) panic(); // this class can not tolerate having its requests ignored (due to how prune works)
+			if (!_setStateCalled) panic(); 
 		}
 		
 		// a very long queue can cause the prune function to take a lot of time, so a limit is useful 
@@ -319,6 +297,31 @@ package astroUNL.classaction.browser.views {
 				item = prev;
 			}			
 		}
+		
+		protected function panic():void {
+			Logger.report("queue panic in NavButtons");
+			_currItem = null;
+			_navItem = _currItem; // this step prevents a redundant panic call in doNav
+			updateButtons();			
+		}
+		
+//		protected function traceQueue():void {
+//			if (_currItem!=null) {
+//				trace("queue:");
+//				var item:NavItem = _currItem;
+//				var moduleName:String, questionName:String;
+//				while (item.prev!=null) item = item.prev;
+//				var pre:String;
+//				do {
+//					pre = (item==_currItem) ? " +" : "  ";
+//					moduleName = (item.module!=null) ? item.module.name : "null";
+//					questionName = (item.question!=null) ? item.question.name : "null";
+//					trace(pre+" "+item.id+", "+moduleName+", "+questionName);
+//					item = item.next;
+//				} while (item!=null);
+//			}
+//			else trace("queue:\r ...empty...");
+//		}
 		
 	}	
 }

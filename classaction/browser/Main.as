@@ -36,7 +36,8 @@ package astroUNL.classaction.browser {
 	import flash.geom.Rectangle;
 	import flash.system.Security;
 	import flash.system.Capabilities;
-	
+	import flash.display.StageScaleMode;
+	import flash.display.StageAlign;
 	
 	import flash.utils.Dictionary;
 	import flash.net.SharedObject;
@@ -111,8 +112,8 @@ package astroUNL.classaction.browser {
 			addChild(_moduleView);
 			
 			_questionView = new QuestionView();
-			_questionView.x = 10;
-			_questionView.y = 40;
+			_questionView.x = 0;
+			// set y position after header is loaded
 			addChild(_questionView);
 			
 			_popups = new PopupManager();
@@ -132,6 +133,9 @@ package astroUNL.classaction.browser {
 			_header.addEventListener(HeaderBar.MENU_ITEM_SELECTED, onHeaderSelection);
 			_header.addEventListener(StateChangeRequestEvent.STATE_CHANGE_REQUESTED, onStateChangeRequested);
 			addChild(_header);
+			
+			_questionView.y = _header.height;
+			_questionView.setMaxDimensions(stage.stageWidth, stage.stageHeight-_header.height);
 			
 //			_nav = new NavBar();
 //			_nav.addEventListener(NavBar.NAV, onNav);
@@ -168,21 +172,54 @@ package astroUNL.classaction.browser {
 			addChild(_zipDownloader);
 			
 			_mask = new Shape();
-			_mask.graphics.beginFill(0xff0000, 0.5);
-			_mask.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
-			_mask.graphics.endFill();
-			
 			mask = _mask;
 			
-			_background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
-			_background.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
-			_background.graphics.endFill();
+			onStageResized();
 			
+			stage.align = StageAlign.TOP_LEFT;
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.addEventListener(Event.RESIZE, onStageResized);
 		}
 		
 		protected var _mask:Shape;
 		
+		protected const _minWidth:Number = 640;
+		protected const _minHeight:Number = 452;
 		
+		protected function onStageResized(evt:Event=null):void {
+			
+			trace("stage resized, "+stage.stageWidth+", "+stage.stageHeight);
+			
+			var windowWidth:Number = Math.max(stage.stageWidth, _minWidth);
+			var windowHeight:Number = Math.max(stage.stageHeight, _minHeight);
+			
+			stage.stageWidth = windowWidth;
+			stage.stageHeight = windowHeight;
+			
+			_header.width = windowWidth;
+			_resourcePanels.y = windowHeight;
+			
+			// redraw the mask
+			_mask.graphics.clear();
+			_mask.graphics.beginFill(0xff0000, 0.5);
+			_mask.graphics.drawRect(0, 0, windowWidth, windowHeight);
+			_mask.graphics.endFill();
+			
+			// redraw the background
+			_background.graphics.clear();
+			_background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
+			_background.graphics.drawRect(0, 0, windowWidth, windowHeight);
+			_background.graphics.endFill();
+						
+			_questionView.setMaxDimensions(windowWidth, windowHeight-_header.height);
+			
+			_questionView.x = 0;
+			_questionView.y = _header.height;
+			
+			var popupsTop:Number = _header.height + _popupsMargin;
+			var popupsVRange:Number = windowHeight - popupsTop - _resourcePanels.maxTabHeight - _popupsMargin - _searchPopup.titlebarHeight; 
+			_popups.bounds = new Rectangle(_popupsMargin, popupsTop, windowWidth-2*_popupsMargin, popupsVRange);
+		}		
 		
 		protected function onPreviewItemChanged(evt:Event):void {
 			var item:ResourceItem = _resourcePanels.previewItem;
