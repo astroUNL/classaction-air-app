@@ -125,7 +125,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _maxWidth:Number = 0;
 		protected var _maxWidthLimit:Number = 5000;
-		protected var _fadeoutDistance:Number = 25;
+		protected var _fadeoutDistance:Number = 10;
 		
 		public function get maxWidth():Number {
 			return _maxWidth;

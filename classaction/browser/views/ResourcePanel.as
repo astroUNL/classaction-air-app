@@ -66,7 +66,6 @@ package astroUNL.classaction.browser.views {
 		protected var _emptyMessage:Sprite;
 		protected var _emptyCustomModuleMessage:Sprite;
 		protected var _emptyReadOnlyModuleMessage:Sprite;
-		protected var _toggleShowAllText:ClickableText;
 			
 		protected var _panelWidth:Number;
 		protected var _panelHeight:Number;
@@ -98,16 +97,13 @@ package astroUNL.classaction.browser.views {
 		protected var _headingMinLeftOver:Number = 25;
 		protected var _itemLeftMargin:Number = 4;
 		protected var _itemBottomMargin:Number = 2;
-		protected var _itemMinLeftOver:Number = -2;
+		protected var _itemMinLeftOver:Number = 2;
 		
 		protected var _closeButtonY:Number = 18;
 		protected var _closeButtonX:Number;
 		
 		protected var _pageNumX:Number;
 		protected var _pageNumY:Number = 19;
-		
-		protected var _toggleShowAllX:Number = 12;
-		protected var _toggleShowAllY:Number = 19;
 		
 		protected var _pageDescriptionX:Number = 12;
 		protected var _pageDescriptionY:Number = 19;
@@ -139,6 +135,10 @@ package astroUNL.classaction.browser.views {
 		protected var _tabDefaultHeight:Number;
 		
 		protected var _selectedOptionGlow:GlowFilter;
+		
+		override public function toString():String {
+			return "[ResourcePanel for "+_typeCapped+"]";
+		}
 		
 		public function ResourcePanel(group:ResourcePanelsGroup, type:String, panelWidth:Number, panelHeight:Number, readOnly:Boolean) {
 			
@@ -194,56 +194,34 @@ package astroUNL.classaction.browser.views {
 			_panesParams = {topMargin: 0, leftMargin: 0, rightMargin: 0, bottomMargin: 0, columnSpacing: _columnSpacing, numColumns: _numColumns};
 			
 			_panes = new ScrollableLayoutPanes(_panesWidth, _panesHeight, _navButtonSpacing, _navButtonSpacing, _panesParams);
-//			_panes.x = 2*_navButtonSpacing;
-//			_panes.y = _panesTopMargin;
 			addChild(_panes);
 			
 			_leftButton = new ResourcePanelNavButton();
-//			_leftButton.x = _navButtonSpacing;
-//			_leftButton.y = _panelHeight/2;
 			_leftButton.scaleX = -1;
 			_leftButton.addEventListener(MouseEvent.CLICK, onLeftButtonClicked, false, 0, true);
 			_leftButton.visible = false;
 			addChild(_leftButton);
 			
 			_rightButton = new ResourcePanelNavButton();
-//			_rightButton.y = _panelHeight/2;
 			_rightButton.addEventListener(MouseEvent.CLICK, onRightButtonClicked, false, 0, true);
 			_rightButton.visible = false;
 			addChild(_rightButton);
-			
-			
-			
-			
 			
 			_relevantStar = new RelevantStar();
 			
 			_pageNum = new TextField();
 			_pageNum.width = 0;
 			_pageNum.height = 0;
-//			_pageNum.x = _pageNumX;
-//			_pageNum.y = _pageNumY;
 			_pageNum.autoSize = "right";
 			_pageNum.selectable = false;
 			_pageNum.embedFonts = true;
 			_pageNum.defaultTextFormat = _pageNumFormat;
 			addChild(_pageNum);
-			
-// !!! remove the toggle if decide to keep page description method
-			_toggleShowAllText = new ClickableText("show all", null, _toggleShowAllFormat);
-			_toggleShowAllText.addEventListener(ClickableText.ON_CLICK, onToggleShowAll, false, 0, true);
-			_toggleShowAllText.visible = false;
-_toggleShowAllText.alpha = 0;
-//			_toggleShowAllText.x = _toggleShowAllX;
-//			_toggleShowAllText.y = _toggleShowAllY - _toggleShowAllText.height/2;
-			addChild(_toggleShowAllText);
-			
+						
 			var ct:ClickableText;
 			var tf:TextField;
 			
 			_pageDescription = new Sprite();
-//			_pageDescription.x = _pageDescriptionX;
-//			_pageDescription.y = _pageDescriptionY;
 			_showingText = new TextField();
 			_showingText.width = 0;
 			_showingText.height = 0;
@@ -256,19 +234,13 @@ _toggleShowAllText.alpha = 0;
 			_pageDescription.addChild(_showingText);
 			_showAllText = new ClickableText("all "+_type, null, _showOptionSelectedFormat);
 			_showAllText.addEventListener(ClickableText.ON_CLICK, onShowAll, false, 0, true);
-//			_showAllText.x = tf.x + tf.width + 8;
-//			_showAllText.y = -_showAllText.height/2;
 			_pageDescription.addChild(_showAllText);
 			_showModuleText = new ClickableText("a", null, _showOptionSelectedFormat);
 			_showModuleText.addEventListener(ClickableText.ON_CLICK, onShowModule, false, 0, true);
-//			_showModuleText.x = _showAllText.x + _showAllText.width + 10;			
-//			_showModuleText.y = -_showModuleText.height/2;
 			_pageDescription.addChild(_showModuleText);
 			addChild(_pageDescription);
 			
 			_closeButton = new ResourcePanelCloseButton();
-//			_closeButton.x = _closeButtonX;
-//			_closeButton.y = _closeButtonY;
 			_closeButton.addEventListener(MouseEvent.CLICK, onCloseButtonClicked, false, 0, true);
 			_closeButton.useHandCursor = true;
 			_closeButton.buttonMode = true;
@@ -286,8 +258,6 @@ _toggleShowAllText.alpha = 0;
 			tf.text = "there are no " + type;
 			tf.y = -tf.height;
 			_emptyMessage.addChild(tf);
-//			_emptyMessage.x = _emptyMessageX;
-//			_emptyMessage.y = _emptyMessageY;
 			addChild(_emptyMessage);
 			
 			_emptyCustomModuleMessage = new Sprite();
@@ -297,8 +267,6 @@ _toggleShowAllText.alpha = 0;
 			ct.x = -ct.width/2;
 			ct.y = -ct.height/2;
 			_emptyCustomModuleMessage.addChild(ct);
-//			_emptyCustomModuleMessage.x = _emptyMessageX;
-//			_emptyCustomModuleMessage.y = _emptyMessageY;
 			addChild(_emptyCustomModuleMessage);
 			
 			_emptyReadOnlyModuleMessage = new Sprite();
@@ -308,8 +276,6 @@ _toggleShowAllText.alpha = 0;
 			ct.x = -ct.width/2;
 			ct.y = -ct.height/2;
 			_emptyReadOnlyModuleMessage.addChild(ct);
-//			_emptyReadOnlyModuleMessage.x = _emptyMessageX;
-//			_emptyReadOnlyModuleMessage.y = _emptyMessageY;
 			addChild(_emptyReadOnlyModuleMessage);
 			
 			_typeCapped = getFirstCapped(type);
@@ -335,13 +301,11 @@ _toggleShowAllText.alpha = 0;
 		}
 		
 		protected function onShowAll(evt:Event):void {
-//			trace("onShowAll");
 			_showAll = true;
 			redraw();
 		}
 		
 		protected function onShowModule(evt:Event):void {
-//			trace("onShowModule");
 			_showAll = false;
 			redraw();
 		}
@@ -419,7 +383,6 @@ _toggleShowAllText.alpha = 0;
 		}
 		
 		public function setTabOffset(tabOffset:Number):void {
-			//trace("setting tabOffset: "+tabOffset+", "+_type);
 			_tabOffset = tabOffset;
 			redrawTitle();
 			redrawBackground();
@@ -456,8 +419,6 @@ _toggleShowAllText.alpha = 0;
 			else {
 				_titleStar.visible = false;
 			}
-			
-			//trace("tabOffset: "+_tabOffset+", "+_type);
 		}
 		
 		public function get tabHeight():Number {
@@ -473,6 +434,7 @@ _toggleShowAllText.alpha = 0;
 		}
 		
 		public function set inFront(arg:Boolean):void {
+			if (arg && !_inFront) redraw();
 			_inFront = arg;
 			if (_inFront) {
 				_tab.gotoAndStop("inFront");
@@ -520,7 +482,7 @@ _toggleShowAllText.alpha = 0;
 				// for each resource in a module create a ClickableText object if it does not already exist
 				for (j=0; j<list.length; j++) {
 					if (prepObj.links[list[j].id]==undefined) {
-						prepObj.links[list[j].id] = new ClickableText(list[j].name, {item: list[j]}, _itemFormat, _panes.columnWidth);
+						prepObj.links[list[j].id] = new ClickableText(list[j].name, {item: list[j]}, _itemFormat, _panes.columnWidth-_itemLeftMargin);
 						ResourceContextMenuController.register(prepObj.links[list[j].id]);
 						prepObj.links[list[j].id].addEventListener(MouseEvent.MOUSE_OVER, onItemMouseOver, false, 0, true);
 						prepObj.links[list[j].id].addEventListener(MouseEvent.MOUSE_OUT, onItemMouseOut, false, 0, true);
@@ -534,22 +496,30 @@ _toggleShowAllText.alpha = 0;
 		
 		protected function adjustResourceLinkWidths():void {
 			for each (var module:Object in _preparedTextItems) {
+				module.heading.width = _panes.columnWidth;
+				module.contHeading.width = _panes.columnWidth;
 				for each (var link:ClickableText in module.links) {
-					link.setWidth(_panes.columnWidth);
+					link.setWidth(_panes.columnWidth-_itemLeftMargin);
 				}				
 			}
 		}
 		
-
+		
+		protected var _oldPaneNum:int = -1;
+		
+	import flash.utils.getTimer;
+		
 		protected function redraw():void {
+			var startTimer:Number = getTimer();
 			
+			if (_needToDoPanelWidthAdjustments) doPanelWidthAdjustments();
 			
 			prepareTextItems();
 			
-			var oldPaneNum:int = _panes.paneNum;
+			if (_oldPaneNum<0) _oldPaneNum = _panes.paneNum;
 			
 			_panes.reset();
-			
+						
 			var i:int, j:int;
 			var module:Module;
 			var list:Array;
@@ -581,7 +551,7 @@ _toggleShowAllText.alpha = 0;
 							if (!addedOk) {
 								if (_panes.getColumnNum()==_numColumns) {
 									_panes.advanceColumn();
-									_panes.addContent(preparedModuleItems.contHeading, headingParams);								
+									_panes.addContent(preparedModuleItems.contHeading, headingParams);		
 								}
 								_panes.addContent(preparedModuleItems.links[list[j].id], itemParams);
 							}
@@ -644,14 +614,7 @@ _toggleShowAllText.alpha = 0;
 					else _emptyCustomModuleMessage.visible = true;
 				}				
 			}		
-			
-			if (_selectedModule!=null) {
-				_toggleShowAllText.visible = true;
-				if (_showAll) _toggleShowAllText.setText("click here to show "+_type+" for "+_selectedModule.name);
-				else _toggleShowAllText.setText("click here to show all "+_type);
-			}
-			else _toggleShowAllText.visible = false;
-			
+						
 			if (_selectedModule!=null) {
 				_showModuleText.visible = true;
 				if (_showAll) {
@@ -690,9 +653,13 @@ _toggleShowAllText.alpha = 0;
 			
 			_leftButton.visible = _rightButton.visible = (_panes.numPanes>1);
 			
-			_panes.paneNum = oldPaneNum;
+			if (_oldPaneNum>=_panes.numPanes) _oldPaneNum = _panes.numPanes - 1;
+			_panes.paneNum = _oldPaneNum;
+			_oldPaneNum = -1;
 			
 			refreshPageNum();			
+			
+			trace("redraw: "+(getTimer()-startTimer)+", "+_type);
 		}
 		
 		protected var _totalItemsShown:int;
@@ -739,13 +706,21 @@ _toggleShowAllText.alpha = 0;
 		}
 		
 		public function set panelWidth(arg:Number):void {			
+			if (_panelWidth==arg) return;
 			_panelWidth = arg;			
+			_needToDoPanelWidthAdjustments = true;
+			if (_inFront) redraw();
+		}
+		
+		protected var _needToDoPanelWidthAdjustments:Boolean = true;
+		
+		protected function doPanelWidthAdjustments():void {
+			_oldPaneNum = _panes.paneNum;
 			refreshLayout();
 			_panes.reset(); // gets called again in redraw but needs to be called here as well so that _panes.columnWidth get recalculated
-			adjustResourceLinkWidths();			
-			redraw();
+			adjustResourceLinkWidths();
 			redrawBackground();
-			refreshPageNum();			
+			_needToDoPanelWidthAdjustments = false;
 		}
 		
 		protected function refreshLayout():void {
@@ -769,8 +744,6 @@ _toggleShowAllText.alpha = 0;
 			_rightButton.y = _panelHeight/2;
 			_pageNum.x = _pageNumX - _pageNum.width;
 			_pageNum.y = _pageNumY;
-			_toggleShowAllText.x = _toggleShowAllX;
-			_toggleShowAllText.y = _toggleShowAllY - _toggleShowAllText.height/2;
 			_pageDescription.x = _pageDescriptionX;
 			_pageDescription.y = _pageDescriptionY;
 			_showAllText.x = _showingText.x + _showingText.width + 8;

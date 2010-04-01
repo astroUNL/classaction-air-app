@@ -104,7 +104,7 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		override public function get height():Number {
-			return _height;			
+			return _height;
 		}
 		
 		override public function set height(arg:Number):void {

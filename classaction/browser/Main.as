@@ -156,9 +156,7 @@ package astroUNL.classaction.browser {
 			
 			_mask = new Shape();
 			mask = _mask;
-			
-			onStageResized();
-			
+					
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.addEventListener(Event.RESIZE, onStageResized);
@@ -192,10 +190,10 @@ package astroUNL.classaction.browser {
 			_background.graphics.drawRect(0, 0, windowWidth, windowHeight);
 			_background.graphics.endFill();
 						
-			_questionView.setMaxDimensions(windowWidth, windowHeight-_header.height);
-			
-			_questionView.x = 0;
-			_questionView.y = _header.height;
+			var questionMargin:Number = 5;
+			_questionView.setMaxDimensions(windowWidth-2*questionMargin, windowHeight-Math.ceil(_header.height)-Math.ceil(_resourcePanels.maxTabHeight)-2*questionMargin);
+			_questionView.x = questionMargin;
+			_questionView.y = _header.height + questionMargin;
 			
 			_resourcePanels.panelWidths = windowWidth;
 			
@@ -338,6 +336,8 @@ package astroUNL.classaction.browser {
 				ResourceContextMenuController.modulesList = _modulesList;
 				
 				loadStoredState();
+				
+				onStageResized();
 			}
 		}
 		
