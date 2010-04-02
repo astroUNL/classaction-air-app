@@ -68,6 +68,8 @@ package astroUNL.classaction.browser {
 			
 			_registeredCustomModules = new Dictionary();
 			
+			
+			
 			stage.showDefaultContextMenu = false;
 			
 			if (!_readOnly) {
@@ -95,6 +97,26 @@ package astroUNL.classaction.browser {
 			ResourceBanksLoader.addEventListener(ResourceBanksLoader.LOAD_FINISHED, onResourceBanksLoadFinished);
 			ResourceBanksLoader.start();			
 			
+			// updateDimensions gets called at the end the loading sequence (before the views are first made
+			// visible), but some components need dimensions at initialization and so we might as well give
+			// them the correct information now and save a few milliseconds
+			var windowWidth:Number = Math.max(stage.stageWidth, _minWidth);
+			var windowHeight:Number = Math.max(stage.stageHeight, _minHeight);
+			stage.stageWidth = windowWidth;
+			stage.stageHeight = windowHeight;
+			
+			_header = new HeaderBar(windowWidth);
+			_header.visible = false;
+			_header.addEventListener(HeaderBar.MENU_ITEM_SELECTED, onHeaderSelection);
+			_header.addEventListener(StateChangeRequestEvent.STATE_CHANGE_REQUESTED, onStateChangeRequested);
+			// add the header later so it's near the top
+			
+			_resourcePanels = new ResourcePanelsGroup(_readOnly);
+			_resourcePanels.addEventListener(ResourcePanelsGroup.PREVIEW_ITEM_CHANGED, onPreviewItemChanged);
+			// add the resource panels later so they're near the top
+
+			var freeVerticalSpace:Number = windowHeight - Math.ceil(_header.height) - Math.ceil(_resourcePanels.maxTabHeight);
+						
 			_modulesListView = new ModulesListView(_readOnly);
 			_modulesListView.addEventListener(ModulesListView.MODULE_SELECTED, onModuleSelected);
 			_modulesListView.addEventListener(ModulesListView.START_ZIP_DOWNLOAD, onZipDownloadStart);
@@ -102,17 +124,17 @@ package astroUNL.classaction.browser {
 			_modulesListView.y = 50;
 			addChild(_modulesListView);
 						
-			_moduleView = new ModuleView(800, 460);
+			_moduleView = new ModuleView(windowWidth-_moduleViewMargins.left-_moduleViewMargins.right, freeVerticalSpace-_moduleViewMargins.top-_moduleViewMargins.bottom);
 			_moduleView.addEventListener(ModuleView.QUESTION_SELECTED, onQuestionSelected);
 			_moduleView.addEventListener(ModuleView.MODULES_LIST_SELECTED, onModulesListSelected);
-			_moduleView.x = 0;
-			_moduleView.y = 50;
 			addChild(_moduleView);
 			
 			_questionView = new QuestionView();
 			_questionView.x = 0;
-			// set y position after header is loaded
+			_questionView.y = _header.height;
 			addChild(_questionView);
+			
+			addChild(_header);
 			
 			_popups = new PopupManager();
 			_popups.visible = false;
@@ -126,18 +148,8 @@ package astroUNL.classaction.browser {
 			_aboutPopup = new PopupWindow(HeaderBar.ABOUT, new About());
 			_popups.addPopup(_aboutPopup);
 			
-			_header = new HeaderBar(stage.stageWidth);
-			_header.visible = false;
-			_header.addEventListener(HeaderBar.MENU_ITEM_SELECTED, onHeaderSelection);
-			_header.addEventListener(StateChangeRequestEvent.STATE_CHANGE_REQUESTED, onStateChangeRequested);
-			addChild(_header);
 			
-			_questionView.y = _header.height;
 			
-			_resourcePanels = new ResourcePanelsGroup(_readOnly);
-			_resourcePanels.x = 0;
-			_resourcePanels.y = stage.stageHeight;
-			_resourcePanels.addEventListener(ResourcePanelsGroup.PREVIEW_ITEM_CHANGED, onPreviewItemChanged);
 			addChild(_resourcePanels);
 			
 			var popupsTop:Number = _header.height + _popupsMargin;
@@ -165,13 +177,17 @@ package astroUNL.classaction.browser {
 		protected var _mask:Shape;
 		
 		protected const _minWidth:Number = 640;
-		protected const _minHeight:Number = 452;
+		protected const _minHeight:Number = 452;		
+		protected const _moduleViewMargins:Object = {left: 5, right: 5, top: 20, bottom: 30};
 		
-		protected function onStageResized(evt:Event=null):void {
+		protected function onStageResized(evt:Event):void {
+			updateDimensions();
+		}
+		
+		protected function updateDimensions():void {
 			
 			var windowWidth:Number = Math.max(stage.stageWidth, _minWidth);
 			var windowHeight:Number = Math.max(stage.stageHeight, _minHeight);
-			
 			stage.stageWidth = windowWidth;
 			stage.stageHeight = windowHeight;
 			
@@ -189,9 +205,15 @@ package astroUNL.classaction.browser {
 			_background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
 			_background.graphics.drawRect(0, 0, windowWidth, windowHeight);
 			_background.graphics.endFill();
+			
+			var freeVerticalSpace:Number = windowHeight - Math.ceil(_header.height) - Math.ceil(_resourcePanels.maxTabHeight);
+			
+			_moduleView.setDimensions(windowWidth-_moduleViewMargins.left-_moduleViewMargins.right, freeVerticalSpace-_moduleViewMargins.top-_moduleViewMargins.bottom);
+			_moduleView.x = _moduleViewMargins.left;
+			_moduleView.y = _header.height + _moduleViewMargins.top;
 						
 			var questionMargin:Number = 5;
-			_questionView.setMaxDimensions(windowWidth-2*questionMargin, windowHeight-Math.ceil(_header.height)-Math.ceil(_resourcePanels.maxTabHeight)-2*questionMargin);
+			_questionView.setMaxDimensions(windowWidth-2*questionMargin, freeVerticalSpace-2*questionMargin);
 			_questionView.x = questionMargin;
 			_questionView.y = _header.height + questionMargin;
 			
@@ -200,7 +222,9 @@ package astroUNL.classaction.browser {
 			var popupsTop:Number = _header.height + _popupsMargin;
 			var popupsVRange:Number = windowHeight - popupsTop - _resourcePanels.maxTabHeight - _popupsMargin - _searchPopup.titlebarHeight; 
 			_popups.bounds = new Rectangle(_popupsMargin, popupsTop, windowWidth-2*_popupsMargin, popupsVRange);
-		}		
+			
+			trace("ON STAGE RESIZED");
+		}
 		
 		protected function onPreviewItemChanged(evt:Event):void {
 			var item:ResourceItem = _resourcePanels.previewItem;
@@ -337,7 +361,7 @@ package astroUNL.classaction.browser {
 				
 				loadStoredState();
 				
-				onStageResized();
+				updateDimensions();
 			}
 		}
 		

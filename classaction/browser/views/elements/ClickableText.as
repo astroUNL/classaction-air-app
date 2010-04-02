@@ -171,6 +171,10 @@ package astroUNL.classaction.browser.views.elements {
 			redraw();
 		}
 		
+		public function getWidth():Number {
+			return _width;
+		}
+		
 		public function setWidth(width:Number):void {
 			_width = width;
 			redraw();

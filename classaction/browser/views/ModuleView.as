@@ -49,6 +49,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _panes:ScrollableLayoutPanes;
 		
+		
 		public function ModuleView(width:Number, height:Number) {
 			
 			_width = width;
@@ -66,27 +67,20 @@ package astroUNL.classaction.browser.views {
 			_panesHeight = _height;
 			
 			_panes = new ScrollableLayoutPanes(_panesWidth, _panesHeight, _navButtonSpacing, _navButtonSpacing, {topMargin: 0, leftMargin: 0, rightMargin: 0, bottomMargin: 0, columnSpacing: _columnSpacing, numColumns: _numColumns});
-			_panes.x = 2*_navButtonSpacing;
 			addChild(_panes);
 			
 			_emptyMessage = new ClickableText("this module has no questions\rclick here to return to modules list", null, _emptyFormat);
 			_emptyMessage.addEventListener(ClickableText.ON_CLICK, onReturnToModulesList);
-			_emptyMessage.x = (_width-_emptyMessage.width)/2;
-			_emptyMessage.y = (_height-_emptyMessage.height)/2;
 			_emptyMessage.visible = false;
 			addChild(_emptyMessage);
 			
 			_leftButton = new ModuleViewNavButton();
-			_leftButton.x = _navButtonSpacing;
-			_leftButton.y = _height/2;
 			_leftButton.scaleX = -1;
 			_leftButton.addEventListener(MouseEvent.CLICK, onLeftButtonClicked, false, 0, true);
 			_leftButton.visible = false;
 			addChild(_leftButton);
 			
 			_rightButton = new ModuleViewNavButton();
-			_rightButton.x = _width - _navButtonSpacing;
-			_rightButton.y = _height/2;
 			_rightButton.addEventListener(MouseEvent.CLICK, onRightButtonClicked, false, 0, true);
 			_rightButton.visible = false;
 			addChild(_rightButton);
@@ -99,6 +93,7 @@ package astroUNL.classaction.browser.views {
 			_challengeHeading = createHeading("Challenge Questions");
 			_discussionHeading = createHeading("Discussion Questions");			
 			
+			setDimensions(width, height);
 		}
 		
 		protected var _warmupHeading:TextField;
@@ -176,11 +171,62 @@ package astroUNL.classaction.browser.views {
 			redraw();
 		}
 		
+		public function setDimensions(w:Number, h:Number):void {
+			if (w==_width && h==_height) return;
+			_width = w;
+			_height = h;
+			_dimensionsUpdateNeeded = true;
+			if (visible) redraw();
+		}
+		
+		override public function set visible(visibleNow:Boolean):void {
+			var previouslyVisible:Boolean = super.visible;
+			super.visible = visibleNow;			
+			trace("setting visible");
+			trace(" previouslyVisible: "+previouslyVisible);
+			trace(" visibleNow: "+visibleNow);
+			if (!previouslyVisible && visibleNow) redraw();
+		}
+		
+		protected var _dimensionsUpdateNeeded:Boolean = true;
+		
+		protected function doDimensionsUpdate():void {			
+
+			// adjust the layout
+			_panesWidth = _width - 4*_navButtonSpacing;
+			_panesHeight = _height;
+			_panes.x = 2*_navButtonSpacing;
+			_emptyMessage.x = (_width-_emptyMessage.width)/2;
+			_emptyMessage.y = (_height-_emptyMessage.height)/2;
+			_leftButton.x = _navButtonSpacing;
+			_leftButton.y = _height/2;
+			_rightButton.x = _width - _navButtonSpacing;
+			_rightButton.y = _height/2;
+			
+			// adjust the panes
+			_panes.setDimensions(_panesWidth, _panesHeight);
+			_panes.reset(); // needed here to recalculate columnWidth -- gets called again in redraw
+			
+			// adjust the width of the text items
+			_warmupHeading.width = _panes.columnWidth;
+			_generalHeading.width = _panes.columnWidth;
+			_challengeHeading.width = _panes.columnWidth;
+			_discussionHeading.width = _panes.columnWidth;
+			// the widths of question links are reset in the getLinks function (so that the resizing occurs only as needed)
+//			var startTimer:Number = getTimer();
+//			for each (var link:ClickableText in _links) link.setWidth(_panes.columnWidth-_questionParams.leftMargin);
+//			trace("*** time to set width of question links: "+(getTimer()-startTimer));
+			
+			_dimensionsUpdateNeeded = false;
+		}
+		
 		protected function redraw():void {
 			// this function clears the panes and adds the module's content
 			// then it calls refresh
 			
 			var startTimer:Number = getTimer();
+			
+			if (_dimensionsUpdateNeeded) doDimensionsUpdate();
 			
 			var i:int;
 			var links:Array;
@@ -188,6 +234,8 @@ package astroUNL.classaction.browser.views {
 			var oldPaneNum:int = _panes.paneNum;
 			
 			_panes.reset();
+			
+			if (_module==null) return;
 			
 			if (_module.allQuestionsList.length>0) {
 				_emptyMessage.visible = false;
@@ -198,11 +246,13 @@ package astroUNL.classaction.browser.views {
 			}
 			else _emptyMessage.visible = true;
 			
+			if (oldPaneNum>=_panes.numPanes) oldPaneNum = _panes.numPanes - 1;
 			_panes.paneNum = oldPaneNum;
 			
 			_leftButton.visible = _rightButton.visible = (_panes.numPanes>1);
 			
-//			trace("redraw module view: "+(getTimer()-startTimer));
+			trace("redraw module view: "+(getTimer()-startTimer)+", "+_module.name);
+			
 			var allFinished:Boolean = refresh();
 			if (!allFinished) _timer.start();
 		}
@@ -256,12 +306,14 @@ package astroUNL.classaction.browser.views {
 			var i:int;
 			var name:String;
 			var ct:ClickableText;
+			var linkWidth:Number = _panes.columnWidth-_questionParams.leftMargin;
+			trace("LINKWIDTH: "+linkWidth);
 			var links:Array = [];
 			for (i=0; i<questionsList.length; i++) {
 				name = (i<9) ? " " : "";
 				name += (i+1).toString() + " - " + questionsList[i].name;
 				if (_links[questionsList[i]]==undefined) {
-					ct = new ClickableText(name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), _panes.columnWidth);
+					ct = new ClickableText(name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
 					ct.addEventListener(ClickableText.ON_CLICK, onQuestionClicked, false, 0, true);
 					ResourceContextMenuController.register(ct);
 					_links[questionsList[i]] = ct;					
@@ -269,6 +321,10 @@ package astroUNL.classaction.browser.views {
 				}
 				else {
 					_links[questionsList[i]].setText(name);
+					if (_links[questionsList[i]].getWidth()!=linkWidth) {
+						_links[questionsList[i]].setWidth(linkWidth);
+						trace("reset width for link "+_links[questionsList[i]].data.item.name);
+					}
 					links.push(_links[questionsList[i]]);
 				}
 			}			
