@@ -434,8 +434,9 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		public function set inFront(arg:Boolean):void {
-			if (arg && !_inFront) redraw();
+			var previouslyInFront:Boolean = _inFront;
 			_inFront = arg;
+			if (_inFront && !previouslyInFront) redraw();
 			if (_inFront) {
 				_tab.gotoAndStop("inFront");
 				_title.setClickable(false);
@@ -659,7 +660,7 @@ package astroUNL.classaction.browser.views {
 			
 			refreshPageNum();			
 			
-			trace("redraw: "+(getTimer()-startTimer)+", "+_type);
+//			trace("redraw: "+(getTimer()-startTimer)+", "+_type);
 		}
 		
 		protected var _totalItemsShown:int;
@@ -772,7 +773,7 @@ package astroUNL.classaction.browser.views {
 			t.height = 0;
 			t.width = _panes.columnWidth;
 			t.multiline = true;
-			t.wordWrap = true;			
+			t.wordWrap = true;
 			t.selectable = false;
 			t.setTextFormat(_headingFormat);
 			t.embedFonts = true;

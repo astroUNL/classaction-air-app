@@ -182,9 +182,6 @@ package astroUNL.classaction.browser.views {
 		override public function set visible(visibleNow:Boolean):void {
 			var previouslyVisible:Boolean = super.visible;
 			super.visible = visibleNow;			
-			trace("setting visible");
-			trace(" previouslyVisible: "+previouslyVisible);
-			trace(" visibleNow: "+visibleNow);
 			if (!previouslyVisible && visibleNow) redraw();
 		}
 		
@@ -213,9 +210,6 @@ package astroUNL.classaction.browser.views {
 			_challengeHeading.width = _panes.columnWidth;
 			_discussionHeading.width = _panes.columnWidth;
 			// the widths of question links are reset in the getLinks function (so that the resizing occurs only as needed)
-//			var startTimer:Number = getTimer();
-//			for each (var link:ClickableText in _links) link.setWidth(_panes.columnWidth-_questionParams.leftMargin);
-//			trace("*** time to set width of question links: "+(getTimer()-startTimer));
 			
 			_dimensionsUpdateNeeded = false;
 		}
@@ -251,7 +245,7 @@ package astroUNL.classaction.browser.views {
 			
 			_leftButton.visible = _rightButton.visible = (_panes.numPanes>1);
 			
-			trace("redraw module view: "+(getTimer()-startTimer)+", "+_module.name);
+//			trace("redraw module view: "+(getTimer()-startTimer)+", "+_module.name);
 			
 			var allFinished:Boolean = refresh();
 			if (!allFinished) _timer.start();
@@ -307,7 +301,6 @@ package astroUNL.classaction.browser.views {
 			var name:String;
 			var ct:ClickableText;
 			var linkWidth:Number = _panes.columnWidth-_questionParams.leftMargin;
-			trace("LINKWIDTH: "+linkWidth);
 			var links:Array = [];
 			for (i=0; i<questionsList.length; i++) {
 				name = (i<9) ? " " : "";
@@ -323,7 +316,6 @@ package astroUNL.classaction.browser.views {
 					_links[questionsList[i]].setText(name);
 					if (_links[questionsList[i]].getWidth()!=linkWidth) {
 						_links[questionsList[i]].setWidth(linkWidth);
-						trace("reset width for link "+_links[questionsList[i]].data.item.name);
 					}
 					links.push(_links[questionsList[i]]);
 				}

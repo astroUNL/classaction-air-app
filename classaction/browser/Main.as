@@ -117,11 +117,9 @@ package astroUNL.classaction.browser {
 
 			var freeVerticalSpace:Number = windowHeight - Math.ceil(_header.height) - Math.ceil(_resourcePanels.maxTabHeight);
 						
-			_modulesListView = new ModulesListView(_readOnly);
+			_modulesListView = new ModulesListView(windowWidth-_modulesListViewMargins.left-_modulesListViewMargins.right, freeVerticalSpace-_modulesListViewMargins.top-_modulesListViewMargins.bottom, _readOnly);
 			_modulesListView.addEventListener(ModulesListView.MODULE_SELECTED, onModuleSelected);
 			_modulesListView.addEventListener(ModulesListView.START_ZIP_DOWNLOAD, onZipDownloadStart);
-			_modulesListView.x = 0;
-			_modulesListView.y = 50;
 			addChild(_modulesListView);
 						
 			_moduleView = new ModuleView(windowWidth-_moduleViewMargins.left-_moduleViewMargins.right, freeVerticalSpace-_moduleViewMargins.top-_moduleViewMargins.bottom);
@@ -179,6 +177,7 @@ package astroUNL.classaction.browser {
 		protected const _minWidth:Number = 640;
 		protected const _minHeight:Number = 452;		
 		protected const _moduleViewMargins:Object = {left: 5, right: 5, top: 20, bottom: 30};
+		protected const _modulesListViewMargins:Object = {left: 5, right: 5, top: 20, bottom: 20};
 		
 		protected function onStageResized(evt:Event):void {
 			updateDimensions();
@@ -208,6 +207,10 @@ package astroUNL.classaction.browser {
 			
 			var freeVerticalSpace:Number = windowHeight - Math.ceil(_header.height) - Math.ceil(_resourcePanels.maxTabHeight);
 			
+			_modulesListView.setDimensions(windowWidth-_modulesListViewMargins.left-_modulesListViewMargins.right, freeVerticalSpace-_modulesListViewMargins.top-_modulesListViewMargins.bottom);
+			_modulesListView.x = _modulesListViewMargins.left;
+			_modulesListView.y = _header.height + _modulesListViewMargins.top;
+			
 			_moduleView.setDimensions(windowWidth-_moduleViewMargins.left-_moduleViewMargins.right, freeVerticalSpace-_moduleViewMargins.top-_moduleViewMargins.bottom);
 			_moduleView.x = _moduleViewMargins.left;
 			_moduleView.y = _header.height + _moduleViewMargins.top;
@@ -222,8 +225,6 @@ package astroUNL.classaction.browser {
 			var popupsTop:Number = _header.height + _popupsMargin;
 			var popupsVRange:Number = windowHeight - popupsTop - _resourcePanels.maxTabHeight - _popupsMargin - _searchPopup.titlebarHeight; 
 			_popups.bounds = new Rectangle(_popupsMargin, popupsTop, windowWidth-2*_popupsMargin, popupsVRange);
-			
-			trace("ON STAGE RESIZED");
 		}
 		
 		protected function onPreviewItemChanged(evt:Event):void {

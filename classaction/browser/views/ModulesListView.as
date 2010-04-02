@@ -37,14 +37,14 @@ package astroUNL.classaction.browser.views {
 		protected var _actionFormat:TextFormat;
 		protected var _editingFormat:TextFormat;
 		
-		protected var _panelWidth:Number = 800;
-		protected var _panelHeight:Number = 550;
+		protected var _panelWidth:Number;
+		protected var _panelHeight:Number;
 		protected var _navButtonSpacing:Number = 20;
 		protected var _panesTopMargin:Number = 0;
 		protected var _panesSideMargin:Number = 15;
 		protected var _panesBottomMargin:Number = 45;
-		protected var _panesWidth:Number = _panelWidth - 2*_navButtonSpacing;
-		protected var _panesHeight:Number = _panelHeight - _panesTopMargin - _panesBottomMargin;
+		protected var _panesWidth:Number;
+		protected var _panesHeight:Number;
 		protected var _columnSpacing:Number = 20;
 		protected var _numColumns:int = 3;
 		protected var _easeTime:Number = 250;
@@ -64,7 +64,13 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _readOnly:Boolean;
 		
-		public function ModulesListView(readOnly:Boolean) {
+		public function ModulesListView(w:Number, h:Number, readOnly:Boolean) {
+			
+			_panelWidth = w;
+			_panelHeight = h;
+			
+			_panesWidth = _panelWidth - 2*_navButtonSpacing;
+			_panesHeight = _panelHeight - _panesTopMargin - _panesBottomMargin;
 			
 			_moduleLinks = new Dictionary();
 			
@@ -108,7 +114,6 @@ package astroUNL.classaction.browser.views {
 			_rightButton.addEventListener(MouseEvent.CLICK, onRightButtonClicked);
 			_rightButton.visible = false;
 			addChild(_rightButton);				
-			
 		}
 		
 		
@@ -168,7 +173,55 @@ package astroUNL.classaction.browser.views {
 			redraw();
 		}
 		
+		public function setDimensions(w:Number, h:Number):void {
+			if (w==_panelWidth && h==_panelHeight) return;
+			_panelWidth = w;
+			_panelHeight = h;
+			_dimensionsUpdateNeeded = true;
+			if (visible) redraw();
+		}
+		
+		override public function set visible(visibleNow:Boolean):void {
+			var previouslyVisible:Boolean = super.visible;
+			super.visible = visibleNow;			
+			if (!previouslyVisible && visibleNow) redraw();
+		}
+		
+		protected var _dimensionsUpdateNeeded:Boolean = true;
+		
+		protected function doDimensionsUpdate():void {			
+		
+			// adjust the panes
+			_panesWidth = _panelWidth - 2*_navButtonSpacing;
+			_panesHeight = _panelHeight - _panesTopMargin - _panesBottomMargin;
+			_panes.setDimensions(_panesWidth, _panesHeight);
+			_panes.reset(); // needed here to recalculate columnWidth -- gets called again in redraw
+			
+			// adjust the layout
+			_panes.x = _navButtonSpacing;
+			_panes.y = _panesTopMargin;
+			_leftButton.x = _navButtonSpacing;
+			_leftButton.y = _panelHeight/2;
+			_rightButton.x = _panelWidth - _navButtonSpacing;
+			_rightButton.y = _panelHeight/2;
+			
+			// adjust the text widths
+			_standardHeading.width = _panes.columnWidth;
+			_customHeading.width = _panes.columnWidth;
+			_createCommand.setWidth(_panes.columnWidth);
+			_downloadCommand.setWidth(_panes.columnWidth);
+			for each (var link:ClickableText in _moduleLinks) link.setWidth(_panes.columnWidth-_itemLeftMargin);
+		
+			_dimensionsUpdateNeeded = false;
+		}
+				
 		protected function redraw():void {
+			
+			var startTimer:Number = getTimer();
+			
+			if (_dimensionsUpdateNeeded) doDimensionsUpdate();
+			
+			var oldPaneNum:int = _panes.paneNum;
 			
 			_panes.reset();
 			
@@ -182,7 +235,7 @@ package astroUNL.classaction.browser.views {
 			for (i=0; i<_modulesList.modules.length; i++) {
 				if (_modulesList.modules[i].readOnly) {
 					if (_moduleLinks[modulesList.modules[i]]==undefined) {
-						ct = new ClickableText(_modulesList.modules[i].name, _modulesList.modules[i], _itemFormat, _panes.columnWidth);		
+						ct = new ClickableText(_modulesList.modules[i].name, _modulesList.modules[i], _itemFormat, _panes.columnWidth-_itemLeftMargin);		
 						ct.addEventListener(ClickableText.ON_CLICK, onModuleClicked, false, 0, true);
 						ct.addMenuSelectListener(onReadOnlyMenuSelect);
 						if (!_readOnly) ct.addMenuItem(_copyModuleText, onModuleCopyRequest);						
@@ -235,7 +288,15 @@ package astroUNL.classaction.browser.views {
 			}
 			if (numCustom>0) _panes.addContent(_downloadCommand, itemParams);
 			
+			if (oldPaneNum>=_panes.numPanes) oldPaneNum = _panes.numPanes - 1;
+			_panes.paneNum = oldPaneNum;
+			
+			_leftButton.visible = _rightButton.visible = (_panes.numPanes>1);
+			
+			
 			_numCustom = numCustom;
+			
+//			trace("redraw modules list view: "+(getTimer()-startTimer));
 		}
 		
 		protected var _numCustom:int;
