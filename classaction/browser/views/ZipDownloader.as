@@ -34,6 +34,7 @@ package astroUNL.classaction.browser.views {
 		protected var _background:Sprite;		
 		protected var _browserSwf:BinaryFile;
 		protected var _startHtml:BinaryFile;
+		protected var _swfobjectJs:BinaryFile;
 		protected var _swfHtmlTemplateFile:BinaryFile;
 		protected var _imageHtmlTemplateFile:BinaryFile;
 		protected var _downloadPoller:Timer;
@@ -63,7 +64,8 @@ package astroUNL.classaction.browser.views {
 		protected var _imagesXML:XML;
 		protected var _outlinesXML:XML;
 		protected var _tablesXML:XML;
-		protected static const baseURL:String = "custom/classaction/";
+		protected static const rootURL:String = "";
+		protected static const baseURL:String = rootURL + "classaction/";
 		
 		
 		public function ZipDownloader() {
@@ -113,6 +115,8 @@ package astroUNL.classaction.browser.views {
 			_browserSwf = new BinaryFile("~DO_NOT_DELETE~browser.swf");			
 			_startHtml = new BinaryFile("~DO_NOT_DELETE~start.html");
 			
+			_swfobjectJs = new BinaryFile("swfobject.js");
+			
 			_swfHtmlTemplateFile = new BinaryFile("~DO_NOT_DELETE~downloaded_swf_html_template.html");	
 			_imageHtmlTemplateFile = new BinaryFile("~DO_NOT_DELETE~downloaded_image_html_template.html");	
 
@@ -127,17 +131,26 @@ package astroUNL.classaction.browser.views {
 			_modulesList = arg;
 		}
 		
-		public function start():void {
-			
-			// must first download all the necessary files (if not already done) before making zip
-			
-			// create the blurred out backdrop
+		public function setMainWindowDimensions(w:Number, h:Number):void {
+			_downloadWindow.x = w/2;
+			_downloadWindow.y = h/2;
+			if (visible) createBlurredBackdrop();
+		}
+		
+		protected function createBlurredBackdrop():void {
 			var wasVisible:Boolean = visible;			
 			visible = false;
 			var bmd:BitmapData = new BitmapData(stage.stageWidth, stage.stageHeight, false, 0);
 			bmd.draw(stage);
 			_backdrop.bitmapData = bmd;			
 			visible = wasVisible;
+		}
+		
+		public function start():void {
+			
+			// must first download all the necessary files (if not already done) before making zip
+			
+			createBlurredBackdrop();
 			
 			// set appearance
 			_saveButton.setText(_zipPrepMessage);
@@ -234,6 +247,9 @@ package astroUNL.classaction.browser.views {
 			if (_startHtml.downloadState!=Downloader.DONE_SUCCESS) return false;
 			if (_browserSwf.downloadState!=Downloader.DONE_SUCCESS) return false;
 			
+			// has swfobject.js been loaded?
+			if (_swfobjectJs.downloadState!=Downloader.DONE_SUCCESS) return false;
+			
 			// have the html template files been loaded?
 			// (load them into strings if that hasn't been done yet)
 			if (_swfHtmlTemplateFile.downloadState!=Downloader.DONE_SUCCESS) return false;
@@ -318,11 +334,17 @@ package astroUNL.classaction.browser.views {
 			_zip.write(_browserSwf.byteArray);
 			_zip.closeEntry();
 			
+			// add swfobject.js
+			entry = new ZipEntry(baseURL+"swfobject.js");
+			_zip.putNextEntry(entry);
+			_zip.write(_swfobjectJs.byteArray);
+			_zip.closeEntry();
+			
 			// add the start.html file
-			entry = new ZipEntry("custom/start.html");
+			entry = new ZipEntry(rootURL+"start.html");
 			_zip.putNextEntry(entry);
 			_zip.write(_startHtml.byteArray);
-			_zip.closeEntry();
+			_zip.closeEntry();			
 			
 			// start adding the resource item files
 			_zipPoller.start();			

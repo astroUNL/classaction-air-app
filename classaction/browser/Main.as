@@ -68,8 +68,6 @@ package astroUNL.classaction.browser {
 			
 			_registeredCustomModules = new Dictionary();
 			
-			
-			
 			stage.showDefaultContextMenu = false;
 			
 			if (!_readOnly) {
@@ -145,7 +143,6 @@ package astroUNL.classaction.browser {
 			
 			_aboutPopup = new PopupWindow(HeaderBar.ABOUT, new About());
 			_popups.addPopup(_aboutPopup);
-			
 			
 			
 			addChild(_resourcePanels);
@@ -225,6 +222,9 @@ package astroUNL.classaction.browser {
 			var popupsTop:Number = _header.height + _popupsMargin;
 			var popupsVRange:Number = windowHeight - popupsTop - _resourcePanels.maxTabHeight - _popupsMargin - _searchPopup.titlebarHeight; 
 			_popups.bounds = new Rectangle(_popupsMargin, popupsTop, windowWidth-2*_popupsMargin, popupsVRange);
+			
+			// the zip downloader takes care of itself
+			_zipDownloader.setMainWindowDimensions(windowWidth, windowHeight);
 		}
 		
 		protected function onPreviewItemChanged(evt:Event):void {
