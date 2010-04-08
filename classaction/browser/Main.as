@@ -50,6 +50,9 @@ package astroUNL.classaction.browser {
 		protected var _resourcePreview:ResourcePreview;		
 		protected var _zipDownloader:ZipDownloader;
 		
+		public static const version:String = "2.0.0";
+		public static const versionString:String = "ClassAction v2, 8 April 2010";
+		
 		public function Main(readOnly:Boolean) {
 			_readOnly = readOnly;
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);

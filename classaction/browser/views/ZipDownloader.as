@@ -7,6 +7,7 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.resources.ResourceItem;
 	import astroUNL.classaction.browser.download.Downloader;
 	import astroUNL.classaction.browser.views.elements.ClickableText;
+	import astroUNL.classaction.browser.Main;
 	
 	import astroUNL.utils.logger.Logger;
 	
@@ -25,6 +26,9 @@ package astroUNL.classaction.browser.views {
 	import flash.events.TimerEvent;
 	import flash.events.Event;
 	import flash.filters.BlurFilter;
+	import flash.external.ExternalInterface;
+	import flash.system.Security;
+	
 	
 	public class ZipDownloader extends Sprite {
 		
@@ -146,6 +150,9 @@ package astroUNL.classaction.browser.views {
 			visible = wasVisible;
 		}
 		
+		protected var _numberOfCustomModules:int;
+		protected var _numberOfCustomModuleQuestions:int;
+		
 		public function start():void {
 			
 			// must first download all the necessary files (if not already done) before making zip
@@ -158,6 +165,17 @@ package astroUNL.classaction.browser.views {
 			_saveButton.y = _saveButtonPrepY;
 			_saveButton.setClickable(false);
 			_progressBar.visible = true;
+			
+			_numberOfCustomModules = 0;
+			_numberOfCustomModuleQuestions = 0;
+			
+			// determine the number of custom modules and questions
+			for (i=0; i<_modulesList.modules.length; i++) {
+				if (!_modulesList.modules[i].readOnly) {
+					_numberOfCustomModules++;
+					_numberOfCustomModuleQuestions += _modulesList.modules[i].allQuestionsList.length;
+				}
+			}
 
 			if (!checkForDoneness()) {
 				// some of the files are not yet downloaded
@@ -213,6 +231,13 @@ package astroUNL.classaction.browser.views {
 			if (_downloadPoller.running) _downloadPoller.stop();
 			if (_zipPoller.running) _zipPoller.stop();
 			_fr.save(_zip.byteArray, "custom.zip");
+			try {
+				// analytics
+				if (ExternalInterface.available && Security.sandboxType==Security.REMOTE) ExternalInterface.call("pageTracker._trackEvent", "ClassAction Custom Zip, s1", Main.version, String(_numberOfCustomModules), _numberOfCustomModuleQuestions);
+			}
+			catch (err:Error) {
+				Logger.report("error in ZipDownloader.onSave, "+err.message);
+			}
 			dispatchEvent(new Event(ZipDownloader.DONE));
 		}
 		
