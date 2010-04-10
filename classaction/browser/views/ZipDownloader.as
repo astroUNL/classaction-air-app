@@ -233,7 +233,7 @@ package astroUNL.classaction.browser.views {
 			_fr.save(_zip.byteArray, "custom.zip");
 			try {
 				// analytics
-				if (ExternalInterface.available && Security.sandboxType==Security.REMOTE) ExternalInterface.call("pageTracker._trackEvent", "ClassAction Custom Zip, s1", Main.version, String(_numberOfCustomModules), _numberOfCustomModuleQuestions);
+				if (ExternalInterface.available && Security.sandboxType==Security.REMOTE) ExternalInterface.call("pageTracker._trackEvent", "ClassAction", "Custom Zip Download", String(_numberOfCustomModules), _numberOfCustomModuleQuestions);
 			}
 			catch (err:Error) {
 				Logger.report("error in ZipDownloader.onSave, "+err.message);
