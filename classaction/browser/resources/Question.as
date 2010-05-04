@@ -12,6 +12,8 @@ package astroUNL.classaction.browser.resources {
 		public static const CHALLENGE:int = 2;
 		public static const DISCUSSION:int = 3;
 		
+		public var readOnly:Boolean = true;
+		
 		public var questionType:int = -1;
 		public var relevantAnimationIDsList:Array = [];
 		public var relevantImageIDsList:Array = [];
