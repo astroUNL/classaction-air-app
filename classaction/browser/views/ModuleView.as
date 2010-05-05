@@ -9,6 +9,7 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.views.elements.ScrollableLayoutPanes;
 	import astroUNL.classaction.browser.views.elements.ResourceContextMenuController;
 	import astroUNL.classaction.browser.views.elements.ClickableText;
+	import astroUNL.classaction.browser.views.elements.EditableClickableText;
 	import astroUNL.classaction.browser.events.MenuEvent;
 	
 	import astroUNL.utils.logger.Logger;
@@ -60,6 +61,8 @@ package astroUNL.classaction.browser.views {
 			_headingFormat = new TextFormat("Verdana", 14, 0xffffff, true);
 			_preLoadFormat = new TextFormat("Verdana", 12, 0x808080);
 			_successFormat = new TextFormat("Verdana", 12, 0xffffff);
+			_numberFormat = new TextFormat("Verdana", 12, 0x798486, true); // 797D7A
+			_numberFormat.align = "right";
 			_failureFormat = new TextFormat("Verdana", 12, 0xff8080);
 			_emptyFormat = new TextFormat("Verdana", 14, 0xffffff);
 			_emptyFormat.align = "center";
@@ -77,7 +80,7 @@ package astroUNL.classaction.browser.views {
 			addChild(_emptyMessage);
 			
 			_newQuestion = new ClickableText("write new question", null, _actionFormat);
-			_newQuestion.setBackgroundStyle({color: 0x37403E}); // 0x404846
+			_newQuestion.setBackgroundStyle({color: 0x37403E});
 			_newQuestion.showBackground = true;
 			_newQuestion.addEventListener(ClickableText.ON_CLICK, onNewQuestion);
 			
@@ -135,7 +138,9 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function onNewQuestion(evt:Event):void {
-			trace("on new question");
+			if (!_module.readOnly) {
+				_module.addQuestion(new Question());
+			}			
 		}
 		
 		protected var _timer:Timer;
@@ -153,6 +158,8 @@ package astroUNL.classaction.browser.views {
 		protected var _preLoadFormat:TextFormat;
 		protected var _successFormat:TextFormat;
 		protected var _failureFormat:TextFormat;
+		
+		protected var _numberFormat:TextFormat;
 		
 		protected function onTimer(evt:TimerEvent):void {
 			var startTimer:Number = getTimer();
@@ -262,10 +269,10 @@ package astroUNL.classaction.browser.views {
 			_leftButton.visible = _rightButton.visible = (_panes.numPanes>1);
 			
 			if (!_module.readOnly) {
-				_panes.addContent(_newQuestion, {leftMargin: 13, topMargin: 22});
+				_panes.addContent(_newQuestion, {leftMargin: 20, topMargin: 22});
 			}
 			
-//			trace("redraw module view: "+(getTimer()-startTimer)+", "+_module.name);
+			//trace("redraw module view: "+(getTimer()-startTimer)+", "+_module.name);
 			
 			var allFinished:Boolean = refresh();
 			if (!allFinished) _timer.start();
@@ -274,9 +281,12 @@ package astroUNL.classaction.browser.views {
 		protected function addQuestions(heading:TextField, questionsList:Array):void {
 			if (questionsList.length>0) {
 				var links:Array = getLinks(questionsList);
-				_headingParams.minLeftOver = _questionParams.bottomMargin + links[0].height;
+				_headingParams.minLeftOver = _questionParams.bottomMargin + links[0].getChildAt(1).height + 1;
 				_panes.addContent(heading, _headingParams);
-				for (var i:int = 0; i<links.length; i++) _panes.addContent(links[i], _questionParams);
+				for (var i:int = 0; i<links.length; i++) {
+					_questionParams.height = links[i].getChildAt(1).height;					
+					_panes.addContent(links[i], _questionParams);
+				}
 			}
 		}
 		
@@ -292,7 +302,7 @@ package astroUNL.classaction.browser.views {
 			var format:TextFormat;
 			for (i=0; i<_module.allQuestionsList.length; i++) {
 				q = _module.allQuestionsList[i];
-				ct = (_links[q] as ClickableText);
+				ct = (_links[q].getChildAt(1) as ClickableText);
 				if (ct!=null) {
 					if (q.downloadState!=ct.data.lastDownloadState) {
 						ct.data.lastDownloadState = q.downloadState;
@@ -313,20 +323,122 @@ package astroUNL.classaction.browser.views {
 			else return _failureFormat;
 		}
 		
+		protected function onQuestionNameEntered(evt:Event):void {
+			evt.target.data.item.name = evt.target.text;
+		}
+		
+		protected var _numberWidth:Number = 0;
+		protected var _numberHeight:Number = 0;
+		protected var _numberGap:Number = 3;
+		
 		protected function getLinks(questionsList:Array):Array {
+			// this function returns the list of link objects associated with the given list of questions
+			// a link object is a sprite with a static textfield (for the question number) and 
+			// a ClickableText (or EditableClickableText) for the actual link
+			
+			var i:int;
+			var links:Array = [];
+			var link:Sprite;
+			var num:TextField;
+			var linkWidth:Number = _panes.columnWidth - _questionParams.leftMargin - _numberWidth - _numberGap;
+			var ect:EditableClickableText;
+			var ct:ClickableText;			
+			
+			for (i=0; i<questionsList.length; i++) {
+				link = (_links[questionsList[i]] as Sprite);
+				if (link==null) {
+					// the link object is not defined, so we must create it
+					
+					link = new Sprite();
+					
+					// make the number
+					num = new TextField();
+					num.embedFonts = true;
+					num.selectable = false;
+					num.defaultTextFormat = _numberFormat;
+					if (_numberWidth==0) {
+						num.width = 0;
+						num.height = 0;
+						num.autoSize = "left";
+						num.text = "888";					
+						_numberWidth = num.width;
+						_numberHeight = num.height;
+					}
+					num.width = _numberWidth;
+					num.height = _numberHeight;
+					num.autoSize = "none";						
+					link.addChildAt(num, 0);					
+					
+					// make the clickable title
+					if (questionsList[i].readOnly) {
+						ct = new ClickableText(questionsList[i].name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
+					}
+					else {
+						ect = new EditableClickableText(questionsList[i].name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
+						ect.addEventListener(EditableClickableText.DIMENSIONS_CHANGED, onQuestionNameEntered, false, 0, true);
+						ect.addEventListener(EditableClickableText.EDIT_DONE, onQuestionNameEntered, false, 0, true);
+						ct = (ect as ClickableText);
+					}
+					ct.addEventListener(ClickableText.ON_CLICK, onQuestionClicked, false, 0, true);
+					ResourceContextMenuController.register(ct);
+					ct.x = _numberWidth + _numberGap;
+					link.addChildAt(ct, 1);
+					
+					_links[questionsList[i]] = link;
+				}
+				else {
+					// the link object already exists, so all we need to do is update it
+					// (these functions only update on actual changes, so they're safe to call)
+					ect = (link.getChildAt(1) as EditableClickableText);
+					if (ect!=null && ect.hasFocus) {
+						ect.setWidth(linkWidth);
+					}
+					else {					
+						ct = (link.getChildAt(1) as ClickableText);
+						ct.setText(questionsList[i].name);
+						ct.setWidth(linkWidth);
+					}
+				}
+				
+				num = (link.getChildAt(0) as TextField);
+				num.text = (i+1).toString();
+								
+				links.push(link);
+			}
+			
+			return links;
+		}
+				
+				/*
+		protected function getLinksOLD(questionsList:Array):Array {			
 			// this function returns the list of ClickableText links associated with the given list of
 			// questions, creating the links if necessary
 			// it also sets the text of the link to indicate the question number
 			var i:int;
 			var name:String;
 			var ct:ClickableText;
+			var ect:EditableClickableText;
 			var linkWidth:Number = _panes.columnWidth-_questionParams.leftMargin;
 			var links:Array = [];
 			for (i=0; i<questionsList.length; i++) {
-				name = (i<9) ? " " : "";
-				name += (i+1).toString() + " - " + questionsList[i].name;
+				
+				
+//				(i<9) ? " " : "";
+//				name += (i+1).toString() + " - " + 
+				
+				
+				name = questionsList[i].name;
+				
 				if (_links[questionsList[i]]==undefined) {
-					ct = new ClickableText(name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
+					if (questionsList[i].readOnly) {
+						ct = new ClickableText(name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
+					}
+					else {
+						ect = new EditableClickableText(name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
+						ect.addEventListener(EditableClickableText.DIMENSIONS_CHANGED, onQuestionNameEntered, false, 0, true);
+						ect.addEventListener(EditableClickableText.EDIT_DONE, onQuestionNameEntered, false, 0, true);
+						ct = (ect as ClickableText);
+					}
 					ct.addEventListener(ClickableText.ON_CLICK, onQuestionClicked, false, 0, true);
 					ResourceContextMenuController.register(ct);
 					_links[questionsList[i]] = ct;					
@@ -342,7 +454,7 @@ package astroUNL.classaction.browser.views {
 			}			
 			return links;
 		}
-		
+		*/
 	}
 }
 

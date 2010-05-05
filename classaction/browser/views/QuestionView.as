@@ -87,11 +87,13 @@ package astroUNL.classaction.browser.views {
 			}
 			
 			if (_question.downloadState==Downloader.DONE_SUCCESS) {
-				_loader.loadBytes(_question.data);
-				_errorMsg.visible = false;
-				_preloader.visible = false;
-				_loader.visible = false;
-				if (_timer.running) _timer.stop();				
+				if (_question.data.length>0) {
+					_loader.loadBytes(_question.data);
+					_errorMsg.visible = false;
+					_preloader.visible = false;
+					_loader.visible = false;
+					if (_timer.running) _timer.stop();
+				}
 			}
 			else if (_question.downloadState==Downloader.DONE_FAILURE) {
 				_errorMsg.setMessage("the question file failed to load");

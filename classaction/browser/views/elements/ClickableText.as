@@ -184,8 +184,10 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public function setText(text:String=""):void {
-			_text = text;
-			redraw();
+			if (_text!=text) {
+				_text = text;
+				redraw();
+			}
 		}
 		
 		public function setFormat(format:TextFormat=null):void {
@@ -216,8 +218,10 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public function setWidth(width:Number):void {
-			_width = width;
-			redraw();
+			if (_width!=width) {
+				_width = width;
+				redraw();
+			}
 		}
 		
 		public function setClickable(arg:Boolean):void {
@@ -399,7 +403,6 @@ package astroUNL.classaction.browser.views.elements {
 		override public function toString():String {
 			return "[object ClickableText, text: " + _text + "]";
 		}
-		
 	}
 }
 

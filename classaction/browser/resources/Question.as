@@ -7,14 +7,13 @@ package astroUNL.classaction.browser.resources {
 	
 	public class Question extends ResourceItem {
 		
+		public static const UNSORTED:int = -1;
 		public static const WARM_UP:int = 0;
 		public static const GENERAL:int = 1;
 		public static const CHALLENGE:int = 2;
 		public static const DISCUSSION:int = 3;
-		
-		public var readOnly:Boolean = true;
-		
-		public var questionType:int = -1;
+				
+		public var questionType:int = Question.UNSORTED;
 		public var relevantAnimationIDsList:Array = [];
 		public var relevantImageIDsList:Array = [];
 		public var relevantOutlineIDsList:Array = [];
@@ -106,6 +105,13 @@ package astroUNL.classaction.browser.resources {
 			return xml;
 		}
 		
+		override public function initCustom():void {
+			super.initCustom();
+			questionType = Question.GENERAL;
+			width = 780;
+			height = 515;
+			dispatchEvent(new Event(ResourceItem.UPDATE));
+		}
 		
 		override public function setXML(itemXML:XML):void {
 			if (itemXML!=null) {

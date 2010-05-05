@@ -84,7 +84,7 @@ package astroUNL.classaction.browser.resources {
 		protected var _serializationSuccess:Boolean = false;
 		
 		public function get serializationSuccess():Boolean {
-			return _serializationSuccess;			
+			return _serializationSuccess;
 		}
 		
 		protected static var _filenameCharacters:Vector.<String>;
