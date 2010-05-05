@@ -4,6 +4,7 @@ package astroUNL.classaction.browser.resources {
 	import astroUNL.classaction.browser.download.IDownloadable;
 	import astroUNL.classaction.browser.download.Downloader;
 	
+	import astroUNL.utils.logger.Logger;
 	
 	import flash.events.EventDispatcher;
 	import flash.events.Event;
@@ -74,19 +75,21 @@ package astroUNL.classaction.browser.resources {
 					for each (itemXML in bank.elements()) {
 						question = new Question(itemXML);
 						if (question.id.slice(0, 11)=="ca_divider_") continue;
+						if (lookup[question.id]!=undefined) Logger.report("duplicate id in ResourceBanksLoaderProxy, id: "+question.id+" ("+_type+")");
+						else _total++;
 						lookup[question.id] = question;
-						_total++;
 					}						
 				}
 				else {
 					var item:ResourceItem;
 					for each (itemXML in bank.elements()) {
 						item = new ResourceItem(_type, itemXML);
+						if (lookup[item.id]!=undefined) Logger.report("duplicate id in ResourceBanksLoaderProxy, id: "+item.id+" ("+_type+")");
+						else _total++;
 						lookup[item.id] = item;
-						_total++;
 					}
 				}
-			
+				
 				_loaded = true;
 			}
 			catch (err:Error) {

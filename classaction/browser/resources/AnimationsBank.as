@@ -2,6 +2,7 @@
 package astroUNL.classaction.browser.resources {
 	
 	import astroUNL.classaction.browser.download.Downloader;
+	import astroUNL.utils.logger.Logger;
 	
 	public class AnimationsBank {
 	
@@ -11,8 +12,9 @@ package astroUNL.classaction.browser.resources {
 		public static var loaded:Boolean = false;
 		
 		public static function add(resource:ResourceItem):void {
+			if (lookup[resource.id]!=undefined) Logger.report("duplicate id in resource bank add(), id: "+resource.id+" ("+resource.type+")");
+			else total++;
 			lookup[resource.id] = resource;
-			total++;
 		}		
 		
 	}	

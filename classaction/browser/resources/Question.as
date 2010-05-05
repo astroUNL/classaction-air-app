@@ -150,6 +150,9 @@ package astroUNL.classaction.browser.resources {
 				_serializationSuccess = true;//false;
 			}
 			
+			if (_serializationSuccess) trace("successfully loaded question, "+_name+", "+obj.id);
+			else trace("failed to load question, "+obj.id);
+			
 		}
 		
 		override protected function composeSerializationObject():Object {

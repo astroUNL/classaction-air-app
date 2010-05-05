@@ -246,11 +246,15 @@ package astroUNL.classaction.browser {
 		protected function storeCustomQuestions():void {
 			if (_so==null) return;			
 			var startTimer:Number = getTimer();
+			_customQuestionsBank = new Dictionary();
+			var count:int = 0;
 			for each (var question:Question in QuestionsBank.lookup) {
 				if (!question.readOnly) {
 					_customQuestionsBank[question.id] = question.getSerialization();
 				}
+				count++;
 			}
+			trace("store cont: "+count);
 			_so.setProperty("customQuestions", _customQuestionsBank);
 			trace("storeCustomModules: "+(getTimer()-startTimer));
 		}
@@ -328,6 +332,7 @@ package astroUNL.classaction.browser {
 		protected function onModulesListUpdate(evt:Event):void {
 			addCustomModuleUpdateListeners();
 			storeCustomModules();
+			storeCustomQuestions();
 		}
 		
 		protected var _registeredCustomModules:Dictionary;
