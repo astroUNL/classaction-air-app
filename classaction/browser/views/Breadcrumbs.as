@@ -24,6 +24,7 @@ package astroUNL.classaction.browser.views {
 		protected var _moduleLink:ClickableText;
 		protected var _editableModuleLink:EditableClickableText;
 		protected var _questionLink:ClickableText;
+		protected var _editableQuestionLink:EditableClickableText;
 		protected var _questionNum:ClickableText;
 		
 		protected var _content:Sprite;
@@ -96,6 +97,13 @@ package astroUNL.classaction.browser.views {
 			_questionLink.setClickable(false);
 			_content.addChild(_questionLink);
 			
+			_editableQuestionLink = new EditableClickableText("", null, _linkTextFormat);
+			_editableQuestionLink.addEventListener(EditableClickableText.EDIT_DONE, onQuestionNameEdited);
+			_editableQuestionLink.addEventListener(EditableClickableText.DIMENSIONS_CHANGED, onQuestionNameEdited);
+			_editableQuestionLink.setClickable(false);
+			_editableQuestionLink.visible = false;
+			_content.addChild(_editableQuestionLink);
+			
 			_questionNum = new ClickableText("888", null, _questionNumFormat);
 			_questionNum.visible = false;
 			_questionNum.setClickable(false);
@@ -160,6 +168,11 @@ package astroUNL.classaction.browser.views {
 			_mask.graphics.endFill();
 		}
 		
+		protected function onQuestionNameEdited(evt:Event):void {
+			trace("rename!");
+			_question.name = evt.target.text;			
+		}
+		
 		protected function onModuleNameEdited(evt:Event):void {
 			_module.name = evt.target.text;
 		}
@@ -216,7 +229,7 @@ package astroUNL.classaction.browser.views {
 					_editableModuleLink.visible = true;
 					_moduleLink.visible = false;
 				}
-				
+								
 				if (question!=null) {
 					
 					// please note that the code here assumes that each of the question types constants (which
@@ -275,11 +288,18 @@ package astroUNL.classaction.browser.views {
 						_questionNum.visible = false;
 					}
 					
-					_questionLink.setText(_question.name);
-					
-					_questionLink.visible = true;
-					
-					_questionLink.data = {item: _question};
+					if (_question.readOnly) {
+						_questionLink.setText(_question.name);
+						_questionLink.data = {item: _question};
+						_questionLink.visible = true;
+						_editableQuestionLink.visible = false;
+					}
+					else {
+						_editableQuestionLink.setText(_question.name);
+						_editableQuestionLink.data = {item: _question};
+						_editableQuestionLink.visible = true;
+						_questionLink.visible = false;
+					}
 					
 					_moduleLink.setClickable(true);
 					_editableModuleLink.setClickable(true);
@@ -288,6 +308,7 @@ package astroUNL.classaction.browser.views {
 				}
 				else {
 					_questionLink.visible = false;
+					_editableQuestionLink.visible = false;
 					_questionNum.visible = false;
 					
 					_moduleLink.setClickable(false);
@@ -296,13 +317,14 @@ package astroUNL.classaction.browser.views {
 					_separator2.visible = false;
 				}				
 				
-				_separator1.visible = true;				
+				_separator1.visible = true;
 			}
 			else {
 				_modulesListLink.setClickable(false);
 				_moduleLink.visible = false;
 				_editableModuleLink.visible = false;
 				_questionLink.visible = false;
+				_editableQuestionLink.visible = false;
 				_questionNum.visible = false;
 				
 				_separator1.visible = false;
@@ -324,7 +346,7 @@ package astroUNL.classaction.browser.views {
 				_prevButton.x = _separator2.x + _separator2.width + _questionButtonLeftSpacing;
 				_nextButton.x = _prevButton.x;
 				_questionNum.x = _prevButton.x + _questionButtonRightSpacing;				
-				_questionLink.x = _questionNum.x + _questionNum.width + _spacing;
+				_editableQuestionLink.x = _questionLink.x = _questionNum.x + _questionNum.width + _spacing;
 			}
 		}
 		

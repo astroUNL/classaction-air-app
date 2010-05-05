@@ -409,52 +409,6 @@ package astroUNL.classaction.browser.views {
 			return links;
 		}
 				
-				/*
-		protected function getLinksOLD(questionsList:Array):Array {			
-			// this function returns the list of ClickableText links associated with the given list of
-			// questions, creating the links if necessary
-			// it also sets the text of the link to indicate the question number
-			var i:int;
-			var name:String;
-			var ct:ClickableText;
-			var ect:EditableClickableText;
-			var linkWidth:Number = _panes.columnWidth-_questionParams.leftMargin;
-			var links:Array = [];
-			for (i=0; i<questionsList.length; i++) {
-				
-				
-//				(i<9) ? " " : "";
-//				name += (i+1).toString() + " - " + 
-				
-				
-				name = questionsList[i].name;
-				
-				if (_links[questionsList[i]]==undefined) {
-					if (questionsList[i].readOnly) {
-						ct = new ClickableText(name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
-					}
-					else {
-						ect = new EditableClickableText(name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
-						ect.addEventListener(EditableClickableText.DIMENSIONS_CHANGED, onQuestionNameEntered, false, 0, true);
-						ect.addEventListener(EditableClickableText.EDIT_DONE, onQuestionNameEntered, false, 0, true);
-						ct = (ect as ClickableText);
-					}
-					ct.addEventListener(ClickableText.ON_CLICK, onQuestionClicked, false, 0, true);
-					ResourceContextMenuController.register(ct);
-					_links[questionsList[i]] = ct;					
-					links.push(ct);
-				}
-				else {
-					_links[questionsList[i]].setText(name);
-					if (_links[questionsList[i]].getWidth()!=linkWidth) {
-						_links[questionsList[i]].setWidth(linkWidth);
-					}
-					links.push(_links[questionsList[i]]);
-				}
-			}			
-			return links;
-		}
-		*/
 	}
 }
 

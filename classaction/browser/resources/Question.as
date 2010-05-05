@@ -7,13 +7,12 @@ package astroUNL.classaction.browser.resources {
 	
 	public class Question extends ResourceItem {
 		
-		public static const UNSORTED:int = -1;
 		public static const WARM_UP:int = 0;
 		public static const GENERAL:int = 1;
 		public static const CHALLENGE:int = 2;
 		public static const DISCUSSION:int = 3;
 				
-		public var questionType:int = Question.UNSORTED;
+		public var questionType:int = Question.GENERAL;
 		public var relevantAnimationIDsList:Array = [];
 		public var relevantImageIDsList:Array = [];
 		public var relevantOutlineIDsList:Array = [];
