@@ -243,6 +243,37 @@ package astroUNL.classaction.browser {
 			Logger.report("onSONetStatus, "+evt);
 		}
 		
+		protected function storeCustomQuestions():void {
+			if (_so==null) return;			
+			var startTimer:Number = getTimer();
+			for each (var question:Question in QuestionsBank.lookup) {
+				if (!question.readOnly) {
+					_customQuestionsBank[question.id] = question.getSerialization();
+				}
+			}
+			_so.setProperty("customQuestions", _customQuestionsBank);
+			trace("storeCustomModules: "+(getTimer()-startTimer));
+		}
+		
+		protected function loadStoredCustomQuestions():void {
+			if (_so==null) return;
+			var startTimer:Number = getTimer();
+			var question:Question;
+			if (_so.data.customQuestions is Dictionary) {
+				for (var id:String in _so.data.customQuestions) {
+					if (_so.data.customQuestions[id] is ByteArray) {
+						// the question adds itself to the bank
+						question = new Question(_so.data.customQuestions[id]);
+						if (question.serializationSuccess) QuestionsBank.add(question);
+						else Logger.report("failed to load a stored custom question, id: "+id);
+					}					
+				}
+			}
+			trace("loadStoredCustomQuestions: "+(getTimer()-startTimer));			
+		}
+		
+		protected var _customQuestionsBank:Dictionary = new Dictionary();
+		
 		protected var _customModulesList:Array;
 				
 		protected function storeCustomModules():void {
@@ -291,6 +322,7 @@ package astroUNL.classaction.browser {
 				}
 			}
 			storeCustomModules();
+			storeCustomQuestions();
 		}
 		
 		protected function onModulesListUpdate(evt:Event):void {
@@ -321,6 +353,10 @@ package astroUNL.classaction.browser {
 				reportFailure(explanation);
 			}
 			else {
+				
+				// now load any custom resources stored on the shared object
+				loadStoredCustomQuestions();
+				
 				// the next step is to load the modules list and the associated module files
 				
 				_modulesList = new ModulesList("moduleslist.xml");

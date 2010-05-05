@@ -169,7 +169,6 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function onQuestionNameEdited(evt:Event):void {
-			trace("rename!");
 			_question.name = evt.target.text;			
 		}
 		

@@ -18,8 +18,8 @@ package astroUNL.classaction.browser.resources {
 		public var relevantOutlineIDsList:Array = [];
 		public var relevantTableIDsList:Array = [];
 		
-		public function Question(itemXML:XML=null) {
-			super(ResourceItem.QUESTION, itemXML);
+		public function Question(initObj:*=null) {
+			super(ResourceItem.QUESTION, initObj);
 		}
 		
 		public function addRelevantResource(item:ResourceItem):void {
@@ -104,7 +104,7 @@ package astroUNL.classaction.browser.resources {
 			return xml;
 		}
 		
-		override public function initCustom():void {
+		override protected function initCustom():void {
 			super.initCustom();
 			questionType = Question.GENERAL;
 			width = 780;
@@ -139,6 +139,24 @@ package astroUNL.classaction.browser.resources {
 				
 			}
 		}		
+		
+		override protected function readSerializationObject(obj:Object):void {
+			super.readSerializationObject(obj);
+			
+			if (obj.questionType is int) questionType = obj.questionType;
+			else {
+				Logger.report("bad question type found, using general");
+				questionType = Question.GENERAL;
+				_serializationSuccess = true;//false;
+			}
+			
+		}
+		
+		override protected function composeSerializationObject():Object {
+			var obj:Object = super.composeSerializationObject();
+			obj.questionType = questionType;
+			return obj;
+		}
 		
 	}	
 }

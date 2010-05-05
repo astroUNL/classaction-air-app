@@ -32,7 +32,7 @@
 		
 		public var id:String;
 		protected var _name:String;
-		public var description:String;
+		public var description:String = "";
 		public var keywords:Array = [];
 		public var filename:String;
 		public var width:Number;
@@ -43,15 +43,28 @@
 		
 		public var typeCapped:String;
 		
-		public function ResourceItem(type:String, itemXML:XML=null) {
-			this.type = type;			
-			typeCapped = type.charAt(0).toUpperCase() + type.slice(1);
+		public function ResourceItem(type:String, initObj:*=null) {
+			// how the resource initializes depends on the value of initObj; initObj can be...
+			//  XML - used by the read only resources
+			//  ByteArray - serialization used by custom resources loaded from the shared object
+			//  null - used when creating new custom resources
+						
+			setType(type);
 			
-			if (itemXML==null) initCustom();
-			else setXML(itemXML);
+			_serialization = new ByteArray();
+			
+			if (initObj==null) initCustom();
+			else if (initObj is XML) setXML(initObj);
+			else if (initObj is ByteArray) setSerialization(initObj);
+			else Logger.report("error in ResourceItem()");
 		}
 		
-		public function initCustom():void {
+		protected function setType(t:String):void {
+			type = t;
+			typeCapped = t.charAt(0).toUpperCase() + t.slice(1);
+		}
+		
+		protected function initCustom():void {
 			
 			_readOnly = false;
 			
@@ -60,17 +73,20 @@
 			_name = "New " + typeCapped;
 			filename = type + "_" + id + ".data";
 			width = 100;
-			height = 100;
-			
+			height = 100;			
+		}
+		
+		/*
+		protected function addToBank():void {
 			var bank:Object;
 			if (type==ResourceItem.QUESTION) bank = QuestionsBank;
 			else if (type==ResourceItem.ANIMATION) bank = AnimationsBank;
 			else if (type==ResourceItem.IMAGE) bank = ImagesBank;
 			else if (type==ResourceItem.OUTLINE) bank = OutlinesBank;
 			else if (type==ResourceItem.TABLE) bank = TablesBank;
-			bank.lookup[id] = this;
-			bank.total++;
+			bank.add(this);
 		}
+		*/
 		
 		public function setXML(itemXML:XML):void {
 			if (itemXML!=null) {
@@ -177,6 +193,8 @@
 		}		
 		
 		protected var _serializationValid:Boolean = false;
+		protected var _serializationSuccess:Boolean = false;
+		protected var _serialization:ByteArray;
 		
 		protected function dispatchUpdate():void {
 			_serializationValid = false;
@@ -192,7 +210,7 @@
 				Logger.report("attempt to change the name of a read-only resource, resource: "+this);
 				return;
 			}
-			_name = arg;			
+			_name = arg;
 			dispatchUpdate();
 		}		
 		
@@ -200,5 +218,97 @@
 			return _readOnly;
 		}
 		
+		public function getSerialization():ByteArray {
+			
+			if (_serializationValid) {
+				_serialization.position = 0;
+				return _serialization;
+			}
+			
+			_serialization.length = 0;
+			_serialization.writeObject(composeSerializationObject());			
+			_serialization.deflate();
+			
+			_serializationValid = true;
+			
+			_serialization.position = 0;
+			return _serialization;
+		}
+		
+		protected function composeSerializationObject():Object {
+			var obj:Object = {};
+			obj.id = id;
+			obj.name = _name;
+			obj.description = description;
+			obj.keywords = keywords;
+			obj.filename = filename;
+			obj.width = width;
+			obj.height = height;
+			obj.type = type;		
+			return obj;
+		}
+		
+		protected function setSerialization(s:ByteArray):void {
+			
+			// success simply means that all the expected properties were there and in the correct format
+			_serializationSuccess = true;
+			
+			try {
+				s.inflate();
+			}
+			catch (err:Error) {
+				Logger.report("could not inflate resource serialization");
+				// continue on, maybe it's already inflated (can happen in certain circumstances)
+			}
+			
+			s.position = 0;
+			
+			var obj:Object;
+			try {
+				obj = s.readObject();
+			}
+			catch (err:Error) {
+				Logger.report("could not read resource serialization object");
+				_serializationSuccess = false;
+				return;
+			}
+			
+			readSerializationObject(obj);
+			
+			_readOnly = false;
+			onDownloadStateChanged(Downloader.DONE_SUCCESS, new ByteArray());
+		}
+		
+		protected function readSerializationObject(obj:Object):void {
+			
+			if (obj.id is String) id = obj.id;
+			else _serializationSuccess = false;
+			
+			if (obj.name is String) _name = obj.name;
+			else _serializationSuccess = false;
+			
+			if (obj.description==null || obj.description is String) description = obj.description;
+			else _serializationSuccess = false;
+			
+			if (obj.keywords is Array) keywords = obj.keywords;
+			else _serializationSuccess = false;
+			
+			if (obj.filename is String) filename = obj.filename;
+			else _serializationSuccess = false;
+			
+			if (obj.width is Number) width = obj.width;
+			else _serializationSuccess = false;
+			
+			if (obj.height is Number) height = obj.height;
+			else _serializationSuccess = false;
+			
+			if (obj.type is String) setType(obj.type);
+			else _serializationSuccess = false;			
+		}
+		
+		public function get serializationSuccess():Boolean {
+			return _serializationSuccess;
+		}
+				
 	}
 }

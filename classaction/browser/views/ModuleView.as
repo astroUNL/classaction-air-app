@@ -5,6 +5,7 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.resources.ModulesList;
 	import astroUNL.classaction.browser.resources.Question;
 	import astroUNL.classaction.browser.download.Downloader;
+	import astroUNL.classaction.browser.resources.QuestionsBank;
 	
 	import astroUNL.classaction.browser.views.elements.ScrollableLayoutPanes;
 	import astroUNL.classaction.browser.views.elements.ResourceContextMenuController;
@@ -139,7 +140,10 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onNewQuestion(evt:Event):void {
 			if (!_module.readOnly) {
-				_module.addQuestion(new Question());
+				var question:Question = new Question();
+				QuestionsBank.add(question);
+				_module.addQuestion(question);
+				dispatchEvent(new MenuEvent(ModuleView.QUESTION_SELECTED, question));
 			}			
 		}
 		

@@ -10,6 +10,10 @@ package astroUNL.classaction.browser.resources {
 		public static var total:uint = 0;
 		public static var loaded:Boolean = false;
 		
-	}
-	
+		public static function add(resource:ResourceItem):void {
+			lookup[resource.id] = resource;
+			total++;
+		}		
+		
+	}	
 }
