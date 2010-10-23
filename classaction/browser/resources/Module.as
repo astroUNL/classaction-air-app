@@ -84,7 +84,7 @@ package astroUNL.classaction.browser.resources {
 		protected var _serializationSuccess:Boolean = false;
 		
 		public function get serializationSuccess():Boolean {
-			return _serializationSuccess;			
+			return _serializationSuccess;
 		}
 		
 		protected static var _filenameCharacters:Vector.<String>;
@@ -331,9 +331,43 @@ package astroUNL.classaction.browser.resources {
 					success = true;
 					break;
 				}
-			}	
+			}
 			
 			if (success) dispatchUpdate();
+		}
+		
+		public function release():void {
+			// this function will remove the reference to this module from each resource and
+			// will unsubscribe from its events; it will also zero out the resource lists
+			// (called by the modules list when removing modules)
+			// this function does not prune the resource banks
+			
+			var i:int;
+			var list:Array;
+			var item:ResourceItem;
+			
+			for each (list in [allQuestionsList, animationsList, imagesList, outlinesList, tablesList]) {
+				for each (item in list) {
+					for (i=0; i<item.modulesList.length; i++) {
+						if (item.modulesList[i]==this) {
+							item.modulesList.splice(i, 1);
+							break;
+						}
+					}
+					item.removeEventListener(ResourceItem.UPDATE, onResourceUpdate, false);
+				}
+			}
+			
+			// empty the resources lists
+			warmupQuestionsList = [];
+			generalQuestionsList = [];
+			challengeQuestionsList = [];
+			discussionQuestionsList = [];		
+			allQuestionsList = [];
+			animationsList = [];
+			imagesList = [];
+			outlinesList = [];
+			tablesList = [];
 		}
 		
 		public function addQuestion(question:Question):void {
@@ -393,9 +427,12 @@ package astroUNL.classaction.browser.resources {
 							break;							
 						}
 					}
-					
 					question.removeEventListener(ResourceItem.UPDATE, onResourceUpdate, false);
+						
+					if (!question.readOnly && question.modulesList.length==0) QuestionsBank.remove(question);					
+					
 					dispatchUpdate();
+					
 					return;
 				}
 			}

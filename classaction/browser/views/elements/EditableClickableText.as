@@ -77,15 +77,7 @@ package astroUNL.classaction.browser.views.elements {
 			_halo.x = _field.width/2;
 			_halo.y = _field.height/2;			
 		}
-		
-		override public function get width():Number {
-			return _field.width;			
-		}
-		
-		override public function get height():Number {
-			return _field.height;			
-		}
-		
+
 		protected function selectAndFocus():void {
 			stage.focus = _field;
 			_field.setSelection(0, _field.text.length);
@@ -159,12 +151,16 @@ package astroUNL.classaction.browser.views.elements {
 			}
 		}
 		
+		protected var _hasFocus:Boolean = false;
+		
 		protected function onFocusIn(evt:FocusEvent):void {
+			_hasFocus = true;
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDownFunc, false, 0, true);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDownFunc, false, 0, true);
 		}
 		
 		protected function onFocusOut(evt:FocusEvent):void {
+			_hasFocus = false;
 			
 			_field.text = StringUtils.trim(_field.text);
 			if (_field.text=="") _field.text = _text;
@@ -181,6 +177,10 @@ package astroUNL.classaction.browser.views.elements {
 			setEditable(false);
 		}
 		
+		public function get hasFocus():Boolean {
+			return _hasFocus;
+		}
+		
 		protected function onKeyDownFunc(evt:KeyboardEvent):void {
 			if (evt.keyCode==Keyboard.ENTER) stage.focus = null;
 		}
@@ -189,5 +189,13 @@ package astroUNL.classaction.browser.views.elements {
 			if (evt.target!=_field && evt.target!=_halo) stage.focus = null;
 		}
 		
+		override public function get width():Number {
+			return _field.width;
+		}
+		
+		override public function get height():Number {
+			return _field.height;			
+		}		
+				
 	}	
 }
