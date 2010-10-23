@@ -11,15 +11,15 @@ package astroUNL.classaction.browser.resources {
 		public static const GENERAL:int = 1;
 		public static const CHALLENGE:int = 2;
 		public static const DISCUSSION:int = 3;
-				
-		public var questionType:int = Question.GENERAL;
+		
+		public var questionType:int = -1;
 		public var relevantAnimationIDsList:Array = [];
 		public var relevantImageIDsList:Array = [];
 		public var relevantOutlineIDsList:Array = [];
 		public var relevantTableIDsList:Array = [];
 		
-		public function Question(initObj:*=null) {
-			super(ResourceItem.QUESTION, initObj);
+		public function Question(itemXML:XML=null) {
+			super(ResourceItem.QUESTION, itemXML);
 		}
 		
 		public function addRelevantResource(item:ResourceItem):void {
@@ -104,13 +104,6 @@ package astroUNL.classaction.browser.resources {
 			return xml;
 		}
 		
-		override protected function initCustom():void {
-			super.initCustom();
-			questionType = Question.GENERAL;
-			width = 780;
-			height = 515;
-			dispatchEvent(new Event(ResourceItem.UPDATE));
-		}
 		
 		override public function setXML(itemXML:XML):void {
 			if (itemXML!=null) {
@@ -139,27 +132,6 @@ package astroUNL.classaction.browser.resources {
 				
 			}
 		}		
-		
-		override protected function readSerializationObject(obj:Object):void {
-			super.readSerializationObject(obj);
-			
-			if (obj.questionType is int) questionType = obj.questionType;
-			else {
-				Logger.report("bad question type found, using general");
-				questionType = Question.GENERAL;
-				_serializationSuccess = true;//false;
-			}
-			
-			if (_serializationSuccess) trace("successfully loaded question, "+_name+", "+obj.id);
-			else trace("failed to load question, "+obj.id);
-			
-		}
-		
-		override protected function composeSerializationObject():Object {
-			var obj:Object = super.composeSerializationObject();
-			obj.questionType = questionType;
-			return obj;
-		}
 		
 	}	
 }

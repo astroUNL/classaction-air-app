@@ -4,7 +4,6 @@ package astroUNL.classaction.browser.views.elements {
 	import astroUNL.utils.logger.Logger;
 	
 	import flash.display.Sprite;
-	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
@@ -34,16 +33,9 @@ package astroUNL.classaction.browser.views.elements {
 		
 		protected var _hitArea:Sprite;
 		
-		protected var _background:Shape;
-		
-		
 		public function ClickableText(text:String="", data:*=null, format:TextFormat=null, width:Number=0) {
 			
 			_format = new TextFormat();
-			
-			_background = new Shape();
-			_background.visible = false;
-			addChild(_background);
 			
 			_field = new TextField();
 			_field.autoSize = "none";
@@ -108,38 +100,6 @@ package astroUNL.classaction.browser.views.elements {
 			Logger.report("setting contextMenu of ClickableText not allowed");
 		}
 		
-		public function get showBackground():Boolean {
-			return _background.visible;
-		}
-		
-		public function set showBackground(arg:Boolean):void {
-			_background.visible = arg;			
-			if (_background.visible) redrawBackground();
-		}
-		
-		protected var _backgroundColor:uint = 0xa0a0a0;
-		protected var _backgroundCornerRadius:Number = 8;
-		protected var _backgroundLeftRightPadding:Number = 12;
-		protected var _backgroundTopBottomPadding:Number = 4;
-		protected var _backgroundAlpha:Number = 1;
-		
-		public function getBackgroundStyle():Object {
-			return {color: _backgroundColor,
-					alpha: _backgroundAlpha,
-					cornerRadius: _backgroundCornerRadius,
-					topBottomPadding: _backgroundTopBottomPadding,
-					leftRightPadding: _backgroundLeftRightPadding};
-		}
-		
-		public function setBackgroundStyle(style:Object):void {
-			if (style.color) _backgroundColor = style.color;
-			if (style.alpha) _backgroundAlpha = style.alpha;
-			if (style.cornerRadius) _backgroundCornerRadius = style.cornerRadius;
-			if (style.leftRightPadding) _backgroundLeftRightPadding = style.leftRightPadding;
-			if (style.topBottomPadding) _backgroundTopBottomPadding = style.topBottomPadding;
-			if (_background.visible) redrawBackground();
-		}
-		
 		public function clearMenu():void {
 			_hitArea.contextMenu.customItems = [];
 		}
@@ -184,10 +144,8 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public function setText(text:String=""):void {
-			if (_text!=text) {
-				_text = text;
-				redraw();
-			}
+			_text = text;
+			redraw();
 		}
 		
 		public function setFormat(format:TextFormat=null):void {
@@ -218,10 +176,8 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public function setWidth(width:Number):void {
-			if (_width!=width) {
-				_width = width;
-				redraw();
-			}
+			_width = width;
+			redraw();
 		}
 		
 		public function setClickable(arg:Boolean):void {
@@ -270,9 +226,6 @@ package astroUNL.classaction.browser.views.elements {
 			
 			_field.text = _text;
 			
-			_backgroundWidth = 0;
-			_backgroundHeight = 0;
-			
 			var i:int;
 			var m:TextLineMetrics;
 			_hitArea.graphics.clear();
@@ -289,26 +242,8 @@ package astroUNL.classaction.browser.views.elements {
 					_hitArea.graphics.drawRect(_field.x+_field.width-m.width-2, _field.y+2+i*m.height, m.width, m.height);
 				}
 				
-				if (m.width>_backgroundWidth) _backgroundWidth = m.width;
-				_backgroundHeight += m.height;
-				
 				_hitArea.graphics.endFill();
 			}
-			
-			_backgroundWidth += 4;
-			_backgroundHeight += 4;
-			
-			if (_background.visible) redrawBackground();
-		}
-		
-		protected var _backgroundWidth:Number;
-		protected var _backgroundHeight:Number;
-				
-		protected function redrawBackground():void {
-			_background.graphics.clear();
-			_background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
-			_background.graphics.drawRoundRect(_field.x-(_backgroundLeftRightPadding/2), _field.y-(_backgroundTopBottomPadding/2), _backgroundWidth+_backgroundLeftRightPadding, _backgroundHeight+_backgroundTopBottomPadding, 2*_backgroundCornerRadius);
-			_background.graphics.endFill();
 		}
 		
 		protected function onClick(evt:MouseEvent):void {
@@ -403,6 +338,7 @@ package astroUNL.classaction.browser.views.elements {
 		override public function toString():String {
 			return "[object ClickableText, text: " + _text + "]";
 		}
+		
 	}
 }
 

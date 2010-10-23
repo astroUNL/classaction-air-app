@@ -86,7 +86,7 @@ package astroUNL.classaction.browser {
 			
 			if (Security.sandboxType==Security.REMOTE) Downloader.init("");
 			else if (_readOnly) Downloader.init("classaction/");
-			else if (Capabilities.isDebugger) Downloader.init("C:/Documents and Settings/Chris/Desktop/My Dropbox/work/astro site/classaction/");
+			//else if (Capabilities.isDebugger) Downloader.init("C:/Documents and Settings/Chris/Desktop/My Dropbox/work/astro site/classaction/");
 			else Downloader.init("");
 			
 			_background = new Sprite();
@@ -243,41 +243,6 @@ package astroUNL.classaction.browser {
 			Logger.report("onSONetStatus, "+evt);
 		}
 		
-		protected function storeCustomQuestions():void {
-			if (_so==null) return;			
-			var startTimer:Number = getTimer();
-			_customQuestionsBank = new Dictionary();
-			var count:int = 0;
-			for each (var question:Question in QuestionsBank.lookup) {
-				if (!question.readOnly) {
-					_customQuestionsBank[question.id] = question.getSerialization();
-				}
-				count++;
-			}
-			trace("store cont: "+count);
-			_so.setProperty("customQuestions", _customQuestionsBank);
-			trace("storeCustomModules: "+(getTimer()-startTimer));
-		}
-		
-		protected function loadStoredCustomQuestions():void {
-			if (_so==null) return;
-			var startTimer:Number = getTimer();
-			var question:Question;
-			if (_so.data.customQuestions is Dictionary) {
-				for (var id:String in _so.data.customQuestions) {
-					if (_so.data.customQuestions[id] is ByteArray) {
-						// the question adds itself to the bank
-						question = new Question(_so.data.customQuestions[id]);
-						if (question.serializationSuccess) QuestionsBank.add(question);
-						else Logger.report("failed to load a stored custom question, id: "+id);
-					}					
-				}
-			}
-			trace("loadStoredCustomQuestions: "+(getTimer()-startTimer));			
-		}
-		
-		protected var _customQuestionsBank:Dictionary = new Dictionary();
-		
 		protected var _customModulesList:Array;
 				
 		protected function storeCustomModules():void {
@@ -326,13 +291,11 @@ package astroUNL.classaction.browser {
 				}
 			}
 			storeCustomModules();
-			storeCustomQuestions();
 		}
 		
 		protected function onModulesListUpdate(evt:Event):void {
 			addCustomModuleUpdateListeners();
 			storeCustomModules();
-			storeCustomQuestions();
 		}
 		
 		protected var _registeredCustomModules:Dictionary;
@@ -358,10 +321,6 @@ package astroUNL.classaction.browser {
 				reportFailure(explanation);
 			}
 			else {
-				
-				// now load any custom resources stored on the shared object
-				loadStoredCustomQuestions();
-				
 				// the next step is to load the modules list and the associated module files
 				
 				_modulesList = new ModulesList("moduleslist.xml");

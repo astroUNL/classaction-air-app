@@ -30,7 +30,7 @@ package astroUNL.classaction.browser.resources {
 		
 		
 		public function ResourceBanksLoader() {
-			//
+			trace("Error, ResourceBanksLoader not meant to be instantiated");
 		}
 		
 		public static function start():void {

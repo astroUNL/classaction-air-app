@@ -37,14 +37,12 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public static function register(obj:InteractiveObject):void {
-			if (obj is ClickableText) {				
-				var ct:ClickableText = obj as ClickableText;
-				ct.addMenuSelectListener(onMenuSelect);
-			}
-			else {
+			var ct:ClickableText = obj as ClickableText;
+			if (ct==null) {
 				Logger.report("ResourceContextMenuController set up to work only with ClickableText objects");
 				return;
 			}
+			ct.addMenuSelectListener(onMenuSelect);
 		}
 		
 		public static function set modulesList(arg:ModulesList):void {
@@ -57,10 +55,6 @@ package astroUNL.classaction.browser.views.elements {
 		public static function setState(module:Module, question:Question):void {
 			_selectedModule = module;
 			_selectedQuestion = question;
-		}		
-		
-		protected static function onRename(evt:ContextMenuEvent):void {
-			(evt.contextMenuOwner as EditableClickableText).setEditable(true);			
 		}
 		
 		protected static function onMenuSelect(evt:ContextMenuEvent):void {
@@ -74,9 +68,6 @@ package astroUNL.classaction.browser.views.elements {
 			}
 			
 			ct.clearMenu();
-			
-			var isEditable:Boolean = (evt.contextMenuOwner is EditableClickableText);
-			if (isEditable) ct.addMenuItem("Rename", onRename);
 			
 			// when done these lists will be populated with the custom modules the
 			// item is included and not included in
@@ -102,7 +93,7 @@ package astroUNL.classaction.browser.views.elements {
 			
 			// modules the resource could be added to
 			if (outList.length>0) {
-				ct.addMenuItem(_addToMenuText, null, isEditable);
+				ct.addMenuItem(_addToMenuText);
 				for (i=0; i<outList.length; i++) {
 					menuItem = ct.addMenuItem(_moduleMenuTextPrefix+outList[i].name, onItemAddToModule);
 					_moduleLookup[menuItem] = outList[i];
@@ -111,7 +102,7 @@ package astroUNL.classaction.browser.views.elements {
 			
 			// modules the resource could be removed from
 			if (inList.length>0) {
-				ct.addMenuItem(_removeFromMenuText, null, (isEditable || outList.length>0));
+				ct.addMenuItem(_removeFromMenuText, null, outList.length>0);
 				for (i=0; i<inList.length; i++) {
 					menuItem = ct.addMenuItem(_moduleMenuTextPrefix+inList[i].name, onItemRemoveFromModule);
 					_moduleLookup[menuItem] = inList[i];

@@ -24,7 +24,6 @@ package astroUNL.classaction.browser.views {
 		protected var _maxWidth:Number = 780;
 		protected var _maxHeight:Number = 515;
 		
-		protected var _editable:EditableQuestionView;
 		
 		public function QuestionView() {
 			
@@ -47,10 +46,6 @@ package astroUNL.classaction.browser.views {
 			_loader.mask = _mask;
 			addChild(_loader);
 			
-			_editable = new EditableQuestionView();
-			_editable.visible = false;
-			addChild(_editable);
-			
 			_timer = new Timer(20);
 			_timer.addEventListener(TimerEvent.TIMER, onTimer);
 		}
@@ -61,7 +56,6 @@ package astroUNL.classaction.browser.views {
 		
 		public function set question(q:Question):void {
 			_question = q;
-			if (_question!=null && !_question.readOnly) _editable.question = _question;
 			refresh();
 		}
 		
@@ -88,37 +82,28 @@ package astroUNL.classaction.browser.views {
 				_errorMsg.visible = false;
 				_preloader.visible = false;
 				_loader.visible = false;
-				_editable.visible = false;
 				if (_timer.running) _timer.stop();
 				return;
 			}
 			
 			if (_question.downloadState==Downloader.DONE_SUCCESS) {
-				if (_question.readOnly) {
-					_loader.loadBytes(_question.data);
-					_editable.visible = false;
-				}
-				else {
-					_editable.visible = true;
-				}
+				_loader.loadBytes(_question.data);
 				_errorMsg.visible = false;
 				_preloader.visible = false;
 				_loader.visible = false;
-				if (_timer.running) _timer.stop();
+				if (_timer.running) _timer.stop();				
 			}
 			else if (_question.downloadState==Downloader.DONE_FAILURE) {
 				_errorMsg.setMessage("the question file failed to load");
 				_errorMsg.visible = true;
 				_preloader.visible = false;
 				_loader.visible = false;
-				_editable.visible = false;
 				if (_timer.running) _timer.stop();
 			}
 			else {
 				_errorMsg.visible = false;
 				_preloader.visible = true;
 				_loader.visible = false;
-				_editable.visible = false;
 				if (!_timer.running) _timer.start();				
 			}
 			
@@ -136,28 +121,26 @@ package astroUNL.classaction.browser.views {
 			_preloader.x = midX - _preloader.width/2;
 			_preloader.y = midY - _preloader.height/2;
 			
-			var maxAspect:Number = _maxWidth/_maxHeight;
-			var qAspect:Number = _question.width/_question.height;
-			var qScale:Number, qWidth:Number, qHeight:Number;
-			
-			if (qAspect>maxAspect) {
-				qScale = _maxWidth/_question.width;
-				qWidth = qScale*_question.width;
-				qHeight = qScale*_question.height;
-			}
-			else {
-				qScale = _maxHeight/_question.height;
-				qWidth = qScale*_question.width;
-				qHeight = qScale*_question.height;
-			}
-			
 			if (_loader.visible) {
-				_loader.scaleX = _loader.scaleY = qScale;
+				
+				var maxAspect:Number = _maxWidth/_maxHeight;
+				var qAspect:Number = _question.width/_question.height;
+				
+				var qScale:Number, qWidth:Number, qHeight:Number;
+				
 				if (qAspect>maxAspect) {
+					qScale = _maxWidth/_question.width;
+					qWidth = qScale*_question.width;
+					qHeight = qScale*_question.height;
+					_loader.scaleX = _loader.scaleY = qScale;
 					_loader.x = 0;
 					_loader.y = (_maxHeight - qHeight)/2;
 				}
 				else {
+					qScale = _maxHeight/_question.height;
+					qWidth = qScale*_question.width;
+					qHeight = qScale*_question.height;
+					_loader.scaleX = _loader.scaleY = qScale;
 					_loader.x = (_maxWidth - qWidth)/2;
 					_loader.y = 0;
 				}
@@ -170,18 +153,6 @@ package astroUNL.classaction.browser.views {
 			}
 			else {
 				_mask.graphics.clear();
-			}
-			
-			if (_editable.visible) {
-				_editable.setDimensions(qWidth, qHeight, qScale);
-				if (qAspect>maxAspect) {
-					_editable.x = 0;
-					_editable.y = (_maxHeight - qHeight)/2;
-				}
-				else {
-					_editable.x = (_maxWidth - qWidth)/2;
-					_editable.y = 0;
-				}
 			}
 			
 		}

@@ -93,20 +93,17 @@ package astroUNL.classaction.browser.views.elements {
 			// object is moved to the next column; the allowSpillOver option determines whether
 			// this function should add the object to the next column if it does not belong in this
 			// one; the function returns a boolean indicating whether the object was added
-			// the height parameter allows overriding the object's self reported height
 			var topMargin:Number = 0;
 			var bottomMargin:Number = 0;
 			var leftMargin:Number = 0;
 			var minLeftOver:Number = 0;
 			var columnTopMargin:Number = 0;
-			var objHeight:Number = obj.height;
 			if (params!=null) {
 				topMargin = (params.topMargin!=undefined) ? params.topMargin : 0;
 				bottomMargin = (params.bottomMargin!=undefined) ? params.bottomMargin : 0;
 				leftMargin = (params.leftMargin!=undefined) ? params.leftMargin : 0;
 				minLeftOver = (params.minLeftOver!=undefined) ? params.minLeftOver : 0;
 				columnTopMargin = (params.columnTopMargin!=undefined) ? params.columnTopMargin : 0;
-				objHeight = (params.height!=undefined) ? params.height : obj.height;
 			}
 			
 			if (_cursorY<=columnTopMargin) {
@@ -114,7 +111,7 @@ package astroUNL.classaction.browser.views.elements {
 				topMargin = 0;
 			}
 			
-			var leftOver:Number = _columnBottomY - (_cursorY + topMargin + objHeight + bottomMargin);
+			var leftOver:Number = _columnBottomY - (_cursorY + topMargin + obj.height + bottomMargin);
 			if (leftOver<minLeftOver) {
 				if (allowSpillOver) {
 					advanceColumn();
@@ -128,7 +125,7 @@ package astroUNL.classaction.browser.views.elements {
 			obj.y = _cursorY + topMargin;
 			_currPane.addChild(obj);
 			
-			_cursorY += topMargin + objHeight + bottomMargin;
+			_cursorY += topMargin + obj.height + bottomMargin;
 			if (_cursorY>_columnBottomY) advanceColumn();		
 			
 			return true;

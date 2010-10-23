@@ -77,16 +77,12 @@ package astroUNL.classaction.browser.resources {
 			var success:Boolean = false;
 			for (var i:int = 0; i<modules.length; i++) {
 				if (modules[i]==module) {
-					module.release();
 					modules.splice(i, 1);
 					success = true;
 					break;
 				}
 			}
-			if (success) {
-				QuestionsBank.prune();
-				dispatchEvent(new Event(ModulesList.UPDATE));
-			}
+			if (success) dispatchEvent(new Event(ModulesList.UPDATE));
 			return success;
 		}
 		

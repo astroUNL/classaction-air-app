@@ -132,7 +132,7 @@ package astroUNL.classaction.browser.views {
 			var module:Module = (evt.contextMenuOwner as EditableClickableText).data;
 			if (module!=null) {
 				var success:Boolean = _modulesList.removeModule(module);
-				if (success) delete _moduleLinks[module];
+				if (success) delete _moduleLinks[module];	
 			}
 		}
 		
@@ -301,7 +301,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _numCustom:int;
 		
-		protected var _customModuleLimit:Number = Number.POSITIVE_INFINITY;
+		protected var _customModuleLimit:int = 10;
 		
 		protected var _deleteItemText:String = "Delete (hold Shift)";
 		protected var _copyModuleText:String = "Copy Module";
