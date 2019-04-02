@@ -1,4 +1,7 @@
 
+/files/
+/output/
+
 *.DS_Store
 
 **/.svn/
