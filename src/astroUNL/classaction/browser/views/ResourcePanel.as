@@ -9,6 +9,8 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.views.elements.ClickableText;
 	import astroUNL.classaction.browser.views.elements.ResourceContextMenuController;
 	import astroUNL.classaction.browser.download.Downloader;
+	
+	import astroUNL.classaction.browser.views.ResourceWindowsManager;
 
 	import flash.display.Sprite;
 	import flash.display.Graphics;
@@ -322,18 +324,8 @@ package astroUNL.classaction.browser.views {
 		}
 		
 		protected function onItemClicked(evt:Event):void {
-			
 			var item:ResourceItem = evt.target.data.item;
-			
-			var filename:String = Downloader.baseURL + item.filename;
-			filename = filename.slice(0, filename.lastIndexOf(".")) + ".html";
-			
-			if (Security.sandboxType==Security.REMOTE) {
-				ExternalInterface.call("openNewWindow", filename, item.id, "toolbar=no,directories=no,menubar=no,resizable=yes,dependent=no,status=no,width=" + item.width.toString() + ",height=" + item.height.toString());				
-			}
-			else {
-				navigateToURL(new URLRequest(filename), "_blank");
-			}
+			ResourceWindowsManager.open(item);
 		}
 		
 		protected function onLeftButtonClicked(evt:MouseEvent):void {
