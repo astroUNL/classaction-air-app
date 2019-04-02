@@ -22,6 +22,8 @@ package astroUNL.classaction.browser {
 	import astroUNL.classaction.browser.views.elements.PopupManager;
 	import astroUNL.classaction.browser.views.elements.PopupWindow;
 	
+	import astroUNL.classaction.browser.views.ResourceWindowsManager;
+	
 	import astroUNL.utils.keylistener.KeyListener;
 	import astroUNL.utils.logger.Logger;
 	
@@ -53,8 +55,24 @@ package astroUNL.classaction.browser {
 		public static const versionString:String = "ClassAction 2.1.X, April 2019";
 		
 		public function Main() {
+			
+			trace("Main constructor");
+			trace(" stage.stageWidth: "+stage.stageWidth);
+			trace(" stage.stageHeight: "+stage.stageHeight);
+			trace(" stage.width: "+stage.width);
+			trace(" stage.height: "+stage.height);
+			
 			_readOnly = false;
+			
+			stage.color = 0x000000;
+			stage.nativeWindow.addEventListener(Event.CLOSING, onMainWindowClosing);
+
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		}
+		
+		protected function onMainWindowClosing(evt:Event):void {
+			trace("Main window is closing, resource windows should follow.");
+			ResourceWindowsManager.closeAll();
 		}
 		
 		protected var _readOnly:Boolean;
@@ -71,7 +89,6 @@ package astroUNL.classaction.browser {
 			_registeredCustomModules = new Dictionary();
 			
 			stage.showDefaultContextMenu = false;
-			stage.color = 0x000000;
 			
 			if (!_readOnly) {
 				try {
@@ -182,10 +199,17 @@ package astroUNL.classaction.browser {
 		
 		protected function updateDimensions():void {
 			
+			trace("Main Window, updateDimensions");
+			trace(" stage.stageWidth (before): "+stage.stageWidth);
+			trace(" stage.stageHeight (before): "+stage.stageHeight);
+			
 			var windowWidth:Number = Math.max(stage.stageWidth, _minWidth);
 			var windowHeight:Number = Math.max(stage.stageHeight, _minHeight);
 			stage.stageWidth = windowWidth;
 			stage.stageHeight = windowHeight;
+			
+			trace(" windowWidth: "+windowWidth);
+			trace(" windowHeight: "+windowHeight);
 			
 			_header.width = windowWidth;
 			_resourcePanels.y = windowHeight;
