@@ -15,13 +15,13 @@ package br.hellokeita.utils{
 			trace("It's a static class. You should not instantiate this class.");
 		}
 		
-		public static function rtrim(v:String){
+		public static function rtrim(v:String):String {
 			return v.replace(LTrimExp, "");
 		}
-		public static function ltrim(v:String){
+		public static function ltrim(v:String):String {
 			return v.replace(RTrimExp, "");
 		}
-		public static function trim(v:String){
+		public static function trim(v:String):String {
 			return ltrim(rtrim(v));
 		}
 	}

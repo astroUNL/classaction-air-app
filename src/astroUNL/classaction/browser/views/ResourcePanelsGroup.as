@@ -48,7 +48,7 @@ package astroUNL.classaction.browser.views {
 			dispatchEvent(new Event(ResourcePanelsGroup.PREVIEW_ITEM_CHANGED));
 		}
 		
-		public function init() {
+		public function init():void {
 			
 			_halo = new ResourcePanelHalo();
 			_halo.width = _panelWidth;

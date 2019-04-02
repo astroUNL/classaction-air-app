@@ -7,8 +7,8 @@ package astroUNL.classaction.browser.views.elements {
 	
 	public class PopupManager extends Sprite {
 				
-		var _bounds:Rectangle;
-		var _popups:Vector.<PopupWindow>;
+		protected var _bounds:Rectangle;
+		protected var _popups:Vector.<PopupWindow>;
 		
 		public function PopupManager(initBounds:Rectangle=null) {
 			_bounds = initBounds;
