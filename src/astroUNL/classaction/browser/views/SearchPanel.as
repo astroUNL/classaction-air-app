@@ -47,7 +47,7 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _margin:Number = 12;
 		protected var _bottomMargin:Number = 20;
-		protected var _panesMargin:Number = 1.5*_margin;
+		protected var _panesMargin:Number = 18;//1.5*_margin;
 		
 		protected var _panelHeightMin:Number = 40;
 		protected var _panelWidth:Number = 290;
@@ -56,7 +56,7 @@ package astroUNL.classaction.browser.views {
 		protected var _messageY:Number = 40;
 		
 		protected var _panes:ScrollableLayoutPanes;
-		protected var _panesWidth:Number =_panelWidth - 2*_panesMargin;
+		protected var _panesWidth:Number = 254;//_panelWidth - 2*_panesMargin;
 		protected var _panesHeightLimit:Number = 140;
 		
 		protected var _background:Shape;
