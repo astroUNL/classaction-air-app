@@ -67,10 +67,11 @@ package astroUNL.classaction.browser {
 		protected var _backgroundAlpha:Number = 0;
 		
 		protected function onAddedToStage(evt:Event):void {
-			
+			trace("onAddedToStage");
 			_registeredCustomModules = new Dictionary();
 			
 			stage.showDefaultContextMenu = false;
+			stage.color = 0x000000;
 			
 			if (!_readOnly) {
 				try {

@@ -211,7 +211,11 @@ package astroUNL.classaction.browser.views {
 		protected var _dimensionsUpdateNeeded:Boolean = true;
 		
 		protected function doDimensionsUpdate():void {			
-
+		
+			if (_module==null) {
+				return;
+			}
+			
 			// adjust the layout
 			_panesWidth = _width - 4*_navButtonSpacing;
 			_panesHeight = _height;

@@ -217,6 +217,10 @@ package astroUNL.classaction.browser.views {
 				
 		protected function redraw():void {
 			
+			if (_modulesList==null) {
+				return;
+			}
+			
 			var startTimer:Number = getTimer();
 			
 			if (_dimensionsUpdateNeeded) doDimensionsUpdate();
