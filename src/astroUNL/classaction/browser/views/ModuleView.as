@@ -4,7 +4,6 @@ package astroUNL.classaction.browser.views {
 	import astroUNL.classaction.browser.resources.Module;
 	import astroUNL.classaction.browser.resources.ModulesList;
 	import astroUNL.classaction.browser.resources.Question;
-	import astroUNL.classaction.browser.download.Downloader;
 	import astroUNL.classaction.browser.resources.QuestionsBank;
 	
 	import astroUNL.classaction.browser.views.elements.ScrollableLayoutPanes;
@@ -22,8 +21,6 @@ package astroUNL.classaction.browser.views {
 	import flash.text.TextFormat;
 	import flash.text.TextField;
 	
-	import flash.utils.Timer;
-	import flash.events.TimerEvent;
 	import flash.utils.Dictionary;
 	
 	
@@ -59,11 +56,9 @@ package astroUNL.classaction.browser.views {
 			
 			_actionFormat = new TextFormat("Verdana", 12, 0xffffff, false);
 			_headingFormat = new TextFormat("Verdana", 14, 0xffffff, true);
-			_preLoadFormat = new TextFormat("Verdana", 12, 0x808080);
-			_successFormat = new TextFormat("Verdana", 12, 0xffffff);
+			_questionTitleFormat = new TextFormat("Verdana", 12, 0xffffff);
 			_numberFormat = new TextFormat("Verdana", 12, 0x798486, true); // 797D7A
 			_numberFormat.align = "right";
-			_failureFormat = new TextFormat("Verdana", 12, 0xff8080);
 			_emptyFormat = new TextFormat("Verdana", 14, 0xffffff);
 			_emptyFormat.align = "center";
 			_emptyFormat.leading = 5;
@@ -89,9 +84,6 @@ package astroUNL.classaction.browser.views {
 			_rightButton.addEventListener(MouseEvent.CLICK, onRightButtonClicked, false, 0, true);
 			_rightButton.visible = false;
 			addChild(_rightButton);
-			
-			_timer = new Timer(20);
-			_timer.addEventListener(TimerEvent.TIMER, onTimer);
 			
 			_warmupHeading = createHeading("Warmup Questions");
 			_generalHeading = createHeading("General Questions");
@@ -131,9 +123,7 @@ package astroUNL.classaction.browser.views {
 		protected function onReturnToModulesList(evt:Event):void {
 			dispatchEvent(new Event(ModuleView.MODULES_LIST_SELECTED));
 		}
-		
-		protected var _timer:Timer;
-		
+				
 		protected var _headingParams:Object = {topMargin: 10,
 											   bottomMargin: 4,
 											   minLeftOver: 0};
@@ -144,18 +134,9 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _actionFormat:TextFormat;
 		protected var _headingFormat:TextFormat;
-		protected var _preLoadFormat:TextFormat;
-		protected var _successFormat:TextFormat;
-		protected var _failureFormat:TextFormat;
+		protected var _questionTitleFormat:TextFormat;
 		
 		protected var _numberFormat:TextFormat;
-		
-		protected function onTimer(evt:TimerEvent):void {
-			var startTimer:Number = getTimer();
-			var allFinished:Boolean = refresh();
-			if (allFinished) _timer.stop();			
-			evt.updateAfterEvent();			
-		}
 		
 		protected function onQuestionClicked(evt:Event):void {
 			dispatchEvent(new MenuEvent(ModuleView.QUESTION_SELECTED, evt.target.data.item));
@@ -228,7 +209,6 @@ package astroUNL.classaction.browser.views {
 		
 		protected function redraw():void {
 			// this function clears the panes and adds the module's content
-			// then it calls refresh
 			
 			var startTimer:Number = getTimer();
 			
@@ -259,8 +239,6 @@ package astroUNL.classaction.browser.views {
 			
 			//trace("redraw module view: "+(getTimer()-startTimer)+", "+_module.name);
 			
-			var allFinished:Boolean = refresh();
-			if (!allFinished) _timer.start();
 		}
 		
 		protected function addQuestions(heading:TextField, questionsList:Array):void {
@@ -274,40 +252,9 @@ package astroUNL.classaction.browser.views {
 				}
 			}
 		}
-		
-		protected function refresh():Boolean {
-			// this function updates the colors of the ClickableText links to match
-			// the download state of the questions
-			// it returns a boolean value indicating whether all questions have finished
-			// downloading (successfully or otherwise)
-			var numFinished:int = 0;
-			var i:int;
-			var q:Question;
-			var ct:ClickableText;
-			var format:TextFormat;
-			for (i=0; i<_module.allQuestionsList.length; i++) {
-				q = _module.allQuestionsList[i];
-				ct = (_links[q].getChildAt(1) as ClickableText);
-				if (ct!=null) {
-					if (q.downloadState!=ct.data.lastDownloadState) {
-						ct.data.lastDownloadState = q.downloadState;
-						ct.setFormat(getFormat(q.downloadState));
-					}
-				}
-				else Logger.report("null question link in ModuleView.refresh");				
-				if (q.downloadState>=Downloader.DONE_SUCCESS) numFinished++;
-			}
-			return (numFinished==_module.allQuestionsList.length);
-		}
-		
+
 		protected var _links:Dictionary = new Dictionary();
-		
-		protected function getFormat(state:int):TextFormat {
-			if (state<Downloader.DONE_SUCCESS) return _preLoadFormat;
-			else if (state==Downloader.DONE_SUCCESS) return _successFormat;
-			else return _failureFormat;
-		}
-		
+
 		protected function onQuestionNameEntered(evt:Event):void {
 			evt.target.data.item.name = evt.target.text;
 		}
@@ -356,10 +303,10 @@ package astroUNL.classaction.browser.views {
 					
 					// make the clickable title
 					if (questionsList[i].readOnly) {
-						ct = new ClickableText(questionsList[i].name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
+						ct = new ClickableText(questionsList[i].name, {item: questionsList[i]}, _questionTitleFormat, linkWidth);
 					}
 					else {
-						ect = new EditableClickableText(questionsList[i].name, {item: questionsList[i], lastDownloadState: questionsList[i].downloadState}, getFormat(questionsList[i].downloadState), linkWidth);
+						ect = new EditableClickableText(questionsList[i].name, {item: questionsList[i]}, _questionTitleFormat, linkWidth);
 						ect.addEventListener(EditableClickableText.DIMENSIONS_CHANGED, onQuestionNameEntered, false, 0, true);
 						ect.addEventListener(EditableClickableText.EDIT_DONE, onQuestionNameEntered, false, 0, true);
 						ct = (ect as ClickableText);
