@@ -14,7 +14,6 @@ package astroUNL.classaction.browser {
 	import astroUNL.classaction.browser.views.QuestionView;
 	import astroUNL.classaction.browser.views.HeaderBar;
 	import astroUNL.classaction.browser.views.SearchPanel;
-	import astroUNL.classaction.browser.views.ZipDownloader;
 	import astroUNL.classaction.browser.download.Downloader;
 	import astroUNL.classaction.browser.resources.QuestionsBank;
 	import astroUNL.classaction.browser.resources.ResourceBanksLoader;
@@ -50,7 +49,6 @@ package astroUNL.classaction.browser {
 		protected var _so:SharedObject;
 		protected var _resourcePanels:ResourcePanelsGroup;
 		protected var _resourcePreview:ResourcePreview;		
-		protected var _zipDownloader:ZipDownloader;
 		
 		public static const versionString:String = "ClassAction 2.1.X, April 2019";
 		
@@ -134,7 +132,6 @@ package astroUNL.classaction.browser {
 						
 			_modulesListView = new ModulesListView(windowWidth-_modulesListViewMargins.left-_modulesListViewMargins.right, freeVerticalSpace-_modulesListViewMargins.top-_modulesListViewMargins.bottom, _readOnly);
 			_modulesListView.addEventListener(ModulesListView.MODULE_SELECTED, onModuleSelected);
-			_modulesListView.addEventListener(ModulesListView.START_ZIP_DOWNLOAD, onZipDownloadStart);
 			addChild(_modulesListView);
 						
 			_moduleView = new ModuleView(windowWidth-_moduleViewMargins.left-_moduleViewMargins.right, freeVerticalSpace-_moduleViewMargins.top-_moduleViewMargins.bottom);
@@ -172,11 +169,6 @@ package astroUNL.classaction.browser {
 			
 			_resourcePreview = new ResourcePreview();
 			addChild(_resourcePreview);
-			
-			_zipDownloader = new ZipDownloader();
-			_zipDownloader.addEventListener(ZipDownloader.DONE, onZipDownloadDone);
-			_zipDownloader.visible = false;
-			addChild(_zipDownloader);
 			
 			_mask = new Shape();
 			mask = _mask;
@@ -247,8 +239,6 @@ package astroUNL.classaction.browser {
 			var popupsVRange:Number = windowHeight - popupsTop - _resourcePanels.maxTabHeight - _popupsMargin - _searchPopup.titlebarHeight; 
 			_popups.bounds = new Rectangle(_popupsMargin, popupsTop, windowWidth-2*_popupsMargin, popupsVRange);
 			
-			// the zip downloader takes care of itself
-			_zipDownloader.setMainWindowDimensions(windowWidth, windowHeight);
 		}
 		
 		protected function onPreviewItemChanged(evt:Event):void {
@@ -418,9 +408,7 @@ package astroUNL.classaction.browser {
 				_resourcePanels.modulesList = _modulesList;
 				
 				_modulesListView.modulesList = _modulesList;
-				
-				_zipDownloader.modulesList = _modulesList;
-				
+								
 				_header.modulesList = _modulesList;
 
 				ResourceContextMenuController.modulesList = _modulesList;
@@ -515,9 +503,7 @@ package astroUNL.classaction.browser {
 			_modulesListView.visible = false;
 			_moduleView.visible = false;
 			_questionView.visible = false;
-			
-			_zipDownloader.visible = false;
-			
+						
 			_selectedModule = module;
 			_selectedQuestion = question;
 			
@@ -568,14 +554,6 @@ package astroUNL.classaction.browser {
 		protected var _searchPopup:PopupWindow;			
 		protected var _aboutPopup:PopupWindow;
 				
-		protected function onZipDownloadStart(evt:Event):void {
-			_zipDownloader.visible = true;
-			_zipDownloader.start();
-		}
-		
-		protected function onZipDownloadDone(evt:Event):void {
-			_zipDownloader.visible = false;
-		}
 		
 		protected function reportFailure(text:String):void {
 			Logger.report(text);		

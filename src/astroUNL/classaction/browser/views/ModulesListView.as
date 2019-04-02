@@ -25,10 +25,8 @@ package astroUNL.classaction.browser.views {
 	public class ModulesListView extends Sprite {
 		
 		public static const MODULE_SELECTED:String = "moduleSelected";
-		public static const START_ZIP_DOWNLOAD:String = "startZipDownload";
 
 		protected var _createCommand:ClickableText;
-		protected var _downloadCommand:ClickableText;
 		
 		protected var _content:Sprite;
 		
@@ -97,8 +95,6 @@ package astroUNL.classaction.browser.views {
 			
 			_createCommand = new ClickableText("create new module", null, _actionFormat, _panes.columnWidth);
 			_createCommand.addEventListener(ClickableText.ON_CLICK, onCreateCustomModule, false, 0, true);
-			_downloadCommand = new ClickableText("download my modules", null, _actionFormat, _panes.columnWidth);
-			_downloadCommand.addEventListener(ClickableText.ON_CLICK, onDownloadCustomModules, false, 0, true);
 			
 			_leftButton = new ResourcePanelNavButton();
 			_leftButton.x = _navButtonSpacing;
@@ -138,10 +134,6 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onModuleNameEntered(evt:Event):void {
 			evt.target.data.name = evt.target.text;
-		}
-		
-		protected function onDownloadCustomModules(evt:Event):void {
-			dispatchEvent(new Event(ModulesListView.START_ZIP_DOWNLOAD));
 		}
 		
 		protected function onModuleCopyRequest(evt:ContextMenuEvent):void {
@@ -209,7 +201,6 @@ package astroUNL.classaction.browser.views {
 			_standardHeading.width = _panes.columnWidth;
 			_customHeading.width = _panes.columnWidth;
 			_createCommand.setWidth(_panes.columnWidth);
-			_downloadCommand.setWidth(_panes.columnWidth);
 			for each (var link:ClickableText in _moduleLinks) link.setWidth(_panes.columnWidth-_itemLeftMargin);
 		
 			_dimensionsUpdateNeeded = false;
@@ -290,7 +281,6 @@ package astroUNL.classaction.browser.views {
 				_panes.addContent(_createCommand, itemParams);
 				itemParams.topMargin = 0;
 			}
-			if (numCustom>0) _panes.addContent(_downloadCommand, itemParams);
 			
 			if (oldPaneNum>=_panes.numPanes) oldPaneNum = _panes.numPanes - 1;
 			_panes.paneNum = oldPaneNum;
