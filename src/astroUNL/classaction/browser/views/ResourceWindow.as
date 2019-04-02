@@ -3,7 +3,9 @@
 //  of ClassAction 2.0, resources are opened in a new browser window. In the AIR app resources
 //  are opened in a new NativeWindow.
 
-// Some code adapted from QuestionView.
+// ResourceWindows are created by ResourceWindowsManager, which assigns one window per
+//  resource (no duplicates).
+
 
 package astroUNL.classaction.browser.views {
 
@@ -50,6 +52,8 @@ package astroUNL.classaction.browser.views {
 		
 		public function ResourceWindow(item:ResourceItem):void {
 			trace("ResourceWindow called for item: "+item);
+			
+			addEventListener(Event.CLOSING, _onWindowClosing);
 			
 			_item = item;
 			
@@ -108,6 +112,12 @@ package astroUNL.classaction.browser.views {
 			_loader.load(request, context);			
 			
 			stage.addEventListener(Event.RESIZE, onStageResized);
+		}
+		
+		protected function _onWindowClosing(evt:Event):void {
+			if (_isLoaded) {
+				_loader.unloadAndStop(true);
+			}
 		}
 		
 		
