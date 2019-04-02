@@ -1,127 +1,121 @@
 ﻿
+// QuestionView was modified to follow ResourceWindow. This was done to avoid using
+//  Loader.loadBytes, which would put all question SWFs in the same global space.
+
+
 package astroUNL.classaction.browser.views {
 	
 	import astroUNL.classaction.browser.resources.Question;
 	import astroUNL.classaction.browser.views.elements.MessageBubble;
 	import astroUNL.classaction.browser.download.Downloader;
 	
+	import astroUNL.utils.logger.Logger;
+
 	import flash.display.Sprite;
 	import flash.display.Shape;
 	import flash.display.Loader;
-	import flash.utils.Timer;
-	import flash.events.TimerEvent;
+	
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+
+	import flash.net.URLRequest;
+	import flash.system.Security;
+	import flash.system.SecurityDomain;
+	import flash.system.ApplicationDomain;
+
+	import flash.display.LoaderInfo;
+	import flash.system.LoaderContext;
 	
 	
 	public class QuestionView extends Sprite {
 		
+		// _question may be null.
+		protected var _question:Question;
+
+		// Unlike in ResourceWindow, _errorMsg always exists, but its visibility is toggled.
 		protected var _errorMsg:MessageBubble;
-		protected var _preloader:Preloader;
-		protected var _timer:Timer;
+		
 		protected var _mask:Shape;
 		protected var _loader:Loader;
-		protected var _question:Question;
+		
 		protected var _maxWidth:Number = 780;
 		protected var _maxHeight:Number = 515;
 		
 		
 		public function QuestionView() {
 			
-			_mask = new Shape();
-			addChild(_mask);
+			_question = null;
 			
 			_errorMsg = new MessageBubble();
 			_errorMsg.visible = false;
 			addChild(_errorMsg);
 			
-			_preloader = new Preloader();
-			_preloader.x = 300;
-			_preloader.y = 300;
-			_preloader.visible = false;
-			addChild(_preloader);
+			_mask = new Shape();
+			_mask.visible = false;
+			addChild(_mask);
 			
 			_loader = new Loader();
 			_loader.visible = false;
-			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoaderDone);
+			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoaderComplete);
+			_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onLoaderError);
 			_loader.mask = _mask;
 			addChild(_loader);
-			
-			_timer = new Timer(20);
-			_timer.addEventListener(TimerEvent.TIMER, onTimer);
 		}
+		
 		
 		public function get question():Question {
 			return _question;
 		}
 		
 		public function set question(q:Question):void {
+
+			_errorMsg.visible = false;
+			_mask.visible = false;
+			_loader.visible = false;
+			
+			if (_question != null) {
+				try {
+					_loader.unloadAndStop(true);
+				} catch (e:Error) {
+					Logger.report("Failed to unload question SWF.");
+				}
+			}
+			
 			_question = q;
-			refresh();
+			
+			if (_question != null) {
+				var context:LoaderContext = new LoaderContext();
+				context.allowCodeImport = true;
+				context.applicationDomain = new ApplicationDomain(null);		
+					
+				var request:URLRequest = new URLRequest(Downloader.baseURL + _question.downloadURL);
+				_loader.load(request, context);
+			}
 		}
+		
 		
 		public function setMaxDimensions(w:Number, h:Number):void {
 			_maxWidth = w;
 			_maxHeight = h;
-			
 			refreshPositioning();
 		}
 		
-		protected function onTimer(evt:TimerEvent):void {
-			refresh();
-			evt.updateAfterEvent();
+		
+		protected function onLoaderError(evt:IOErrorEvent):void {
+			_errorMsg.visible = true;
+			_errorMsg.setMessage(evt.text);
+			refreshPositioning();
 		}
 		
-		protected function onLoaderDone(evt:Event):void {
+		
+		protected function onLoaderComplete(evt:Event):void {
 			_loader.visible = true;
+			_mask.visible = true;
 			refreshPositioning();
-		}
+		}		
 		
-		protected function refresh():void {
-			if (_question==null) {
-				_loader.unloadAndStop(true);
-				_errorMsg.visible = false;
-				_preloader.visible = false;
-				_loader.visible = false;
-				if (_timer.running) _timer.stop();
-				return;
-			}
-			
-			if (_question.downloadState==Downloader.DONE_SUCCESS) {
-				if (_question.data.length>0) {
-					_loader.loadBytes(_question.data);
-					_errorMsg.visible = false;
-					_preloader.visible = false;
-					_loader.visible = false;
-					if (_timer.running) _timer.stop();
-				}
-			}
-			else if (_question.downloadState==Downloader.DONE_FAILURE) {
-				_errorMsg.setMessage("the question file failed to load");
-				_errorMsg.visible = true;
-				_preloader.visible = false;
-				_loader.visible = false;
-				if (_timer.running) _timer.stop();
-			}
-			else {
-				_errorMsg.visible = false;
-				_preloader.visible = true;
-				_loader.visible = false;
-				if (!_timer.running) _timer.start();				
-			}
-			
-			refreshPositioning();
-		}
 		
 		protected function refreshPositioning():void {
-			
-			var midX:Number = _maxWidth/2;
-			var midY:Number = _maxHeight/2;
-			
-			_errorMsg.x = midX - _errorMsg.width/2;
-			_errorMsg.y = midY - _errorMsg.height/2;
-			
-			_preloader.x = midX - _preloader.width/2;
-			_preloader.y = midY - _preloader.height/2;
 			
 			if (_loader.visible) {
 				
@@ -152,12 +146,13 @@ package astroUNL.classaction.browser.views {
 				_mask.graphics.beginFill(0xffff00);
 				_mask.graphics.drawRect(_loader.x, _loader.y, qWidth, qHeight);
 				_mask.graphics.endFill();
-			}
-			else {
+				
+			} else {
 				_mask.graphics.clear();
 			}
 			
 		}
+		
 		
 	}	
 }

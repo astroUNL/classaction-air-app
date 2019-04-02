@@ -114,6 +114,7 @@ package astroUNL.classaction.browser.views {
 			stage.addEventListener(Event.RESIZE, onStageResized);
 		}
 		
+		
 		protected function _onWindowClosing(evt:Event):void {
 			if (_isLoaded) {
 				_loader.unloadAndStop(true);
@@ -143,13 +144,7 @@ package astroUNL.classaction.browser.views {
 
 		protected function refreshPositioning():void {
 			
-			//var midX:Number = stage.stageWidth/2;
-			//var midY:Number = stage.stageHeight/2;
-			
-			if (_errorMsg != null) {
-				_errorMsg.x = 0;
-				_errorMsg.y = 0;
-			} else if (_isLoaded) {
+			if (_errorMsg == null && _isLoaded) {
 				
 				if (_loader.contentLoaderInfo.contentType == "application/x-shockwave-flash") {
 					
