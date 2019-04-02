@@ -122,13 +122,11 @@ package astroUNL.classaction.browser.views {
 		
 		
 		protected function onStageResized(evt:Event):void {
-			trace("ON STAGE RESIZE");
 			refreshPositioning();
 		}
 		
 		
 		protected function onLoaderError(evt:IOErrorEvent):void {
-			trace("onLoaderError");
 			stage.removeChild(_loader);
 			_errorMsg = new MessageBubble();
 			_errorMsg.setMessage(evt.text);
@@ -138,7 +136,6 @@ package astroUNL.classaction.browser.views {
 		
 		
 		protected function onLoaderComplete(evt:Event):void {
-			trace("onLoaderComplete");
 			_isLoaded = true;
 			refreshPositioning();
 		}
@@ -146,27 +143,30 @@ package astroUNL.classaction.browser.views {
 
 		protected function refreshPositioning():void {
 			
-			var midX:Number = stage.stageWidth/2;
-			var midY:Number = stage.stageHeight/2;
+			//var midX:Number = stage.stageWidth/2;
+			//var midY:Number = stage.stageHeight/2;
 			
 			if (_errorMsg != null) {
 				_errorMsg.x = 0;
 				_errorMsg.y = 0;
 			} else if (_isLoaded) {
 				
-				trace("contentLoaderInfo for "+_item);
-				trace(" actionScriptVersion: "+_loader.contentLoaderInfo.actionScriptVersion);
-				trace(" applicationDomain: "+_loader.contentLoaderInfo.applicationDomain);
-				trace(" swfVersion: "+_loader.contentLoaderInfo.swfVersion);
-				trace(" framerate: "+_loader.contentLoaderInfo.frameRate);
-				trace(" width: "+_loader.contentLoaderInfo.width);
-				trace(" height: "+_loader.contentLoaderInfo.height);
-				trace(" content: "+_loader.content);
+				if (_loader.contentLoaderInfo.contentType == "application/x-shockwave-flash") {
+					
+					trace("contentLoaderInfo for "+_item);
+					trace(" actionScriptVersion: "+_loader.contentLoaderInfo.actionScriptVersion);
+					trace(" applicationDomain: "+_loader.contentLoaderInfo.applicationDomain);
+					trace(" swfVersion: "+_loader.contentLoaderInfo.swfVersion);
+					trace(" framerate: "+_loader.contentLoaderInfo.frameRate);
+					trace(" width: "+_loader.contentLoaderInfo.width);
+					trace(" height: "+_loader.contentLoaderInfo.height);
+					trace(" content: "+_loader.content);
+				
+					trace("loader width: "+_loader.width);
+					trace("loader height: "+_loader.height);				
 			
-				trace("loader width: "+_loader.width);
-				trace("loader height: "+_loader.height);				
-			
-				trace("loader.stage.width: "+_loader.stage.width);
+					trace("loader.stage.width: "+_loader.stage.width);
+				}
 			
 				var maxAspect:Number = stage.stageWidth/stage.stageHeight;
 				var qAspect:Number = _item.width/_item.height;

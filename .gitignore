@@ -2,7 +2,9 @@
 /files/
 /output/
 
-*.DS_Store
+.DS_Store
+._.DS_Store
+Thumbs.db
 
 **/.svn/
 
