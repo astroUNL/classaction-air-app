@@ -51,7 +51,6 @@ package astroUNL.classaction.browser.views {
 		
 		protected var _panes:ScrollableLayoutPanes;
 		
-		protected var _newQuestion:ClickableText;
 		
 		public function ModuleView(width:Number, height:Number) {
 			
@@ -79,11 +78,6 @@ package astroUNL.classaction.browser.views {
 			_emptyMessage.addEventListener(ClickableText.ON_CLICK, onReturnToModulesList);
 			_emptyMessage.visible = false;
 			addChild(_emptyMessage);
-			
-			_newQuestion = new ClickableText("write new question", null, _actionFormat);
-			_newQuestion.setBackgroundStyle({color: 0x37403E});
-			_newQuestion.showBackground = true;
-			_newQuestion.addEventListener(ClickableText.ON_CLICK, onNewQuestion);
 			
 			_leftButton = new ModuleViewNavButton();
 			_leftButton.scaleX = -1;
@@ -136,15 +130,6 @@ package astroUNL.classaction.browser.views {
 		
 		protected function onReturnToModulesList(evt:Event):void {
 			dispatchEvent(new Event(ModuleView.MODULES_LIST_SELECTED));
-		}
-		
-		protected function onNewQuestion(evt:Event):void {
-			if (!_module.readOnly) {
-				var question:Question = new Question();
-				QuestionsBank.add(question);
-				_module.addQuestion(question);
-				dispatchEvent(new MenuEvent(ModuleView.QUESTION_SELECTED, question));
-			}			
 		}
 		
 		protected var _timer:Timer;
@@ -238,10 +223,6 @@ package astroUNL.classaction.browser.views {
 			_discussionHeading.width = _panes.columnWidth;
 			// the widths of question links are reset in the getLinks function (so that the resizing occurs only as needed)
 			
-			if (!_module.readOnly) {
-				_newQuestion.setWidth(_panes.columnWidth);
-			}
-			
 			_dimensionsUpdateNeeded = false;
 		}
 		
@@ -275,10 +256,6 @@ package astroUNL.classaction.browser.views {
 			_panes.paneNum = oldPaneNum;
 			
 			_leftButton.visible = _rightButton.visible = (_panes.numPanes>1);
-			
-			if (!_module.readOnly) {
-				_panes.addContent(_newQuestion, {leftMargin: 20, topMargin: 22});
-			}
 			
 			//trace("redraw module view: "+(getTimer()-startTimer)+", "+_module.name);
 			
