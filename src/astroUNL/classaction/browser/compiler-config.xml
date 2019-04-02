@@ -5,7 +5,7 @@
     <!-- Specifies the minimum player version that will run the compiled SWF. -->
     <target-player>43</target-player>
 
-    <output>../../../main.swf</output>
+    <output>../../../../main.swf</output>
 
     <compiler>
 

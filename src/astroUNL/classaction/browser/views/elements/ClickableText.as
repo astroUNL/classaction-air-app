@@ -11,6 +11,8 @@ package astroUNL.classaction.browser.views.elements {
 	import flash.events.MouseEvent;
 	import flash.text.TextLineMetrics;
 	
+	import flash.display.NativeMenu;
+	
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 	import flash.events.ContextMenuEvent;
@@ -64,7 +66,6 @@ package astroUNL.classaction.browser.views.elements {
 			addChild(_hitArea);
 			
 			_hitArea.contextMenu = new ContextMenu();
-			_hitArea.contextMenu.hideBuiltInItems();
 			_hitArea.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, onContextMenuSelect, false, 0, true);
 			
 			// since the hit area is mouse enabled, we need to intercept mouse events and redispatch
@@ -99,12 +100,12 @@ package astroUNL.classaction.browser.views.elements {
 		// instead of working with the contextMenu of the ClickableText object directly, one
 		// must use the clearMenu and addMenuItem functions
 		
-		override public function get contextMenu():ContextMenu {
+		override public function get contextMenu():NativeMenu {
 			Logger.report("getting contextMenu of ClickableText not allowed");
 			return null;
 		}
 		
-		override public function set contextMenu(arg:ContextMenu):void {
+		override public function set contextMenu(arg:NativeMenu):void {
 			Logger.report("setting contextMenu of ClickableText not allowed");
 		}
 		
@@ -141,7 +142,7 @@ package astroUNL.classaction.browser.views.elements {
 		}
 		
 		public function clearMenu():void {
-			_hitArea.contextMenu.customItems = [];
+			_hitArea.contextMenu.items = [];
 		}
 		
 		public function addMenuItem(label:String, listener:Function=null, separatorBefore:Boolean=false):ContextMenuItem {
@@ -153,7 +154,7 @@ package astroUNL.classaction.browser.views.elements {
 				item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onMenuItemSelect, false, 0, true);
 				item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, listener, false, 0, true);
 			}
-			_hitArea.contextMenu.customItems.push(item);
+			_hitArea.contextMenu.items.push(item);
 			return item;
 		}
 		

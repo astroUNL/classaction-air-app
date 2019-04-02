@@ -11,7 +11,7 @@ package astroUNL.classaction.browser.views {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
-	public class HeaderBar extends Sprite {
+	public class HeaderBar extends SWCHeaderBar {
 		
 		public static const QUESTION_SELECTED:String = "questionSelected";
 		public static const MODULE_SELECTED:String = "moduleSelected";

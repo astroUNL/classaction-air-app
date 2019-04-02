@@ -32,7 +32,7 @@ package astroUNL.classaction.browser.views {
 	
 	
 	
-	public class SearchPanel extends Sprite {
+	public class SearchPanel extends SWCSearchPanel {
 		
 		public static const QUESTION_SELECTED:String = "questionSelected";
 		

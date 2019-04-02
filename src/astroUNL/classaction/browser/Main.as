@@ -50,10 +50,10 @@ package astroUNL.classaction.browser {
 		protected var _resourcePreview:ResourcePreview;		
 		protected var _zipDownloader:ZipDownloader;
 		
-		public static const versionString:String = "ClassAction v2, 15 April 2010";
+		public static const versionString:String = "ClassAction 2.1.X, April 2019";
 		
-		public function Main(readOnly:Boolean) {
-			_readOnly = readOnly;
+		public function Main() {
+			_readOnly = false;
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -84,10 +84,7 @@ package astroUNL.classaction.browser {
 			}
 			else _so = null;
 			
-			if (Security.sandboxType==Security.REMOTE) Downloader.init("");
-			else if (_readOnly) Downloader.init("classaction/");
-			else if (Capabilities.isDebugger) Downloader.init("C:/Documents and Settings/Chris/Desktop/My Dropbox/work/astro site/classaction/");
-			else Downloader.init("");
+			Downloader.init("files/");
 			
 			_background = new Sprite();
 			addChild(_background);
