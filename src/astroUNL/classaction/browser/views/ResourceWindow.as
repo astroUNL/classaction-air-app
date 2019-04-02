@@ -8,25 +8,23 @@
 package astroUNL.classaction.browser.views {
 
 	import astroUNL.classaction.browser.resources.ResourceItem;
-	
 	import astroUNL.classaction.browser.views.elements.MessageBubble;
 	import astroUNL.classaction.browser.download.Downloader;
 	
 	import flash.display.Sprite;
 	import flash.display.Shape;
 	import flash.display.Loader;
-	import flash.utils.Timer;
-	import flash.events.TimerEvent;
+	
 	import flash.events.Event;
-	
+	import flash.events.IOErrorEvent;
+
 	import flash.net.URLRequest;
-	
-	
 	import flash.system.Security;
 	import flash.system.SecurityDomain;
-	
+	import flash.system.ApplicationDomain;
+
+	import flash.display.LoaderInfo;
 	import flash.system.LoaderContext;
-	//import flash.display.Sprite;
 
 	import flash.display.NativeWindow;
 	import flash.display.NativeWindowInitOptions;
@@ -35,21 +33,20 @@ package astroUNL.classaction.browser.views {
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	
-	import flash.system.ApplicationDomain;
-	
 	
 	public class ResourceWindow extends NativeWindow {
 		
 		protected var _item:ResourceItem;
 		
-		protected var _errorMsg:MessageBubble;
-		protected var _preloader:Preloader;
-		protected var _timer:Timer;
+		// _errorMsg remains null unless loading fails.
+		protected var _errorMsg:MessageBubble = null;
+		
+		// _isLoaded flag raised on loading complete.
+		protected var _isLoaded:Boolean = false;
+		
 		protected var _mask:Shape;
 		protected var _loader:Loader;
 		
-		//protected var _maxWidth:Number = 780;
-		//protected var _maxHeight:Number = 515;
 		
 		public function ResourceWindow(item:ResourceItem):void {
 			trace("ResourceWindow called for item: "+item);
@@ -78,12 +75,8 @@ package astroUNL.classaction.browser.views {
 			trace(" chromeHeight: "+chromeHeight);
 			trace(" item width: "+_item.width);
 			trace(" item.height: "+_item.height);
-			
 			trace(" width (before): "+width);
 			trace(" height (before): "+height);
-			
-			//width = _item.width + chromeWidth;
-			//height = _item.height + chromeHeight;
 			
 			stage.stageWidth = _item.width;
 			stage.stageHeight = _item.height;
@@ -91,153 +84,77 @@ package astroUNL.classaction.browser.views {
 			trace(" width: "+width);
 			trace(" height: "+height);
 			
-			//stage.stageWidth = width;
-			//stage.stageHeight = height;
-			
 			title = _item.name;
 			
-			trace("stage: "+stage);
 			activate();
-			
+						
 			_mask = new Shape();
 			stage.addChild(_mask);
 			
-			_errorMsg = new MessageBubble();
-			_errorMsg.visible = false;
-			//stage.addChild(_errorMsg);
-			
-			_preloader = new Preloader();
-			_preloader.x = 300;
-			_preloader.y = 300;
-			_preloader.visible = false;
-			//stage.addChild(_preloader);
-			
 			_loader = new Loader();
-			_loader.visible = true;//false;
-			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoaderDone);
+			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoaderComplete);
+			_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onLoaderError);
 			_loader.mask = _mask;
 			stage.addChild(_loader);
 			
 			trace(" loader.width: "+_loader.width);
 			trace(" loader.height: "+_loader.height);
-						
-			//_loader.stage.width = _item.width;
-			//_loader.stage.height = _item.height;
 			
-			
-			_timer = new Timer(20);
-			_timer.addEventListener(TimerEvent.TIMER, onTimer);
-			
-			refresh();
-
-			/*
 			var context:LoaderContext = new LoaderContext();
 			context.allowCodeImport = true;
 			context.applicationDomain = new ApplicationDomain(null);		
 					
-			var request:URLRequest = new URLRequest(_item.downloadURL);
-			_loader.load(request, context);
-			_loader.visible = true;
-			_preloader.visible = false;
+			var request:URLRequest = new URLRequest(Downloader.baseURL + _item.downloadURL);
+			_loader.load(request, context);			
 			
-			*/
 			stage.addEventListener(Event.RESIZE, onStageResized);
 		}
+		
 		
 		protected function onStageResized(evt:Event):void {
 			trace("ON STAGE RESIZE");
 			refreshPositioning();
-			
-			trace("contentLoaderInfo for "+_item);
-			trace(" actionScriptVersion: "+_loader.contentLoaderInfo.actionScriptVersion);
-			trace(" applicationDomain: "+_loader.contentLoaderInfo.applicationDomain);
-			trace(" swfVersion: "+_loader.contentLoaderInfo.swfVersion);
-			trace(" framerate: "+_loader.contentLoaderInfo.frameRate);
-			trace(" width: "+_loader.contentLoaderInfo.width);
-			trace(" height: "+_loader.contentLoaderInfo.height);
-			trace(" content: "+_loader.content);
 		}
 		
-		protected function refresh():void {
-			if (_item == null) {
-				_loader.unloadAndStop(true);
-				_errorMsg.visible = false;
-				_preloader.visible = false;
-				_loader.visible = false;
-				if (_timer.running) {
-					_timer.stop();
-				}
-				return;
-			}
+		
+		protected function onLoaderError(evt:IOErrorEvent):void {
+			trace("onLoaderError");
+			stage.removeChild(_loader);
+			_errorMsg = new MessageBubble();
+			_errorMsg.setMessage(evt.text);
+			stage.addChild(_errorMsg);
+			refreshPositioning();
+		}
+		
+		
+		protected function onLoaderComplete(evt:Event):void {
+			trace("onLoaderComplete");
+			_isLoaded = true;
+			refreshPositioning();
+		}
+		
 
-			if (_item.downloadState == Downloader.DONE_SUCCESS) {
-				if (_item.data.length>0) {
-					
-					var context:LoaderContext = new LoaderContext();
-					context.allowCodeImport = true;
-					context.applicationDomain = new ApplicationDomain(null);
-					//context.securityDomain = SecurityDomain.currentDomain;
-					
-					_loader.loadBytes(_item.data, context);
-					_errorMsg.visible = false;
-					_preloader.visible = false;
-					_loader.visible = false;
-				}
-				// TODO : Check QuestionView -- there may be a bug in logic.
-				if (_timer.running) {
-					_timer.stop();
-				}
-			} else if (_item.downloadState == Downloader.DONE_FAILURE) {
-				_errorMsg.setMessage("The resource file failed to load.");
-				_errorMsg.visible = true;
-				_preloader.visible = false;
-				_loader.visible = false;
-				if (_timer.running) {
-					_timer.stop();
-				}
-			} else {
-				if (_item.downloadState == Downloader.NOT_QUEUED) {
-					Downloader.get(_item);
-				}
-				_errorMsg.visible = false;
-				_preloader.visible = true;
-				_loader.visible = false;
-				if (!_timer.running) {
-					_timer.start();
-				}
-			}
-			
-			refreshPositioning();
-		}
-		
-		protected function onTimer(evt:TimerEvent):void {
-			trace("onTimer");
-			refresh();
-			evt.updateAfterEvent();
-		}
-		
-		protected function onLoaderDone(evt:Event):void {
-			trace("onLoaderDone");
-			_loader.visible = true;
-			refreshPositioning();
-		}
-		
-		
 		protected function refreshPositioning():void {
 			
 			var midX:Number = stage.stageWidth/2;
 			var midY:Number = stage.stageHeight/2;
 			
-			_errorMsg.x = midX - _errorMsg.width/2;
-			_errorMsg.y = midY - _errorMsg.height/2;
-			
-			_preloader.x = midX - _preloader.width/2;
-			_preloader.y = midY - _preloader.height/2;
-			
-			if (_loader.visible) {
+			if (_errorMsg != null) {
+				_errorMsg.x = 0;
+				_errorMsg.y = 0;
+			} else if (_isLoaded) {
 				
-			trace("loader width: "+_loader.width);
-			trace("loader height: "+_loader.height);				
+				trace("contentLoaderInfo for "+_item);
+				trace(" actionScriptVersion: "+_loader.contentLoaderInfo.actionScriptVersion);
+				trace(" applicationDomain: "+_loader.contentLoaderInfo.applicationDomain);
+				trace(" swfVersion: "+_loader.contentLoaderInfo.swfVersion);
+				trace(" framerate: "+_loader.contentLoaderInfo.frameRate);
+				trace(" width: "+_loader.contentLoaderInfo.width);
+				trace(" height: "+_loader.contentLoaderInfo.height);
+				trace(" content: "+_loader.content);
+			
+				trace("loader width: "+_loader.width);
+				trace("loader height: "+_loader.height);				
 			
 				trace("loader.stage.width: "+_loader.stage.width);
 			
@@ -267,8 +184,6 @@ package astroUNL.classaction.browser.views {
 				_mask.graphics.beginFill(0xffff00);
 				_mask.graphics.drawRect(_loader.x, _loader.y, qWidth, qHeight);
 				_mask.graphics.endFill();
-			} else {
-				_mask.graphics.clear();
 			}
 			
 			trace("refreshPositioning");

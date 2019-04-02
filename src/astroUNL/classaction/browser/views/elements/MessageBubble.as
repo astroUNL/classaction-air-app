@@ -15,12 +15,12 @@ package astroUNL.classaction.browser.views.elements {
 			_background = new Shape();
 			addChild(_background);
 			
-			_format = new TextFormat("Verdana", 14, 0x0, false);
-			_format.align = "center";
+			_format = new TextFormat("Verdana", 12, 0x0, false);
+			//_format.align = "center";
 			
 			_field = new TextField();
 			_field.embedFonts = true;
-			_field.autoSize = "center";
+			_field.autoSize = "left";
 			_field.selectable = false;
 			_field.defaultTextFormat = _format;
 			addChild(_field);
