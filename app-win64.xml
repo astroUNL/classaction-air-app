@@ -7,6 +7,14 @@
 <filename>ClassAction</filename>
 <supportedProfiles>desktop extendedDesktop</supportedProfiles>
 <architecture>64</architecture>
+<icon>
+<image16x16>icons/Icon16.png</image16x16>
+<image32x32>icons/Icon32.png</image32x32>
+<image48x48>icons/Icon48.png</image48x48>
+<image128x128>icons/Icon128.png</image128x128>
+<image512x512>icons/Icon512.png</image512x512>
+<image1024x1024>icons/Icon1024.png</image1024x1024>
+</icon>
 <initialWindow>
 <title>ClassAction 2.1.X - EXPERIMENT 1</title>
 <content>main.swf</content>
