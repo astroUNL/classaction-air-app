@@ -8,15 +8,15 @@
 <supportedProfiles>desktop extendedDesktop</supportedProfiles>
 <architecture>64</architecture>
 <icon>
-<image16x16>icons/Icon16.png</image16x16>
-<image32x32>icons/Icon32.png</image32x32>
-<image48x48>icons/Icon48.png</image48x48>
-<image128x128>icons/Icon128.png</image128x128>
-<image512x512>icons/Icon512.png</image512x512>
-<image1024x1024>icons/Icon1024.png</image1024x1024>
+<image16x16>icons/icon_16x16.png</image16x16>
+<image32x32>icons/icon_32x32.png</image32x32>
+<image48x48>icons/icon_48x48.png</image48x48>
+<image128x128>icons/icon_128x128.png</image128x128>
+<image512x512>icons/icon_512x512.png</image512x512>
+<image1024x1024>icons/icon_512x512@2.png</image1024x1024>
 </icon>
 <initialWindow>
-<title>ClassAction 2.1.X - EXPERIMENT 1</title>
+<title>ClassAction 2.1.X - EXPERIMENT 2</title>
 <content>main.swf</content>
 <width>806</width>
 <height>617</height>
