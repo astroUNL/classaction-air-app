@@ -98,7 +98,7 @@
     <Name>Small-Angle Approximation Demonstrator</Name>
     <Description>Shows how small angles can be approximated.</Description>
     <Keywords/>
-    <File>animations/intro/smallangledemo.swf</File>
+    <File>animations/ancientastro/smallangledemo.swf</File>
     <Width>960</Width>
     <Height>380</Height>
   </Animation>
