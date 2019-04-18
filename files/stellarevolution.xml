@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Stellar Evolution">
+  <Questions>
+    <Question>ca_stellarevolution_evolhrtrack</Question>
+    <Question>ca_stellarevolution_sunchanges</Question>
+    <Question>ca_stellarevolution_hrmovement</Question>
+    <Question>ca_stellarevolution_corestages1</Question>
+    <Question>ca_stellarevolution_corestages2</Question>
+    <Question>ca_stellarevolution_sunstages</Question>
+    <Question>ca_stellarevolution_highmasstrack</Question>
+    <Question>ca_stellarevolution_mslifetimes</Question>
+    <Question>ca_stellarevolution_carbonstars</Question>
+    <Question>ca_stellarevolution_giantsratio</Question>
+    <Question>ca_stellarevolution_turnoffpoints</Question>
+    <Question>ca_stellarevolution_relativesizes</Question>
+    <Question>ca_stellarevolution_pnmetals</Question>
+    <Question>ca_stellarevolution_pnspectra</Question>
+    <Question>ca_stellarevolution_pnlifetime</Question>
+    <Question>ca_stellarevolution_pulsars</Question>
+    <Question>ca_stellarevolution_pulsarperiodplot</Question>
+    <Question>ca_stellarevolution_schwarzschildradius</Question>
+    <Question>ca_stellarevolution_bhplots</Question>
+    <Question>ca_stellarevolution_spaghettification</Question>
+    <Question>ca_stellarevolution_snvenn</Question>
+    <Question>ca_stellarevolution_coulomb</Question>
+    <Question>ca_stellarevolution_masstransfer</Question>
+    <Question>ca_stellarevolution_mostmassivenuclei</Question>
+    
+    <Question>ca_stellarevolution_lifetimetable</Question>
+    <Question>ca_stellarevolution_wdmassradius</Question>
+    <Question>ca_stellarevolution_coolwds</Question>
+    <Question>ca_stellarevolution_massivestarconceptmap</Question>
+    <Question>ca_stellarevolution_sizefromvariations</Question>
+    <Question>ca_stellarevolution_fastneutronstars</Question>
+    <Question>ca_stellarevolution_binaryendstates</Question>
+    
+    <Question>ca_stellarevolution_sndanger</Question>
+  </Questions>
+  <Animations>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines>
+    <Outline>stellarprops2_hr_diagram1</Outline>
+    <Outline>stellarprops2_hr_diagram2</Outline>
+    <Outline>stellarevolution_supernovae</Outline>
+    <Outline>stellarevolution_pulsars</Outline>
+    <Outline>stellarevolution_schwarzschild</Outline>
+    <Outline>stellarevolution_stellar_evol</Outline>
+    <Outline>stellarevolution_MS_lifetime</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Jovian Planets">
+  <Questions>
+    <Question>ca_jovianplanets_joviantransit</Question>
+    <Question>ca_jovianplanets_galileosobservations</Question>
+    <Question>ca_jovianplanets_jupiterformation</Question>
+    <Question>ca_jovianplanets_joviandensity</Question>
+    <Question>ca_jovianplanets_magneticfields</Question>
+    <Question>ca_jovianplanets_heliumrain</Question>
+    <Question>ca_jovianplanets_oblateness</Question>
+    <Question>ca_jovianplanets_jupiterrotation</Question>
+    <Question>ca_jovianplanets_galileanmoonorbits</Question>
+    <Question>ca_jovianplanets_tidalheating</Question>
+    <Question>ca_jovianplanets_europasoceans</Question>
+    <Question>ca_jovianplanets_titanaltimeter</Question>
+    <Question>ca_jovianplanets_jovianmoons</Question>
+    <Question>ca_jovianplanets_jovianalignments</Question>
+    <Question>ca_jovianplanets_saturnseasons</Question>
+    <Question>ca_jovianplanets_ringoccultation</Question>
+    <Question>ca_jovianplanets_saturnringgaps</Question>
+    <Question>ca_jovianplanets_roemerobservations</Question>
+    <Question>ca_jovianplanets_stellaroccultations</Question>
+    <Question>ca_jovianplanets_shepherdmoons</Question>
+    <Question>ca_jovianplanets_enceladus</Question>
+    <Question>ca_jovianplanets_differentworlds</Question>
+    </Questions>
+  <Animations>
+  </Animations>
+  <Images>
+     <Image>roemer_speedoflight</Image>
+     <Image>saturnbathtub</Image>
+  </Images>
+  <Outlines/>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+
+
+
+
+
+

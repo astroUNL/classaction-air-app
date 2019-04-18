@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Renaissance Astronomy">
+  <Questions>
+    <Question>ca_renaissance_isanimationrealistic</Question>
+    
+    <Question>ca_renaissance_eccentricityshapes</Question>
+    <Question>ca_renaissance_kepler2nd</Question>
+    <Question>ca_renaissance_kepler3rd</Question>
+    <Question>ca_renaissance_idperiod</Question>
+    <Question>ca_renaissance_marselongation</Question>
+    <Question>ca_renaissance_elongationangles</Question>
+    <Question>ca_renaissance_elongationnames</Question>
+    <Question>ca_renaissance_venusphasescopernican</Question>
+    <Question>ca_renaissance_venusphasesptolemaic</Question>
+    <Question>ca_renaissance_perihelionaphelion</Question>
+    <Question>ca_renaissance_rock</Question>
+
+    <Question>ca_renaissance_gravityfundamentals</Question>
+    <Question>ca_renaissance_gravitydirection</Question>
+
+    <Question>ca_renaissance_realisticorbit</Question>
+
+    <Question>ca_renaissance_gravityformula</Question>
+    <Question>ca_renaissance_gravitycalcs1</Question>
+    <Question>ca_renaissance_gravitycalcs2</Question>
+    <Question>ca_renaissance_gravitycalcs3</Question>
+
+    <Question>ca_renaissance_gravity</Question>
+    <Question>ca_renaissance_earthsunforce</Question>
+    <Question>ca_renaissance_spaceship</Question>
+
+    <Question>ca_renaissance_satelliteorbits</Question>
+    <Question>ca_renaissance_forcesmotion</Question>
+
+    <Question>ca_renaissance_orbitalveldistancegraph</Question>
+    <Question>ca_renaissance_kepler3rdgraphs</Question>
+    <Question>ca_renaissance_synodicperiodgraph</Question>
+    <Question>ca_renaissance_synsidperiods</Question>
+    <Question>ca_renaissance_sedna</Question>
+    <Question>ca_renaissance_spiderclock</Question>
+    <Question>ca_renaissance_goatfield</Question>
+    <Question>ca_renaissance_asteroidtime</Question>
+    <Question>ca_renaissance_makinganellipse</Question>
+    <Question>ca_renaissance_planetmotionwrtstars</Question>
+    <Question>ca_renaissance_orbvelformula</Question>
+    <Question>ca_renaissance_semiminoraxis</Question>
+    <Question>ca_renaissance_venusianelongation</Question>
+    
+    <Question>ca_renaissance_asteroid</Question>
+    <Question>ca_renaissance_rain</Question>
+    <Question>ca_renaissance_newtonslaws</Question>
+  </Questions>
+  <Animations>
+   <Animation>venusphases</Animation>
+   <Animation>ptolemaic</Animation>
+   <Animation>marsorbit</Animation>
+   <Animation>pathtracer</Animation>
+   <Animation>retrograde</Animation>
+   <Animation>keplers_third</Animation>
+   <Animation>synodiccalculator</Animation>
+   <Animation>configurationssimulator</Animation>
+   <Animation>kepler</Animation>
+   <Animation>ellipsedemo</Animation>
+   <Animation>earthorbitplot</Animation>
+   <Animation>gravcalc</Animation>
+   <Animation>gravalgebra</Animation>
+  </Animations>
+  <Images>
+    <Image>aberrationdiagram</Image>
+    <Image>retrograde</Image>
+  </Images>
+  <Outlines>
+      <Outline>renaissance_slide1</Outline>
+      <Outline>renaissance_slide2</Outline>
+      <Outline>renaissance_slide3</Outline>
+      <Outline>renaissance_slide4</Outline>
+      <Outline>renaissance_slide5</Outline>
+      <Outline>renaissance_slide6</Outline>
+      <Outline>renaissance_ellipse</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+
+

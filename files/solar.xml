@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Solar System Characteristics">
+  <Questions>
+    <Question>ca_solar_solarnebcomppiechart</Question>
+    <Question>ca_solar_solarnebcomp</Question>
+    <Question>ca_solar_formationtemps</Question>
+    <Question>ca_solar_planetformationtemp</Question>
+    <Question>ca_solar_planetdensitylogic</Question>
+    <Question>ca_solar_differentiationdensity</Question>
+    <Question>ca_solar_densitychange</Question>
+    <Question>ca_solar_planetcharacteristicsvenn</Question>
+    <Question>ca_solar_planetorbits</Question>
+    <Question>ca_solar_terrestrialjovianplanets</Question>
+    <Question>ca_solar_crateringrate</Question>
+    <Question>ca_solar_halflifeone</Question>
+    <Question>ca_solar_halflifetwo</Question>
+    <Question>ca_solar_planetdef</Question>
+    <Question>ca_solar_planetplot</Question>
+    <Question>ca_solar_frostline</Question>
+	
+    <Question>ca_solar_formationsequence</Question>
+    <Question>ca_solar_solarnebulachanges</Question>
+    <Question>ca_solar_formationtheoryevidence</Question>
+    <Question>ca_solar_rotationrevolutiondirections</Question>
+    
+<Question>ca_solar_accretiontheories</Question>
+<Question>ca_solar_hoodstat</Question>
+  </Questions>
+  <Animations>
+    <Animation>formationtemps</Animation>
+    <Animation>solarsystemproperties</Animation>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines>
+    <Outline>solar_planet_types</Outline>
+    <Outline>solar_cratering</Outline>
+    <Outline>solar_radioactivity1</Outline>
+    <Outline>solar_radioactivity2</Outline>
+    <Outline>solar_ss_formation1</Outline>
+    <Outline>solar_ss_formation2</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+

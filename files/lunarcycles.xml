@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Lunar Cycles">
+  <Questions>
+    <Question>ca_lunarcycles_sunmoon</Question>
+    <Question>ca_lunarcycles_limbmoon</Question>
+    <Question>ca_lunarcycles_idphase</Question>
+    <Question>ca_lunarcycles_treephases</Question>
+    <Question>ca_lunarcycles_idlunarpos</Question>
+    <Question>ca_lunarcycles_eclipticphases</Question>
+    <Question>ca_lunarcycles_phaseseclipsestides</Question>
+    <Question>ca_lunarcycles_phaseevolution</Question>
+    <Question>ca_lunarcycles_timebtwphases</Question>
+    <Question>ca_lunarcycles_risemeridiansettimes</Question>
+    <Question>ca_lunarcycles_lunarperiods</Question>
+    <Question>ca_lunarcycles_eclipsetypes</Question>
+    <Question>ca_lunarcycles_eclipsefreq</Question>
+    <Question>ca_lunarcycles_syncrot</Question>
+    <Question>ca_lunarcycles_horzdiagidphase</Question>
+    <Question>ca_lunarcycles_horzdiagidtime</Question>
+    <Question>ca_lunarcycles_moonlocation</Question>
+    <Question>ca_lunarcycles_moonaltitude</Question>
+    <Question>ca_lunarcycles_earthrise</Question>
+    <Question>ca_lunarcycles_crescentmoonloc</Question>
+    <Question>ca_lunarcycles_earthspeedchanges</Question>
+    <Question>ca_lunarcycles_earthphases</Question>
+    <Question>ca_lunarcycles_phasesvisible</Question>
+    <Question>ca_lunarcycles_lengthofnight</Question>
+    <Question>ca_lunarcycles_moonplane</Question>
+    <Question>ca_lunarcycles_npolephases</Question>
+    <Question>ca_lunarcycles_futuretides</Question>
+  </Questions>
+  <Animations>
+    <Animation>lunar_phaser</Animation>
+    <Animation>basketball</Animation>
+    <Animation>moonphases</Animation>
+    <Animation>lunar_applet</Animation>
+    <Animation>mooninc</Animation>
+    <Animation>eclipsetable</Animation>
+    <Animation>shadowsim</Animation>
+    <Animation>tidesim</Animation>
+    <Animation>phaseDemonstrator</Animation>
+    <Animation>positionsdemonstrator</Animation>
+    <Animation>synodiclag</Animation>
+    <Animation>fullmoondec</Animation>
+    <Animation>lunarphasequizzer</Animation>
+    <Animation>moonbisector</Animation>
+  </Animations>
+  <Images>
+    <Image>lunarcycles</Image>
+    <Image>sidereal</Image>
+    <Image>synodic</Image>
+    <Image>rotation</Image>
+    <Image>tides</Image>
+    <Image>umbrapenumbra</Image>
+    <Image>lunareclipse</Image>
+    <Image>lunareclipse2004</Image>
+    <Image>lunareclipse2008</Image>
+    <Image>solareclipse</Image>
+    <Image>solareclipse2</Image>
+    <Image>solareclipse1994</Image>
+    <Image>solareclipse1999</Image>
+    <Image>solareclipse1999mir</Image>
+    <Image>solareclipse2008</Image>
+    <Image>seatlas2001</Image>
+    <Image>nodes</Image>
+    <Image>potpie</Image>
+  </Images>
+  <Outlines>
+    <Outline>lunarcycles_slide1</Outline>
+    <Outline>lunarcycles_slide2</Outline>
+    <Outline>lunarcycles_slide3</Outline>
+    <Outline>lunarcycles_slide4</Outline>
+    <Outline>lunarcycles_slide5</Outline>
+    <Outline>lunarcycles_slide6</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+

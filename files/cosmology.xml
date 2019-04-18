@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Cosmology">
+  <Questions>
+    <Question>ca_cosmology_expansionmodels</Question>
+    <Question>ca_cosmology_hconst</Question>
+    <Question>ca_cosmology_expansioneffects</Question>
+    <Question>ca_cosmology_hubblelaw</Question>
+    <Question>ca_cosmology_hubbleconstant1</Question>
+    <Question>ca_cosmology_hubbleconstant2</Question>
+    <Question>ca_cosmology_hdage</Question>
+    <Question>ca_cosmology_hubbleunits</Question>
+    <Question>ca_cosmology_exprate</Question>
+    <Question>ca_cosmology_localgroup</Question>
+    <Question>ca_cosmology_hduncertainties</Question>
+    <Question>ca_cosmology_cosmologicalprinciple</Question>
+    <Question>ca_cosmology_expansionproperties</Question>
+    <Question>ca_cosmology_distantgalaxy</Question>
+    <Question>ca_cosmology_unichanges</Question>
+    <Question>ca_cosmology_universefuture</Question>
+    <Question>ca_cosmology_unicomp</Question>
+  </Questions>
+  <Animations>
+   <Animation>balloon</Animation>
+   <Animation>galacticredshift</Animation>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines>
+    <Outline>cosmology_universe_fate</Outline>
+    <Outline>cosmology_tuning_fork</Outline>
+    <Outline>cosmology_hubble_law</Outline>
+    <Outline>cosmology_dark_matter_energy</Outline>
+    <Outline>cosmology_distance_ladder1</Outline>
+    <Outline>cosmology_distance_ladder2</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>

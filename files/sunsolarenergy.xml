@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Sun and Solar Energy">
+  <Questions>
+    <Question>ca_sunsolarenergy_thermaltransport</Question>
+    <Question>ca_sunsolarenergy_compevolve</Question>
+    <Question>ca_sunsolarenergy_outcomefusion</Question>
+    <Question>ca_sunsolarenergy_sunspotcause</Question>
+    <Question>ca_sunsolarenergy_sunspotrotation</Question>
+    <Question>ca_sunsolarenergy_sunbbcurves</Question>
+    <Question>ca_sunsolarenergy_spotrotation</Question>
+    <Question>ca_sunsolarenergy_sunchangesovertime</Question>
+    <Question>ca_sunsolarenergy_photospherenature</Question>
+    <Question>ca_sunsolarenergy_energytransport</Question>
+    <Question>ca_sunsolarenergy_nuclearreactionphoton</Question>
+    <Question>ca_sunsolarenergy_granulation</Question>
+    <Question>ca_sunsolarenergy_spectra</Question>
+    <Question>ca_sunsolarenergy_pressurevsdepth</Question>
+    <Question>ca_sunsolarenergy_tirecheck</Question>
+    <Question>ca_sunsolarenergy_bindenergy</Question>
+    <Question>ca_sunsolarenergy_coronaion</Question>
+    <Question>ca_sunsolarenergy_solarwind</Question>
+    <Question>ca_sunsolarenergy_sunproperties</Question>
+    <Question>ca_sunsolarenergy_particledeflection1</Question>
+    <Question>ca_sunsolarenergy_particledeflection2</Question>
+  </Questions>
+  <Animations>
+    <Animation>fusion01</Animation>
+    <Animation>fusion02</Animation>
+  </Animations>
+  <Images>
+    <Image>hydrostaticequilibrium</Image>
+    <Image>fusion</Image>
+  </Images>
+  <Outlines>
+    <Outline>sunsolarenergy_sun_structure</Outline>
+    <Outline>sunsolarenergy_CNO_cycle</Outline>
+    <Outline>sunsolarenergy_pp_chain</Outline>
+    <Outline>sunsolarenergy_ht_conduction</Outline>
+    <Outline>sunsolarenergy_ht_convection</Outline>
+    <Outline>sunsolarenergy_ht_radiation</Outline>
+    <Outline>sunsolarenergy_mag_force</Outline>
+    <Outline>sunsolarenergy_ideal_gas</Outline>
+    <Outline>sunsolarenergy_fusion</Outline>
+  </Outlines>
+  <Tables>
+    <Table>solar_comp</Table>
+    <Table>solar_props</Table>
+  </Tables>
+</ModuleSpecification>
+
+
+
+

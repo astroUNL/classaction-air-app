@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Table Specification Document for the ClassAction Project-->
+<!DOCTYPE TableBank [
+    <!ELEMENT TableBank (Table+)>
+    <!ELEMENT Table (Name, Description, Category, Keywords, File, Width, Height)>
+    <!ATTLIST Table
+          id CDATA #REQUIRED>
+	<!ELEMENT Name (#PCDATA)>
+	<!ELEMENT Description (#PCDATA)>
+	<!ELEMENT Category (#PCDATA)>
+	<!ELEMENT Keywords (Keyword*)>
+	<!ELEMENT Keyword (#PCDATA)>
+	<!ELEMENT File (#PCDATA)>
+	<!ELEMENT Width (#PCDATA)>
+	<!ELEMENT Height (#PCDATA)>
+]>
+<TableBank>
+  <Table id="densities">
+    <Name>Common Densities</Name>
+    <Description>Densities of common substances given in kg/m^3. </Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/intro/densities.jpg</File>
+    <Width>585</Width>
+    <Height>685</Height>
+  </Table>
+  <Table id="distance_units">
+    <Name>Distance Units</Name>
+    <Description>Table of conversion factors between various distance units used in astronomy. </Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/intro/distanceunits.jpg</File>
+    <Width>1157</Width>
+    <Height>306</Height>
+  </Table>
+  <Table id="lookback_solar">
+    <Name>Solar System Lookback Times</Name>
+    <Description>Lookback times for planets. </Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/intro/lookback_solar.jpg</File>
+    <Width>711</Width>
+    <Height>420</Height>
+  </Table>
+  <Table id="lookback_distant">
+    <Name>Distant Lookback Times</Name>
+    <Description>Lookback times for stars and galaxies. </Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/intro/lookback_distant.jpg</File>
+    <Width>1110</Width>
+    <Height>637</Height>
+  </Table>
+  <Table id="si_prefixes">
+    <Name>Metric Prefixes</Name>
+    <Description>A listing of metric prefixes for exponents from -24 to 24. </Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/intro/si_prefixes.jpg</File>
+    <Width>1126</Width>
+    <Height>651</Height>
+  </Table>
+   <Table id="si_units">
+    <Name>Metric Units</Name>
+    <Description>A listing of metric units. </Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/intro/si_units.jpg</File>
+    <Width>1206</Width>
+    <Height>604</Height>
+  </Table>
+   <Table id="ang_diam">
+    <Name>Angular Diameter</Name>
+    <Description>A listing of angular diameters of Sun, Moon, planets, and nearby stars. </Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/ancientastro/ang_diam.jpg</File>
+    <Width>485</Width>
+    <Height>436</Height>
+  </Table>
+    <Table id="solar_comp">
+    <Name>Solar Composition</Name>
+    <Description>Chemical composition of the sub by volume and mass. </Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/sunsolarenergy/solar_comp.jpg</File>
+    <Width>628</Width>
+    <Height>331</Height>
+  </Table>
+    <Table id="solar_props">
+    <Name>Solar Properties</Name>
+    <Description>Mass, radius, density, luminosity, surface temperature, spectral type, etc. for the Sun. </Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/sunsolarenergy/solar_props.jpg</File>
+    <Width>732</Width>
+    <Height>393</Height>
+  </Table>
+  <Table id="dismodtable">
+    <Name>Distance Modulus</Name>
+    <Description>This is the description of this table</Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/stellarprops/dismodtable.jpg</File>
+    <Width>500</Width>
+    <Height>451</Height>
+  </Table>
+  <Table id="maginttable">
+    <Name>Magnitude and Intensity</Name>
+    <Description>This is the description of this table</Description>
+    <Category/>
+    <Keywords/>
+    <File>tables/stellarprops/maginttable.jpg</File>
+    <Width>500</Width>
+    <Height>473</Height>
+  </Table>
+
+</TableBank>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Stellar Properties 2">
+  <Questions>
+    <Question>ca_stellarprops2_tempcolorwarmup</Question>
+
+    <Question>ca_stellarprops2_lrtrelationwithhr</Question>
+    <Question>ca_stellarprops2_lrtrelation</Question>
+    <Question>ca_stellarprops2_lumcomp</Question>
+    <Question>ca_stellarprops2_lumtable</Question>
+    <Question>ca_stellarprops2_luminosity</Question>
+    <Question>ca_stellarprops2_hrdiaga</Question>
+    <Question>ca_stellarprops2_stellarparams</Question>
+    <Question>ca_stellarprops2_conceptualhr</Question>
+    <Question>ca_stellarprops2_hrgroups</Question>
+    <Question>ca_stellarprops2_perspectives</Question>
+    <Question>ca_stellarprops2_miscparallax</Question>
+    <Question>ca_stellarprops2_spectroparallax</Question>
+    <Question>ca_stellarprops2_stypetemps</Question>
+    <Question>ca_stellarprops2_stypenumline</Question>
+    <Question>ca_stellarprops2_onelinestrength</Question>
+    <Question>ca_stellarprops2_weakerhlines</Question>
+    <Question>ca_stellarprops2_lumfunccommonstars</Question>
+    <Question>ca_stellarprops2_lumfuncnumvisible</Question>
+    <Question>ca_stellarprops2_lumfuncsun</Question>
+    
+    <Question>ca_stellarprops2_parsecsize</Question>
+    <Question>ca_stellarprops2_parallaxdistmod</Question>
+    <Question>ca_stellarprops2_propertyranges</Question>
+  
+    <Question>ca_stellarprops2_parallaxjup</Question>
+  </Questions>
+  <Animations>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines>
+    <Outline>stellarprops2_hr_diagram1</Outline>
+    <Outline>stellarprops2_hr_diagram2</Outline>
+    <Outline>stellarprops2_parallax</Outline>
+    <Outline>stellarprops2_spectro_parallax</Outline>
+    <Outline>stellarprops2_mass_luminosity</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="ISM and Star Formation">
+  <Questions>
+    <Question>ca_ismstarform_molecularclouds</Question>
+    <Question>ca_ismstarform_gravityvsthermalpressure</Question>
+    <Question>ca_ismstarform_pleiadesscattering</Question>
+    <Question>ca_ismstarform_starformmolcloud</Question>
+    <Question>ca_ismstarform_linescattering</Question>
+    <Question>ca_ismstarform_wavelengths</Question>
+    <Question>ca_ismstarform_formationmasses</Question>
+
+    <Question>ca_ismstarform_wiseadage</Question>
+    <Question>ca_ismstarform_emissionnebula</Question>
+    
+    <Question>ca_ismstarform_eggsanalogy</Question>
+  </Questions>
+  <Animations>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines/>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+
+

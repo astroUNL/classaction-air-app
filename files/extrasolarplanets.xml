@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="ExtraSolar Planets">
+  <Questions>
+    <Question>ca_extrasolarplanets_esporbitanim</Question>
+    <Question>ca_extrasolarplanets_fireflies</Question>
+    
+	<Question>ca_extrasolarplanets_overview</Question>
+    <Question>ca_extrasolarplanets_evidence</Question>
+    <Question>ca_extrasolarplanets_dopplersign</Question>
+    <Question>ca_extrasolarplanets_espdopplershift</Question>
+    <Question>ca_extrasolarplanets_radialvelocitycurve</Question>
+    <Question>ca_extrasolarplanets_ampperiod</Question>
+    <Question>ca_extrasolarplanets_rvcurveshift</Question>
+    <Question>ca_extrasolarplanets_splineshifts</Question>
+    <Question>ca_extrasolarplanets_rvcharacteristics</Question>
+    <Question>ca_extrasolarplanets_rvchanges</Question>
+    <Question>ca_extrasolarplanets_rvresults</Question>
+    <Question>ca_extrasolarplanets_transitdetection</Question>
+    <Question>ca_extrasolarplanets_planetsaffectingsun</Question>
+    <Question>ca_extrasolarplanets_keplertelescope</Question>
+    <Question>ca_extrasolarplanets_pulsearrivals</Question>
+    <Question>ca_extrasolarplanets_pulsarmovements</Question>
+    <Question>ca_extrasolarplanets_inclination90</Question>
+    <Question>ca_extrasolarplanets_densitydet</Question>
+    <Question>ca_extrasolarplanets_detectionvenn</Question>
+    <Question>ca_extrasolarplanets_keplertransitdetection</Question>
+    <Question>ca_extrasolarplanets_a_vs_e</Question>	
+	
+    <Question>ca_extrasolarplanets_rvchanges2</Question>
+	<Question>ca_extrasolarplanets_massivestars</Question>
+	<Question>ca_extrasolarplanets_detectionconfirmation</Question>
+	<Question>ca_extrasolarplanets_transittimes</Question>
+	
+	<Question>ca_extrasolarplanets_eccentricity</Question>
+  </Questions>
+  <Animations>
+    <Animation>ca_extrasolarplanets_starwobble</Animation>
+    <Animation>ca_extrasolarplanets_graph</Animation>
+    <Animation>transitsimulator</Animation>
+    <Animation>radialvelocitydemo</Animation>
+    <Animation>radialvelocitysimulator</Animation>
+    <Animation>dopplershift</Animation>
+    <Animation>pulsarPeriodSim</Animation>
+    <Animation>hammerthrower</Animation>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines>
+    <Outline>extrasolarplanets_planet_hunting</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+
+

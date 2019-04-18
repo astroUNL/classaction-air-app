@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Galaxies">
+  <Questions>
+  <Question>ca_galaxies_typecomponents</Question>
+  <Question>ca_galaxies_tuningfork</Question>
+  <Question>ca_galaxies_galaxychars</Question>
+  <Question>ca_galaxies_ellipticalcalculations</Question>
+  <Question>ca_galaxies_spiralclassification</Question>
+  <Question>ca_galaxies_protogalacticcloud</Question>
+  <Question>ca_galaxies_colors</Question>
+  <Question>ca_galaxies_galaxycollisions</Question>
+  <Question>ca_galaxies_galaxiesinclusters</Question>
+  <Question>ca_galaxies_starcollisions</Question>
+  <Question>ca_galaxies_mergeroutcomes</Question>
+  <Question>ca_galaxies_galaxyabundances</Question>
+  <Question>ca_galaxies_quasarlogic</Question>
+  
+  <Question>ca_galaxies_starformation</Question>
+  <Question>ca_galaxies_spiralarms</Question>
+  <Question>ca_galaxies_gcdistances</Question>
+  <Question>ca_galaxies_mergercharacteristics</Question>
+  <Question>ca_galaxies_galaxytyperatio</Question>
+  
+  </Questions>
+  <Animations>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines>
+    <Outline>galaxies_quasars</Outline>
+    <Outline>milkyway_galaxy_rotation</Outline>
+    <Outline>galaxies_galactic_orbits</Outline>
+    <Outline>galaxies_galaxy_types</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>

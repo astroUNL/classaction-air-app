@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Outline Specification Document for the ClassAction Project-->
+<!DOCTYPE OutlineBank [
+    <!ELEMENT OutlineBank (Outline+)>
+    <!ELEMENT Outline (Name, Description, Keywords, File, Width, Height)>
+    <!ATTLIST Outline
+          id CDATA #REQUIRED>
+	<!ELEMENT Name (#PCDATA)>
+	<!ELEMENT Description (#PCDATA)>
+	<!ELEMENT Keywords (Keyword*)>
+	<!ELEMENT Keyword (#PCDATA)>
+	<!ELEMENT File (#PCDATA)>
+	<!ELEMENT Width (#PCDATA)>
+	<!ELEMENT Height (#PCDATA)>
+]>
+<OutlineBank>
+  <Outline id="coordsmotion_slide1">
+    <Name>Terrestrial Coordinates</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide2">
+    <Name>Parallels of Latitude</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide3">
+    <Name>Celestial Equatorial Coordinates</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide4">
+    <Name>Ecliptic</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide5">
+    <Name>Horizon Coordinates</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide6">
+    <Name>Declination Ranges</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide6.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide7">
+    <Name>Meridional Altitude</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide7.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide1">
+    <Name>The Nature of Light</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/light/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide2">
+    <Name>Kirchhoff's Laws</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/light/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide3">
+    <Name>Radiation Laws</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/light/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide4">
+    <Name>Spectral Lines</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/light/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide5">
+    <Name>Doppler Effect</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/light/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide1">
+    <Name>Phases of the Moon</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide2">
+    <Name>Rising/Meridian/Setting Times</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide3">
+    <Name>Lunar Periods</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide4">
+    <Name>Lunar Eclipses</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide5">
+    <Name>Solar Eclipses</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide6">
+    <Name>Tides</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide6.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide1">
+    <Name>Kepler's Laws</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide2">
+    <Name>Newton's Laws</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide3">
+    <Name>Newton's Law of Gravity</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide4">
+    <Name>Sidreal and Synodic Periods</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide5">
+    <Name>Elongation Configurations for Inferior Planets</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide6">
+    <Name>Elongation Configurations for Superior Planets</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide6.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide1">
+    <Name>Flux (or Intensity)</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide2">
+    <Name>Apparent Magnitude</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide3">
+    <Name>Intensity and Magnitude</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide4">
+    <Name>Absolute Magnitude</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide5">
+    <Name>Distance Modulus</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide6">
+    <Name>Parallax</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide6.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide7">
+    <Name>Stellar Velocity</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide7.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide8">
+    <Name>Luminosity</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide8.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide9">
+    <Name>Spectroscopic Parallax</Name>
+    <Description>This is the description of this outline</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide9.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+</OutlineBank>

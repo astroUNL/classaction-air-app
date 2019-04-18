@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Coordinates and Motions">
+  <Questions>
+    <Question>ca_coordsmotion_daylightbadgood</Question>
+    <Question>ca_coordsmotion_diurnalwarmup</Question>
+    <Question>ca_coordsmotion_incorrectsunanimation</Question>
+    
+    <Question>ca_coordsmotion_bestday</Question>
+    <Question>ca_coordsmotion_earthchanges</Question>
+    <Question>ca_coordsmotion_seasonscontrib</Question>
+    <Question>ca_coordsmotion_noOrbitalTilt</Question>
+    <Question>ca_coordsmotion_tropicsTilt</Question>
+    <Question>ca_coordsmotion_terrcoordsa</Question>
+    <Question>ca_coordsmotion_terrcoordsb</Question>
+    <Question>ca_coordsmotion_radeclocs</Question>
+    <Question>ca_coordsmotion_datesuneclip</Question>
+    <Question>ca_coordsmotion_sunecliptic</Question>
+    <Question>ca_coordsmotion_sunzenithlat</Question>
+    <Question>ca_coordsmotion_sunrays</Question>
+    <Question>ca_coordsmotion_sunmovement</Question>
+    <Question>ca_coordsmotion_sunatzenithfreq</Question>
+    <Question>ca_coordsmotion_TiltEffects</Question>
+    <Question>ca_coordsmotion_TropicsMeaning</Question>
+    <Question>ca_coordsmotion_percentvisible</Question>
+    <Question>ca_coordsmotion_azaltlocs</Question>
+    <Question>ca_coordsmotion_azimuthaltitude</Question>
+    <Question>ca_coordsmotion_boatazimuth</Question>
+    <Question>ca_coordsmotion_altpole</Question>
+    <Question>ca_coordsmotion_decranges</Question>
+    <Question>ca_coordsmotion_mrdaltsun</Question>
+    <Question>ca_coordsmotion_mrdaltstars</Question>
+    <Question>ca_coordsmotion_startrails</Question>
+    <Question>ca_coordsmotion_startrails2</Question>
+    <Question>ca_coordsmotion_starpathsdec</Question>
+    <Question>ca_coordsmotion_starpathslat</Question>
+    <Question>ca_coordsmotion_flatmapdates</Question>
+    <Question>ca_coordsmotion_sunrisesetequinox</Question>
+    <Question>ca_coordsmotion_sunshadow</Question>
+    
+    <Question>ca_coordsmotion_unionseasons</Question>
+    <Question>ca_coordsmotion_sunzenithloc</Question>
+    <Question>ca_coordsmotion_sunpaths1</Question>
+    <Question>ca_coordsmotion_sunpaths2</Question>
+    <Question>ca_coordsmotion_flatmaphours</Question>
+    <Question>ca_coordsmotion_northpointzenith</Question>
+    <Question>ca_coordsmotion_averagedaylight</Question>
+    <Question>ca_coordsmotion_locationidentify</Question>
+    <Question>ca_coordsmotion_antipodes</Question>
+    
+    <Question>ca_coordsmotion_risesetstars</Question>
+    <Question>ca_coordsmotion_uranus</Question>
+    <Question>ca_coordsmotion_missingday</Question>
+    <Question>ca_coordsmotion_antipodalalgorithm</Question>
+    <Question>ca_coordsmotion_passivesolarheating</Question>
+	<Question>ca_coordsmotion_sunglare</Question>
+    
+  </Questions>
+  <Animations>
+    <Animation>meridaltdiagram</Animation>
+    <Animation>latsim</Animation>
+    <Animation>seasonsim</Animation>
+    <Animation>transitmovie</Animation>
+    <Animation>altazimuth</Animation>
+    <Animation>daylightsimulator</Animation>
+    <Animation>obliquity</Animation>
+    <Animation>zodiac</Animation>
+    <Animation>longlat</Animation>
+    <Animation>radecdemo</Animation>
+    <Animation>sunpaths</Animation>
+    <Animation>sunmotionsoverview</Animation>
+    <Animation>sunmotions</Animation>
+    <Animation>sunsrays</Animation>
+    <Animation>horizon</Animation>
+    <Animation>bigdipper</Animation>
+    <Animation>eclipticsimulator</Animation>
+    <Animation>celhorcomp</Animation>
+    <Animation>daylighthoursexplorer</Animation>
+    <Animation>antipodesexplorer</Animation>
+    <Animation>siderealTimeAndHourAngleDemo</Animation>
+    <Animation>celestialhorizon</Animation>
+    <Animation>siderealSolarTime</Animation>
+  </Animations>
+  <Images>
+    <Image>declination</Image>
+    <Image>ecliptic</Image>
+    <Image>polarrotation</Image>
+    <Image>rightascen</Image>
+    <Image>startrails</Image>
+    <Image>timezones</Image>
+    <Image>solararchitecture</Image>
+  </Images>
+  <Outlines>
+    <Outline>coordsmotion_ecliptic</Outline>
+    <Outline>coordsmotion_ang_meas</Outline>
+    <Outline>coordsmotion_basic_motions</Outline>
+    <Outline>coordsmotion_basic_motions_exp</Outline>
+    <Outline>coordsmotion_slide1</Outline>
+    <Outline>coordsmotion_slide2</Outline>
+    <Outline>coordsmotion_slide3</Outline>
+    <Outline>coordsmotion_slide4</Outline>
+    <Outline>coordsmotion_slide5</Outline>
+    <Outline>coordsmotion_slide6</Outline>
+    <Outline>coordsmotion_slide7</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+
+
+
+

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Binary and Variable Stars">
+  <Questions>
+
+    <Question>ca_binaryvariablestars_everydaycenterofmass</Question>
+    <Question>ca_binaryvariablestars_CMDefinition</Question>
+    <Question>ca_binaryvariablestars_binaryCenterofMass</Question>
+    <Question>ca_binaryvariablestars_massLuminosityRelation</Question>
+    <Question>ca_binaryvariablestars_demolitionderby</Question>
+    <Question>ca_binaryvariablestars_binarytypes</Question>
+    <Question>ca_binaryvariablestars_Kepler3Law</Question>
+    <Question>ca_binaryvariablestars_binarySystems1</Question>
+    <Question>ca_binaryvariablestars_binarySystems2</Question>
+    <Question>ca_binaryvariablestars_binaryproperties</Question>
+    <Question>ca_binaryvariablestars_eclipseVariables</Question>
+    <Question>ca_binaryvariablestars_lightCurveShape</Question>
+    <Question>ca_binaryvariablestars_eclipsinglightcurves1</Question>
+    <Question>ca_binaryvariablestars_eclipsinglightcurves2</Question>
+    <Question>ca_binaryvariablestars_lightCurveLocations</Question>
+    <Question>ca_binaryvariablestars_spectroscopic</Question>
+
+     <Question>ca_binaryvariablestars_ccdcounts</Question>
+    <Question>ca_binaryvariablestars_clockphases</Question>
+    <Question>ca_binaryvariablestars_differentialmagnitudes</Question>
+    <Question>ca_binaryvariablestars_magnitudevstime</Question>
+    <Question>ca_binaryvariablestars_strobe</Question>
+    <Question>ca_binaryvariablestars_periodfromdata</Question>
+    <Question>ca_binaryvariablestars_hrtelescope</Question>
+    <Question>ca_binaryvariablestars_cepheidflowcht</Question>
+    <Question>ca_binaryvariablestars_distcepheids</Question>
+    <Question>ca_binaryvariablestars_binaryRadialVelocity</Question>
+    
+    <Question>ca_binaryvariablestars_starsOfAlbireo</Question>
+    <Question>ca_binaryvariablestars_sketchingCurves</Question>
+  </Questions>
+  <Animations>
+    <Animation>eclipsingbinarysim</Animation>
+    <Animation>wagonwheel</Animation>
+    <Animation>centerofmass</Animation>
+    <Animation>lightcurve</Animation>
+  </Animations>
+  <Images>
+    <Image>distancemodulus</Image>
+    <Image>binarystarseesaw</Image>
+    <Image>opticaldoublesandvisualbinaries</Image>
+  </Images>
+  <Outlines>
+    <Outline>binaryvariablestars_binary_types</Outline>
+    <Outline>binaryvariablestars_diff_phot</Outline>
+    <Outline>binaryvariablestars_variable_types</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+

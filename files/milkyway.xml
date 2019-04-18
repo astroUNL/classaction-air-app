@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Milky Way Galaxy">
+  <Questions>
+    <Question>ca_milkyway_rotationcurvemeaning</Question>
+    <Question>ca_milkyway_rotationcurves</Question>
+    <Question>ca_milkyway_dischalocharacteristics</Question>
+    <Question>ca_milkyway_orbits</Question>
+    <Question>ca_milkyway_bhstarorbit</Question>
+    <Question>ca_milkyway_galacticdopplershift</Question>
+    <Question>ca_milkyway_massformula</Question>
+    <Question>ca_milkyway_globularclusterdistribution</Question>
+    <Question>ca_milkyway_changemetals</Question>
+    <Question>ca_milkyway_cepheidflowchart</Question>
+    <Question>ca_milkyway_halometallicity</Question>
+    <Question>ca_milkyway_metallicity</Question>
+    <Question>ca_milkyway_appearance</Question>
+    
+    <Question>ca_milkyway_cepheiddistance</Question>
+    <Question>ca_milkyway_chromicity</Question>
+
+    <Question>ca_milkyway_dwarfgalaxydiscovery</Question>
+    <Question>ca_milkyway_campfire</Question>
+  </Questions>
+  <Animations>
+    <Animation>milkywayrotationalvelocity</Animation>
+    <Animation>trafficdensity</Animation>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines>
+    <Outline>milkyway_galaxy_rotation</Outline>
+  </Outlines>
+  <Tables/>
+</ModuleSpecification>

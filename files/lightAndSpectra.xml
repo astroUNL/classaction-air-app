@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Light and Spectra Concepts Inventory">
+  <Questions>
+    <Question>ca_light_potassiumflares</Question>
+    <Question>ca_light_spacelasers</Question>
+    
+    <Question>ca_light_waveproperties</Question>
+    <Question>ca_light_wavelengthsizes</Question>
+    <Question>ca_light_emparams</Question>
+    <Question>ca_light_numline</Question>
+    <Question>ca_light_photonspeeds</Question>
+    <Question>ca_light_transdescriptions</Question>
+    <Question>ca_light_permittedorbits1</Question>
+    <Question>ca_light_permittedorbits2</Question>
+    <Question>ca_light_hydrogentransitions</Question>
+    <Question>ca_light_transranking</Question>
+    <Question>ca_light_dopplershift</Question>
+    <Question>ca_light_hdopplershift</Question>
+    <Question>ca_light_racetrackradar</Question>
+    <Question>ca_light_spaceshipshifts</Question>
+    <Question>ca_light_bbunits</Question>
+    <Question>ca_light_areaunderbbc</Question>
+    <Question>ca_light_blackbodycolors</Question>
+    <Question>ca_light_blackbodytemperatures</Question>
+    <Question>ca_stellarprops2_lrtrelationwithhr</Question>
+    <Question>ca_stellarprops2_lrtrelation</Question>
+    <Question>ca_stellarprops2_lumcomp</Question>
+    <Question>ca_stellarprops2_lumtable</Question>
+    <Question>ca_stellarprops2_luminosity</Question>
+    <Question>ca_light_spectrumanalogies</Question>
+    <Question>ca_light_atomicspectra</Question>
+    <Question>ca_light_starspecanalogy</Question>
+    <Question>ca_light_spectroscopicarithmetic</Question>
+    <Question>ca_light_typesvenn</Question>
+    <Question>ca_light_distantstarlight</Question>
+    
+    <Question>ca_light_paramrelationships</Question>
+    <Question>ca_light_sirenplot</Question>
+    <Question>ca_light_bbdescriptions</Question>
+    <Question>ca_light_hydrogenclouds</Question>
+    <Question>ca_light_atmosphericwindows</Question>
+    <Question>ca_light_expchamber</Question>
+    
+    <Question>ca_light_horseshoe</Question>
+    <Question>ca_light_pulsestar</Question>
+    <Question>ca_light_waveparams</Question>
+    <Question>ca_light_halphadeductions</Question>
+    <Question>ca_light_absorptionlinesandcolor</Question>
+  </Questions>
+  <Animations>
+    <Animation>meltednail</Animation>
+    <Animation>spectrum010</Animation>
+    <Animation>emspectrum</Animation>
+    <Animation>bbexplorer</Animation>
+    <Animation>filters</Animation>
+    <Animation>hydrogenatom</Animation>
+    <Animation>threeviewsspectra</Animation>
+    <Animation>radialvelocitydemo</Animation>
+    <Animation>stellarlum</Animation>
+    <Animation>hrexplorer</Animation>
+    <Animation>dopplershift</Animation>
+  </Animations>
+  <Images>
+    <Image>dopplereffect</Image>
+    <Image>electromagneticspectrum</Image>
+    <Image>electromagneticwave</Image>
+    <Image>hydrogenbohrtransitions</Image>
+    <Image>hydrogenelectronclouds</Image>
+    <Image>hydrogenspectrum</Image>
+    <Image>solarspectrum</Image>
+    <Image>waveproperties</Image>
+    <Image>radargun</Image>
+  </Images>
+  <Outlines>
+    <Outline>light_slide1</Outline>
+    <Outline>light_slide2</Outline>
+    <Outline>light_slide3</Outline>
+    <Outline>light_slide4</Outline>
+    <Outline>light_slide5</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>

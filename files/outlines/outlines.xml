@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Outline Specification Document for the ClassAction Project-->
+<!DOCTYPE OutlineBank [
+    <!ELEMENT OutlineBank (Outline+)>
+    <!ELEMENT Outline (Name, Description, Keywords, File, Width, Height)>
+    <!ATTLIST Outline
+          id CDATA #REQUIRED>
+	<!ELEMENT Name (#PCDATA)>
+	<!ELEMENT Description (#PCDATA)>
+	<!ELEMENT Keywords (Keyword*)>
+	<!ELEMENT Keyword (#PCDATA)>
+	<!ELEMENT File (#PCDATA)>
+	<!ELEMENT Width (#PCDATA)>
+	<!ELEMENT Height (#PCDATA)>
+]>
+<OutlineBank>
+
+<Outline id="solarsystemdebris_ss_debris">
+    <Name>Types of Solar System Debris</Name>
+    <Description>Describes the types of solar system debris: asteroids, comets, meteoroids, meteors, and meteorites.</Description>
+    <Keywords/>
+    <File>outlines/solarsystemdebris/ss_debris.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="terrplanets_atmo_reten1">
+    <Name>Atmospheric Retention, Part 1</Name>
+    <Description>Describes sources and losses of atmospheric gasses.</Description>
+    <Keywords/>
+    <File>outlines/terrplanets/atmo_reten1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="terrplanets_atmo_reten2">
+    <Name>Atmospheric Retention, Part 2</Name>
+    <Description>Describes thermal escape of atmospheric gases.</Description>
+    <Keywords/>
+    <File>outlines/terrplanets/atmo_reten2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="extrasolarplanets_planet_hunting">
+    <Name>Planet Hunting Techniques</Name>
+    <Description>Describes the methods of finding extrasolar planets: doppler spectroscopy, astrometry, transit method, gravitational microlensing.</Description>
+    <Keywords/>
+    <File>outlines/extrasolarplanets/planet_hunting.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="solar_planet_types">
+    <Name>Types of Solar System Planets</Name>
+    <Description>Lists characteristics of the terrestrial and jovian planets.</Description>
+    <Keywords/>
+    <File>outlines/solar/planet_types.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="solar_cratering">
+    <Name>Impact Cratering</Name>
+    <Description>Impact craters and their impact on studying the history of moons and planets in the solar system.</Description>
+    <Keywords/>
+    <File>outlines/solar/cratering.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="solar_radioactivity1">
+    <Name>Radioactivity, Part 1</Name>
+    <Description>Describes alpha decay, beta decay, and gamma rays.</Description>
+    <Keywords/>
+    <File>outlines/solar/radioactivity1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="solar_radioactivity2">
+    <Name>Radioactivity, Part 2</Name>
+    <Description>Describes exponential decay and half-life.</Description>
+    <Keywords/>
+    <File>outlines/solar/radioactivity2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="solar_ss_formation1">
+    <Name>Formation of the Solar System, Part 1</Name>
+    <Description>Describes the first two steps in the nebular theory.</Description>
+    <Keywords/>
+    <File>outlines/solar/ss_formation1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="solar_ss_formation2">
+    <Name>Formation of the Solar System, Part 2</Name>
+    <Description>Describes the last three steps in the nebular theory.</Description>
+    <Keywords/>
+    <File>outlines/solar/ss_formation2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="cosmology_universe_fate">
+    <Name>Fate of the Universe</Name>
+    <Description>Four scenarios for the fate of the universe depending on different values of omega.</Description>
+    <Keywords/>
+    <File>outlines/cosmology/universe_fate.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="cosmology_tuning_fork">
+    <Name>Hubble Tuning Fork Diagram</Name>
+    <Description>Hubble tuning fork diagram with galaxy type descriptions.</Description>
+    <Keywords/>
+    <File>outlines/cosmology/tuning_fork.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="cosmology_hubble_law">
+    <Name>Hubble's Law</Name>
+    <Description>Hubble's law for the expansion of the universe.</Description>
+    <Keywords/>
+    <File>outlines/cosmology/hubble_law.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="cosmology_dark_matter_energy">
+    <Name>Dark Matter and Dark Energy</Name>
+    <Description>Descriptions of dark matter and energy and supporting observations.</Description>
+    <Keywords/>
+    <File>outlines/cosmology/dark_matter_energy.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="cosmology_distance_ladder1">
+    <Name>Cosmic Distance Ladder, Part 1</Name>
+    <Description>Describes the distance determination techniques of radar ranging, parallax, main sequence fitting, and spectroscopic parallax.</Description>
+    <Keywords/>
+    <File>outlines/cosmology/distance_ladder1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="cosmology_distance_ladder2">
+    <Name>Cosmic Distance Ladder, Part 2</Name>
+    <Description>Describes the distance determination techniques using Cepheids, supernovae, and Hubble's law.</Description>
+    <Keywords/>
+    <File>outlines/cosmology/distance_ladder2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="galaxies_quasars">
+    <Name>Quasars</Name>
+    <Description>Description of quasars, with artist's rendering.</Description>
+    <Keywords/>
+    <File>outlines/galaxies/quasars.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="galaxies_galactic_orbits">
+    <Name>Orbital Velocity Law</Name>
+    <Description>Orbital Velocity Law for finding the mass of a galaxy.</Description>
+    <Keywords/>
+    <File>outlines/galaxies/galactic_orbits.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="galaxies_galaxy_types">
+    <Name>Types of Galaxies</Name>
+    <Description>Describes elliptial, spiral and irregular galaxies</Description>
+    <Keywords/>
+    <File>outlines/galaxies/galaxy_types.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="milkyway_galaxy_rotation">
+    <Name>Galaxy Rotation</Name>
+    <Description>Rotation curves of Milky Way, and why this means there's dark matter.</Description>
+    <Keywords/>
+    <File>outlines/milkyway/galaxy_rotation.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="stellarevolution_supernovae">
+    <Name>Types of Supernovae</Name>
+    <Description>Describes Type I and Type II supernovae.</Description>
+    <Keywords/>
+    <File>outlines/stellarevolution/supernovae.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="stellarevolution_pulsars">
+    <Name>Pulsars</Name>
+    <Description>Description of pulsars, with artist's rendering.</Description>
+    <Keywords/>
+    <File>outlines/stellarevolution/pulsars.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="stellarevolution_schwarzschild">
+    <Name>The Schwarzschild Radius</Name>
+    <Description>Formula and description of the Schwarzschild radius.</Description>
+    <Keywords/>
+    <File>outlines/stellarevolution/schwarzschild.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="stellarevolution_stellar_evol">
+    <Name>Evolution of a Star</Name>
+    <Description>Flowchart showing the stages in a star's life, depending on initial mass.</Description>
+    <Keywords/>
+    <File>outlines/stellarevolution/stellar_evol.png</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="stellarevolution_MS_lifetime">
+    <Name>Main Sequence Star Lifetimes</Name>
+    <Description>Describes the process for determining the lifetimes of main sequence stars.</Description>
+    <Keywords/>
+    <File>outlines/stellarevolution/MS_lifetime.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="binaryvariablestars_binary_types">
+    <Name>Types of Binary Systems</Name>
+    <Description>Lists and describes the four types of binary systems we observe.</Description>
+    <Keywords/>
+    <File>outlines/binaryvariablestars/binary_types.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="binaryvariablestars_diff_phot">
+    <Name>Differential Photometry</Name>
+    <Description>Differential photometry for variable stars (with sample lightcurve).</Description>
+    <Keywords/>
+    <File>outlines/binaryvariablestars/diff_phot.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="binaryvariablestars_variable_types">
+    <Name>Types of Variable Stars</Name>
+    <Description>Describes intrinsic and extrinsic reasons for stars to be variable.</Description>
+    <Keywords/>
+    <File>outlines/binaryvariablestars/variable_types.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="stellarprops2_hr_diagram1">
+    <Name>The Hertzsprung-Russell Diagram</Name>
+    <Description>Describes the Hertzsprung-Russell diagram and its importance in astronomy.</Description>
+    <Keywords/>
+    <File>outlines/stellarprops2/hr_diagram1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="stellarprops2_hr_diagram2">
+    <Name>Star Mass and Size in the HR Diagram</Name>
+    <Description>Shows the basic structure of an HR diagram.</Description>
+    <Keywords/>
+    <File>outlines/stellarprops2/hr_diagram2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="stellarprops2_parallax">
+    <Name>Parallax and Distance</Name>
+    <Description>Parallax and distance determination (parsec definition).</Description>
+    <Keywords/>
+    <File>outlines/stellarprops2/parallax.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="stellarprops2_spectro_parallax">
+    <Name>Spectroscopic Parallax</Name>
+    <Description>Flowchart for determining distances using spectroscopic parallax.</Description>
+    <Keywords/>
+    <File>outlines/stellarprops2/spectro_parallax.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="stellarprops2_mass_luminosity">
+    <Name>Mass-Luminosity Relation</Name>
+    <Description>The mass-luminosity relation for main-sequence stars.</Description>
+    <Keywords/>
+    <File>outlines/stellarprops2/mass_luminosity.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="stellarprops_luminosity_class">
+    <Name>Luminosity Class</Name>
+    <Description>Describes the luminosity classes of stars.</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/luminosity_class.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="sunsolarenergy_sun_structure">
+    <Name>Sun Structure</Name>
+    <Description>Diagram of the sun with different radial zones labeled.</Description>
+    <Keywords/>
+    <File>outlines/sunsolarenergy/sun_structure.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="sunsolarenergy_CNO_cycle">
+    <Name>Carbon-Nitrogen-Oxygen Cycle</Name>
+    <Description>Description of the carbon-nitrogen-oxygen fusion cycle.</Description>
+    <Keywords/>
+    <File>outlines/sunsolarenergy/CNO_cycle.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="sunsolarenergy_pp_chain">
+    <Name>Proton-Proton Chain</Name>
+    <Description>Description of the proton-proton chain fusion reaction.</Description>
+    <Keywords/>
+    <File>outlines/sunsolarenergy/pp_chain.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="sunsolarenergy_ht_conduction">
+    <Name>Heat Transfer: Conduction</Name>
+    <Description>Description of conductive heat transfer.</Description>
+    <Keywords/>
+    <File>outlines/sunsolarenergy/ht_conduction.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="sunsolarenergy_ht_convection">
+    <Name>Heat Transfer: Convection</Name>
+    <Description>Description of the process of convection.</Description>
+    <Keywords/>
+    <File>outlines/sunsolarenergy/ht_convection.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="sunsolarenergy_ht_radiation">
+    <Name>Heat Transfer: Radiation</Name>
+    <Description>Relates radiation to heat transport.</Description>
+    <Keywords/>
+    <File>outlines/sunsolarenergy/ht_radiation.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="sunsolarenergy_mag_force">
+    <Name>Magnetic Force</Name>
+    <Description>Describes the magnetic force of moving charges.</Description>
+    <Keywords/>
+    <File>outlines/sunsolarenergy/mag_force.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="sunsolarenergy_ideal_gas">
+    <Name>Ideal Gas Law</Name>
+    <Description>Describes the ideal gas law and its application to stellar interiors.</Description>
+    <Keywords/>
+    <File>outlines/sunsolarenergy/ideal_gas.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="sunsolarenergy_fusion">
+    <Name>Fusion and the Coulomb  Barrier</Name>
+    <Description>Nuclear fusion in stars and the Coulomb barrier.</Description>
+    <Keywords/>
+    <File>outlines/sunsolarenergy/fusion.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="telescopes_reflection">
+    <Name>Reflection</Name>
+    <Description>Explains the law of reflection and the difference between specular and diffuse reflection.</Description>
+    <Keywords/>
+    <File>outlines/telescopes/reflection.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="telescopes_refraction1">
+    <Name>Index of Refraction</Name>
+    <Description>Definition of index of refraction.</Description>
+    <Keywords/>
+    <File>outlines/telescopes/refraction1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="telescopes_refraction2">
+    <Name>Law of Refraction</Name>
+    <Description>Describes the law of refraction (toward or away from the normal).</Description>
+    <Keywords/>
+    <File>outlines/telescopes/refraction2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="telescopes_refraction3">
+    <Name>Total Internal Reflection</Name>
+   <Description>Description of total internal reflection.</Description>
+    <Keywords/>
+    <File>outlines/telescopes/refraction3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="telescopes_telescopes">
+    <Name>Telescope Types</Name>
+    <Description>Describes refracting, reflecting, and hybrid telescopes.</Description>
+    <Keywords/>
+    <File>outlines/telescopes/telescopes.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="telescopes_aberration_chromatic">
+    <Name>Chromatic Aberration</Name>
+    <Description>Chromatic aberration in telescopes.</Description>
+    <Keywords/>
+    <File>outlines/telescopes/aberration_chromatic.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="telescopes_aberration_spherical">
+    <Name>Spherical Aberration</Name>
+    <Description>Spherical aberration in telescopes.</Description>
+    <Keywords/>
+    <File>outlines/telescopes/aberration_spherical.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="telescopes_light_gathering_power">
+    <Name>Light Gathering Power</Name>
+    <Description>Light gathering power of a telescope.</Description>
+    <Keywords/>
+    <File>outlines/telescopes/light_gathering_power.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="telescopes_magnification">
+    <Name>Magnification</Name>
+    <Description>Defining and calculating resolution of a telescope and eyepiece combination.</Description>
+    <Keywords/>
+    <File>outlines/telescopes/magnification.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="telescopes_resolution">
+    <Name>Resolution</Name>
+    <Description>Defining resolution of a telescope.</Description>
+    <Keywords/>
+    <File>outlines/telescopes/resolution.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="light_light_intensity">
+    <Name>Inverse Square Law</Name>
+    <Description>Describes the inverse square law of light.</Description>
+    <Keywords/>
+    <File>outlines/light/light_intensity.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="light_stefan_boltzmann">
+    <Name>Stefan-Boltzmann Law</Name>
+    <Description>Describes the Stefan-Boltzmann law.</Description>
+    <Keywords/>
+    <File>outlines/light/stefan_boltzmann.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="light_rayleigh">
+    <Name>Rayleigh Scattering</Name>
+    <Description>Description of Rayleigh scattering and why the sky is blue.</Description>
+    <Keywords/>
+    <File>outlines/light/rayleigh.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="light_blackbody_wien">
+    <Name>Blackbody Curves and Wien's Law</Name>
+    <Description>Describes blackbody curves and Wien's Law.</Description>
+    <Keywords/>
+    <File>outlines/light/blackbody_wien.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="light_doppler">
+    <Name>Doppler Effect</Name>
+    <Description>Describes causes of doppler shift in light.</Description>
+    <Keywords/>
+    <File>outlines/light/doppler.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="coordsmotion_ecliptic">
+    <Name>Ecliptic Definition</Name>
+    <Description>Defines the ecliptic plane.</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/ecliptic.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="coordsmotion_ang_meas">
+    <Name>Angular Measurements</Name>
+    <Description>Description of angular separation and angular diameter.</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/ang_meas.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="coordsmotion_basic_motions">
+    <Name>Basic Motions in the Sky</Name>
+    <Description>General naked-eye rules of motion in the night sky.</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/basic_motions.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="coordsmotion_basic_motions_exp">
+    <Name>Basic Motions in the Sky Explained</Name>
+    <Description>General naked-eye rules of motion in the night sky, and the reasons behind them.</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/basic_motions_exp.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+<Outline id="intro_density">
+    <Name>Density Definition</Name>
+    <Description>Density is mass per unit volume.</Description>
+    <Keywords/>
+    <File>outlines/intro/density.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="intro_sci_not">
+    <Name>Scientific Notation</Name>
+    <Description>Introduction to scientific notation.</Description>
+    <Keywords/>
+    <File>outlines/intro/sci_not.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="intro_metric_prefixes">
+    <Name>Metric Prefixes</Name>
+    <Description>Use of prefixes in the metric system.</Description>
+    <Keywords/>
+    <File>outlines/intro/metric_prefixes.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="intro_math_in_sci_not">
+    <Name>Scientific Notation Math</Name>
+    <Description>Basic multiplication and division in scientific notation.</Description>
+    <Keywords/>
+    <File>outlines/intro/math_in_sci_not.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+<Outline id="intro_special_units">
+    <Name>The AU, lightyear,  and parsec</Name>
+    <Description>Definitions of the AU, lightyear, and parsec.</Description>
+    <Keywords/>
+    <File>outlines/intro/special_units.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+
+  <Outline id="coordsmotion_slide1">
+    <Name>Terrestrial Coordinates</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide2">
+    <Name>Parallels of Latitude</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide3">
+    <Name>Celestial Equatorial Coordinates</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide4">
+    <Name>Ecliptic</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide5">
+    <Name>Horizon Coordinates</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide6">
+    <Name>Declination Ranges</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide6.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="coordsmotion_slide7">
+    <Name>Meridional Altitude</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/coordsmotion/slide7.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide1">
+    <Name>The Nature of Light</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/light/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide2">
+    <Name>Kirchhoff's Laws</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/light/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide3">
+    <Name>Radiation Laws</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/light/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide4">
+    <Name>Spectral Lines</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/light/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="light_slide5">
+    <Name>Doppler Effect</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/light/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide1">
+    <Name>Phases of the Moon</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide2">
+    <Name>Rising/Meridian/Setting Times</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide3">
+    <Name>Lunar Periods</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide4">
+    <Name>Lunar Eclipses</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide5">
+    <Name>Solar Eclipses</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="lunarcycles_slide6">
+    <Name>Tides</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/lunarcycles/slide6.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide1">
+    <Name>Kepler's Laws</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide2">
+    <Name>Newton's Laws</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide3">
+    <Name>Newton's Law of Gravity</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide4">
+    <Name>Sidereal and Synodic Periods</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide5">
+    <Name>Elongation Configurations for Inferior Planets</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_slide6">
+    <Name>Elongation Configurations for Superior Planets</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/renaissance/slide6.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="renaissance_ellipse">
+    <Name>Ellipse Geometry</Name>
+    <Description>Basic ellipse geometry.</Description>
+    <Keywords/>
+    <File>outlines/renaissance/ellipse.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+</Outline>
+  <Outline id="stellarprops_slide1">
+    <Name>Flux (or Intensity)</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide1.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide2">
+    <Name>Apparent Magnitude</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide2.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide3">
+    <Name>Intensity and Magnitude</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide3.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide4">
+    <Name>Absolute Magnitude</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide4.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide5">
+    <Name>Distance Modulus</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide5.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide6">
+    <Name>Parallax</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide6.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide7">
+    <Name>Stellar Velocity</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide7.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide8">
+    <Name>Luminosity</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide8.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+  <Outline id="stellarprops_slide9">
+    <Name>Spectroscopic Parallax</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>outlines/stellarprops/slide9.jpg</File>
+    <Width>720</Width>
+    <Height>540</Height>
+  </Outline>
+</OutlineBank>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Solar System Debris">
+  <Questions>
+    <Question>ca_solarsystemdebris_characteristicsofdebris</Question>
+    <Question>ca_solarsystemdebris_cometasteroidorbits</Question>
+    <Question>ca_solarsystemdebris_debrisclassify</Question>
+    <Question>ca_solarsystemdebris_debrisorbits</Question>
+    <Question>ca_solarsystemdebris_proper_motion</Question>
+    <Question>ca_solarsystemdebris_meteorsvsmeteorites</Question>
+    <Question>ca_solarsystemdebris_meteormeteoritesources</Question>
+    <Question>ca_solarsystemdebris_meteorlocation</Question>
+    <Question>ca_solarsystemdebris_meteorpaths</Question>
+    <Question>ca_solarsystemdebris_terrestrialimpacts</Question>
+    <Question>ca_solarsystemdebris_asteroidfamilies</Question>
+    <Question>ca_solarsystemdebris_asteroidresonances</Question>
+    <Question>ca_solarsystemdebris_asteroidalbedo</Question>
+    <Question>ca_solarsystemdebris_occultationconclusions</Question>
+    <Question>ca_solarsystemdebris_plutostability</Question>
+    <Question>ca_solarsystemdebris_kbocharacteristics</Question>
+    <Question>ca_solarsystemdebris_chiron</Question>
+    <Question>ca_solarsystemdebris_cometdistgraphs</Question>
+    <Question>ca_solarsystemdebris_comettrajectory</Question>
+    <Question>ca_solarsystemdebris_cometspectra</Question>
+
+    <Question>ca_solarsystemdebris_asteroiddensity</Question>
+    <Question>ca_solarsystemdebris_tidallylocked</Question>
+    <Question>ca_solarsystemdebris_kboresonances</Question>
+    <Question>ca_solarsystemdebris_vestabright</Question>
+
+    <Question>ca_solarsystemdebris_asteroidimpactprobs</Question>
+    <Question>ca_solarsystemdebris_sednasorbit</Question>
+    <Question>ca_solarsystemdebris_figureeight</Question>
+  </Questions>
+  <Animations>
+    <Animation>drivingthroughsnow</Animation>
+    <Animation>configurationssimulator</Animation>
+    <Animation>kepler</Animation>
+  </Animations>
+  <Images>
+    <Image>comettrajectory</Image>
+    <Image>kirkwoodgaps</Image>
+  </Images>
+  <Outlines>
+    <Outline>solarsystemdebris_ss_debris</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+
+
+
+
+
+
+

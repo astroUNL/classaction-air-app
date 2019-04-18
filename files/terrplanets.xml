@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Terrestrial Planets">
+  <Questions>
+    <Question>ca_terrplanets_cratersandage1</Question>
+    <Question>ca_terrplanets_cratersandage2</Question>
+    <Question>ca_terrplanets_heatofformationanalogy</Question>
+    <Question>ca_terrplanets_lightintensity</Question>
+    <Question>ca_terrplanets_earthearlyatmosphere</Question>
+    <Question>ca_terrplanets_mercurynight</Question>
+    <Question>ca_terrplanets_scarp</Question>
+    <Question>ca_terrplanets_atmosphereplot</Question>
+    <Question>ca_terrplanets_rockice</Question>
+    <Question>ca_terrplanets_syncrotation</Question>
+    <Question>ca_terrplanets_radardistance</Question>
+    <Question>ca_terrplanets_venusrotation</Question>
+    <Question>ca_terrplanets_earthinteriorconceptmap</Question>
+    <Question>ca_terrplanets_moonaltimeter</Question>
+    <Question>ca_terrplanets_magfieldatmosphere</Question>
+  </Questions>
+  <Animations>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines>
+    <Outline>terrplanets_atmo_reten1</Outline>
+    <Outline>terrplanets_atmo_reten2</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>

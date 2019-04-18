@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Telescopes and Astronomical Instruments">
+  <Questions>
+    <Question>ca_telescopes_refraction</Question>
+    <Question>ca_telescopes_reflection</Question>
+    <Question>ca_telescopes_lenses</Question>
+    <Question>ca_telescopes_simplerefracting</Question>
+    <Question>ca_telescopes_beamandlenses</Question>
+    <Question>ca_telescopes_lightgatheringpower</Question>
+    <Question>ca_telescopes_magandfov</Question>
+    <Question>ca_telescopes_hubbletelescope</Question>
+    <Question>ca_telescopes_sphericalaberration</Question>
+    <Question>ca_telescopes_jameswebb</Question>    
+    <Question>ca_telescopes_ccdresponsefunction</Question>
+    <Question>ca_telescopes_fish</Question>
+    <Question>ca_telescopes_teleshop</Question>    
+    <Question>ca_telescopes_mirror</Question>
+    <Question>ca_hst_view</Question>
+  </Questions>
+   <Animations>
+    <Animation>telescope10</Animation>
+    <Animation>buckets</Animation>
+    <Animation>snellslaw</Animation>
+  </Animations>
+  <Images>
+  </Images>
+  <Outlines>
+    <Outline>telescopes_reflection</Outline>
+    <Outline>telescopes_refraction1</Outline>
+    <Outline>telescopes_refraction2</Outline>
+    <Outline>telescopes_refraction3</Outline>
+    <Outline>telescopes_telescopes</Outline>
+    <Outline>telescopes_aberration_chromatic</Outline>
+    <Outline>telescopes_aberration_spherical</Outline>
+    <Outline>telescopes_light_gathering_power</Outline>
+    <Outline>telescopes_magnification</Outline>
+    <Outline>telescopes_resolution</Outline>
+  </Outlines>
+  <Tables>
+  </Tables>
+</ModuleSpecification>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<modules>
+	<module>intro.xml</module>
+	<module>ancientastro.xml</module>
+	<module>coordsmotion.xml</module>
+	<module>lunarcycles.xml</module>
+	<module>renaissance.xml</module>
+	<module>light.xml</module>
+	<module>telescopes.xml</module>
+	<module>sunsolarenergy.xml</module>
+	<module>ismstarform.xml</module>
+	<module>stellarprops.xml</module>
+	<module>stellarprops2.xml</module>
+	<module>binaryvariablestars.xml</module>
+	<module>stellarevolution.xml</module>
+	<module>milkyway.xml</module>
+	<module>galaxies.xml</module>
+	<module>cosmology.xml</module>
+	<module>solar.xml</module>
+	<module>extrasolarplanets.xml</module>
+	<module>terrplanets.xml</module>
+	<module>jovianplanets.xml</module>
+	<module>solarsystemdebris.xml</module>
+	<module>lightAndSpectra.xml</module>
+</modules>

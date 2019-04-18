@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Introductory Concepts">
+  <Questions>
+    <Question>ca_intro_scale</Question>
+    <Question>ca_intro_increasingdist</Question>
+    <Question>ca_intro_scientnot</Question>
+    <Question>ca_intro_calcscientnot</Question>
+    <Question>ca_intro_specialunits</Question>
+    <Question>ca_intro_dimanalysis</Question>
+    <Question>ca_intro_lttime</Question>
+    <Question>ca_intro_lookbacktime</Question>
+    <Question>ca_intro_spinlookback</Question>
+    <Question>ca_intro_radiuscircgraphs</Question>
+    <Question>ca_intro_earthrotations</Question>
+    <Question>ca_intro_highprecisionlowaccuracy</Question>
+    <Question>ca_intro_commondensities</Question>
+    <Question>ca_intro_densityandvolume</Question>
+    <Question>ca_intro_trashdensity</Question>
+    <Question>ca_intro_densitycombinedobject</Question>
+    <Question>ca_intro_propertiesofdensity</Question>
+	<Question>ca_intro_underworld</Question>
+  </Questions>
+  <Animations>
+    <Animation>lookbacktimesim</Animation>
+  </Animations>
+  <Images>
+    <Image>density_determination</Image>
+  </Images>
+  <Outlines>
+    <Outline>intro_density</Outline>
+    <Outline>intro_sci_not</Outline>
+    <Outline>intro_metric_prefixes</Outline>
+    <Outline>intro_math_in_sci_not</Outline>
+    <Outline>intro_special_units</Outline>
+  </Outlines>
+  <Tables>
+   <Table>densities</Table>
+   <Table>distance_units</Table>
+   <Table>lookback_solar</Table>
+   <Table>lookback_distant</Table>
+   <Table>si_prefixes</Table>
+   <Table>si_units</Table>
+  </Tables>
+</ModuleSpecification>
+
+
+
+
+

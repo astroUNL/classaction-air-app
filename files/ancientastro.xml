@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Basic Motions &amp; Ancient Astronomy">
+    <Questions>
+    <Question>ca_ancientastro_northpoint</Question>
+    <Question>ca_ancientastro_horizontozenith</Question>
+    <Question>ca_ancientastro_seasonalsky</Question>
+    <Question>ca_ancientastro_motionofsun</Question>
+    <Question>ca_ancientastro_planetlocations</Question>
+    <Question>ca_ancientastro_planetpositions</Question>
+    <Question>ca_ancientastro_aristarchus</Question>
+    <Question>ca_ancientastro_angulardiametermobile</Question>
+    <Question>ca_ancientastro_angulardiameterballoon</Question>
+    <Question>ca_ancientastro_moonstacking</Question>
+    <Question>ca_ancientastro_heliacalrising</Question>
+    <Question>ca_ancientastro_eratosthenes</Question>
+    <Question>ca_ancientastro_eratosthenesanalogies</Question>
+    <Question>ca_ancientastro_keymound</Question>
+    <Question>ca_ancientastro_morningeveningstar</Question>
+  </Questions>
+  <Animations>
+    <Animation>smallangledemo</Animation>
+    <Animation>heliacalrisingsim</Animation>
+    <Animation>dipperclock</Animation>
+  </Animations>
+  <Images>
+    <Image>angulardiameter</Image>
+    <Image>fistangle</Image>
+    <Image>arcseconddiagram</Image>
+  </Images>
+  <Outlines/>
+  <Tables>
+    <Table>ang_diam</Table>
+  </Tables>
+</ModuleSpecification>
+
+
+

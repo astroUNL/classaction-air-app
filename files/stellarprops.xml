@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Module Specification Document for the ClassAction Project-->
+<!DOCTYPE ModuleSpecification [
+	<!ELEMENT ModuleSpecification (Questions, Animations, Images, Outlines, Tables)>
+	<!ATTLIST ModuleSpecification
+          id CDATA #REQUIRED>
+	<!ELEMENT ModuleName (#PCDATA)>
+	<!ELEMENT Questions (Question+)>
+	<!ELEMENT Question (#PCDATA)>
+	<!ELEMENT Animations (Animation*)>
+	<!ELEMENT Animation (#PCDATA)>
+	<!ELEMENT Images (Image*)>
+	<!ELEMENT Image (#PCDATA)>
+	<!ELEMENT Outlines (Outline*)>
+	<!ELEMENT Outline (#PCDATA)>
+	<!ELEMENT Tables (Table*)>
+	<!ELEMENT Table (#PCDATA)>
+]>
+<ModuleSpecification id="Stellar Properties">
+  <Questions>
+    <Question>ca_stellarprops_magsfromimage</Question>
+    <Question>ca_stellarprops_appmagbright</Question>
+    <Question>ca_stellarprops_brightenergy</Question>
+    <Question>ca_stellarprops_absolutemag</Question>
+    <Question>ca_stellarprops_apparantmagnitude</Question>
+    <Question>ca_stellarprops_magdist</Question>
+    <Question>ca_stellarprops_disttostar</Question>
+    <Question>ca_stellarprops_dopplervsrad</Question>
+    <Question>ca_stellarprops_units</Question>
+    <Question>ca_stellarprops_propermotion</Question>
+    <Question>ca_stellarprops_velocityranking</Question>
+    <Question>ca_stellarprops_tanvelocity</Question>
+    <Question>ca_stellarprops_motionranking</Question>
+    <Question>ca_stellarprops_barnards</Question>
+    <Question>ca_stellarprops_motiontypes</Question>
+    <Question>ca_stellarprops_thirtycloseststars</Question>
+    <Question>ca_stellarprops_radtanvelocity</Question>
+    <Question>ca_stellarprops_etacarmag</Question>
+    
+    <Question>ca_stellarprops_spacevelocity</Question>
+    <Question>ca_stellarprops_algolinthepast</Question>
+    <Question>ca_stellarprops_siriusbmag</Question>
+  </Questions>
+  <Animations>
+    <Animation>stellarmag</Animation>
+    <Animation>stellarvel</Animation>
+    <Animation>parallaxdiag</Animation>
+    <Animation>spectroparallax</Animation>
+    <Animation>stellarlum</Animation>
+    <Animation>lightdetector</Animation>
+    <Animation>hrexplorer</Animation>
+  </Animations>
+  <Images>
+    <Image>distancescale</Image>
+    <Image>parallaxexample</Image>
+    <Image>parallax</Image>
+    <Image>spectralclassification</Image>
+    <Image>propermotion</Image>
+  </Images>
+  <Outlines>
+    <Outline>stellarprops_luminosity_class</Outline>
+    <Outline>stellarprops_slide1</Outline>
+    <Outline>stellarprops_slide2</Outline>
+    <Outline>stellarprops_slide3</Outline>
+    <Outline>stellarprops_slide4</Outline>
+    <Outline>stellarprops_slide5</Outline>
+    <Outline>stellarprops_slide6</Outline>
+    <Outline>stellarprops_slide7</Outline>
+    <Outline>stellarprops_slide8</Outline>
+    <Outline>stellarprops_slide9</Outline>
+  </Outlines>
+  <Tables>
+    <Table>dismodtable</Table>
+    <Table>maginttable</Table>
+  </Tables>
+</ModuleSpecification>
+

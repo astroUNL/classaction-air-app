@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--Image Specification Document for the ClassAction Project-->
+<!DOCTYPE ImageBank [
+    <!ELEMENT ImageBank (Image+)>
+    <!ELEMENT Image (Name, Description, Keywords, File, Width, Height)>
+    <!ATTLIST Image
+          id CDATA #REQUIRED>
+	<!ELEMENT Name (#PCDATA)>
+	<!ELEMENT Description (#PCDATA)>
+	<!ELEMENT Keywords (Keyword*)>
+	<!ELEMENT Keyword (#PCDATA)>
+	<!ELEMENT File (#PCDATA)>
+	<!ELEMENT Width (#PCDATA)>
+	<!ELEMENT Height (#PCDATA)>
+]>
+<ImageBank>
+  <Image id="binarystarseesaw">
+    <Name>Binary Star Center of Mass Analogy</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>images/binaryvariablestars/binarystarseesaw.jpg</File>
+    <Width>720</Width>
+    <Height>480</Height>
+  </Image>
+  <Image id="angulardiameter">
+    <Name>Angular Diameter</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>images/ancientastro/angulardiameter.jpg</File>
+    <Width>900</Width>
+    <Height>594</Height>
+  </Image>
+  <Image id="arcseconddiagram">
+    <Name>Arcsecond Diagram</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>images/ancientastro/arcseconddiagram.jpg</File>
+    <Width>1000</Width>
+    <Height>614</Height>
+  </Image>
+  <Image id="fistangle">
+    <Name>Fist Angle</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>images/ancientastro/fistangle.jpg</File>
+    <Width>850</Width>
+    <Height>561</Height>
+  </Image>
+  
+  <Image id="distancemodulus">
+    <Name>Distance Modulus</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/binaryvariablestars/distancemodulus.jpg</File>
+    <Width>550</Width>
+    <Height>788</Height>
+  </Image>
+  <Image id="declination">
+    <Name>Declination</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/coordsmotion/declination.jpg</File>
+    <Width>600</Width>
+    <Height>480</Height>
+  </Image>
+  <Image id="ecliptic">
+    <Name>Ecliptic</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/coordsmotion/ecliptic.jpg</File>
+    <Width>382</Width>
+    <Height>413</Height>
+  </Image>
+  <Image id="polarrotation">
+    <Name>Polar Rotation</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/coordsmotion/polarrotation.jpg</File>
+    <Width>490</Width>
+    <Height>685</Height>
+  </Image>
+  <Image id="rightascen">
+    <Name>Right Ascension</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/coordsmotion/rightascen.jpg</File>
+    <Width>600</Width>
+    <Height>480</Height>
+  </Image>
+  <Image id="startrails">
+    <Name>North Celestial Pole</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/coordsmotion/startrails.jpg</File>
+    <Width>200</Width>
+    <Height>200</Height>
+  </Image>
+  <Image id="timezones">
+    <Name>Time Zones</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/coordsmotion/timezones.jpg</File>
+    <Width>4779</Width>
+    <Height>1979</Height>
+  </Image>
+  <Image id="density_determination">
+    <Name>Determination of Unknown Density</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/intro/density_determination.jpg</File>
+    <Width>1148</Width>
+    <Height>820</Height>
+  </Image>
+  <Image id="dopplereffect">
+    <Name>Doppler Effect</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/light/dopplereffect.jpg</File>
+    <Width>800</Width>
+    <Height>223</Height>
+  </Image>
+  <Image id="electromagneticspectrum">
+    <Name>Electromagnetic Spectrum</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/light/electromagneticspectrum.jpg</File>
+    <Width>830</Width>
+    <Height>593</Height>
+  </Image>
+  <Image id="electromagneticwave">
+    <Name>Electromagnetic Wave</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/light/electromagneticwave.jpg</File>
+    <Width>579</Width>
+    <Height>396</Height>
+  </Image>
+  <Image id="hydrogenbohrtransitions">
+    <Name>Hydrogen Bohr Transitions</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/light/hydrogenbohrtransitions.jpg</File>
+    <Width>350</Width>
+    <Height>350</Height>
+  </Image>
+  <Image id="hydrogenelectronclouds">
+    <Name>Hydrogen Electron Clouds</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/light/hydrogenelectronclouds.jpg</File>
+    <Width>336</Width>
+    <Height>198</Height>
+  </Image>
+  <Image id="hydrogenspectrum">
+    <Name>Hydrogen Spectrum</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/light/hydrogenspectrum.jpg</File>
+    <Width>339</Width>
+    <Height>81</Height>
+  </Image>
+  <Image id="radargun">
+    <Name>Radar Gun Doppler Shift</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/light/radargun.jpg</File>
+    <Width>612</Width>
+    <Height>792</Height>
+  </Image>
+  <Image id="checkbook">
+    <Name>Checkbook Analogy</Name>
+    <Description>This image has three panels each illustrating binding energy in the hydrogen atom in a different way: the actual transitions between energy levels, binding energy on a number line, and a checkbook.</Description>
+    <Keywords/>
+    <File>images/light/checkbook.jpg</File>
+    <Width>1017</Width>
+    <Height>907</Height>
+  </Image>
+  <Image id="solarspectrum">
+    <Name>Solar Spectrum</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/light/solarspectrum.jpg</File>
+    <Width>1024</Width>
+    <Height>683</Height>
+  </Image>
+  <Image id="waveproperties">
+    <Name>Wave Properties</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/light/wave.jpg</File>
+    <Width>600</Width>
+    <Height>140</Height>
+  </Image>
+  <Image id="lunarcycles">
+    <Name>Lunar Cycles</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/lunarcycles.jpg</File>
+    <Width>649</Width>
+    <Height>606</Height>
+  </Image>
+  <Image id="lunareclipse">
+    <Name>Lunar Eclipse I</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/lunareclipse.jpg</File>
+    <Width>812</Width>
+    <Height>277</Height>
+  </Image>
+  <Image id="lunareclipse2004">
+    <Name>Lunar Eclipse Sequence 2004</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/lunareclipse2004.jpg</File>
+    <Width>400</Width>
+    <Height>600</Height>
+  </Image>
+  <Image id="lunareclipse2008">
+    <Name>Lunar Eclipse 2008</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/lunareclipse2008.jpg</File>
+    <Width>619</Width>
+    <Height>800</Height>
+  </Image>
+  <Image id="nodes">
+    <Name>Line of Nodes</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/nodes.jpg</File>
+    <Width>826</Width>
+    <Height>394</Height>
+  </Image>
+  <Image id="potpie">
+    <Name>Pot Pie Phases</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/potpie.jpg</File>
+    <Width>612</Width>
+    <Height>408</Height>
+  </Image>
+  <Image id="rotation">
+    <Name>Lunar Rotation</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/rotation.jpg</File>
+    <Width>561</Width>
+    <Height>520</Height>
+  </Image>
+  <Image id="seatlas2001">
+    <Name>Solar Eclipse Paths</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/seatlas2001.jpg</File>
+    <Width>1024</Width>
+    <Height>772</Height>
+  </Image>
+  <Image id="sidereal">
+    <Name>Lunar Sidereal Period</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/sidereal.jpg</File>
+    <Width>613</Width>
+    <Height>485</Height>
+  </Image>
+  <Image id="solareclipse">
+    <Name>Total Solar Eclipse</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/solareclipse.jpg</File>
+    <Width>734</Width>
+    <Height>279</Height>
+  </Image>
+  <Image id="solareclipse2">
+    <Name>Annular Solar Eclipse</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/solareclipse2.jpg</File>
+    <Width>734</Width>
+    <Height>279</Height>
+  </Image>
+  <Image id="solareclipse1994">
+    <Name>Annular Solar Eclipse 1994</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/solareclipse1994.jpg</File>
+    <Width>512</Width>
+    <Height>480</Height>
+  </Image>
+  <Image id="solareclipse1999">
+    <Name>Total Solar Eclipse 1999</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/solareclipse1999.jpg</File>
+    <Width>690</Width>
+    <Height>600</Height>
+  </Image>
+  <Image id="solareclipse1999mir">
+    <Name>Solar Eclipse from Mir 1999</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/solareclipse1999mir.jpg</File>
+    <Width>800</Width>
+    <Height>600</Height>
+  </Image>
+  <Image id="solareclipse2008">
+    <Name>Total Solar Eclipse 2008</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/solareclipse2008.jpg</File>
+    <Width>1024</Width>
+    <Height>768</Height>
+  </Image>
+  <Image id="synodic">
+    <Name>Lunar Synodic Period</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/synodic.jpg</File>
+    <Width>613</Width>
+    <Height>485</Height>
+  </Image>
+  <Image id="tides">
+    <Name>Tides</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/tides.jpg</File>
+    <Width>490</Width>
+    <Height>349</Height>
+  </Image>
+  <Image id="umbrapenumbra">
+    <Name>Types of Shadow</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/lunarcycles/umbrapenumbra.jpg</File>
+    <Width>686</Width>
+    <Height>237</Height>
+  </Image>
+  <Image id="aberrationdiagram">
+    <Name>Aberration Diagram</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/renaissance/aberrationdiagram.jpg</File>
+    <Width>400</Width>
+    <Height>340</Height>
+  </Image>
+  <Image id="retrograde">
+    <Name>Retrograde</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/renaissance/retrograde.jpg</File>
+    <Width>600</Width>
+    <Height>150</Height>
+  </Image>
+  <Image id="distancescale">
+    <Name>Distance Scale</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/stellarprops/distancescale.jpg</File>
+    <Width>388</Width>
+    <Height>810</Height>
+  </Image>
+  <Image id="parallax">
+    <Name>Parallax</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/stellarprops/parallax.jpg</File>
+    <Width>300</Width>
+    <Height>188</Height>
+  </Image>
+  <Image id="parallaxexample">
+    <Name>Parallax Example</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/stellarprops/parallaxexample.jpg</File>
+    <Width>250</Width>
+    <Height>177</Height>
+  </Image>
+  <Image id="propermotion">
+    <Name>Proper Motion</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/stellarprops/propermotion.jpg</File>
+    <Width>394</Width>
+    <Height>289</Height>
+  </Image>
+  <Image id="spectralclassification">
+    <Name>Spectral Classification</Name>
+    <Description>This is the description of this image</Description>
+    <Keywords/>
+    <File>images/stellarprops/spectralclassification.jpg</File>
+    <Width>400</Width>
+    <Height>202</Height>
+  </Image>
+  <Image id="hydrostaticequilibrium">
+    <Name>Hydrostatic Equilibrium in a Star</Name>
+    <Description>Hydrostatic Equilibrium in a Star: Gravity vs. Pressure</Description>
+    <Keywords/>
+    <File>images/sunsolarenergy/hydrostaticequilibrium.jpg</File>
+    <Width>900</Width>
+    <Height>450</Height>
+  </Image>
+  <Image id="fusion">
+    <Name>Fusion Reaction</Name>
+    <Description>Fusion Reaction in the Core of a Star</Description>
+    <Keywords/>
+    <File>images/sunsolarenergy/fusion.jpg</File>
+    <Width>900</Width>
+    <Height>600</Height>
+  </Image>
+  <Image id="gasdensity">
+    <Name>Gas Density and Orbital Energies</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>images/light/gasdensity.jpg</File>
+    <Width>600</Width>
+    <Height>400</Height>
+  </Image>
+   <Image id="propermotion">
+    <Name>Stellar Motion on the Celestial Sphere</Name>
+    <Description>Proper motions is displayed for various values of radial and transverse velocity.</Description>
+    <Keywords/>
+    <File>images/stellarprops/propermotion.jpg</File>
+    <Width>1000</Width>
+    <Height>750</Height>
+  </Image>
+  <Image id="opticaldoublesandvisualbinaries">
+    <Name>Optical Doubles and Visual Binaries</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>images/binaryvariablestars/opticaldoublesandvisualbinaries.jpg</File>
+    <Width>800</Width>
+    <Height>479</Height>
+  </Image>
+  <Image id="solararchitecture">
+    <Name>Solar Architecture</Name>
+    <Description>...</Description>
+    <Keywords/>
+    <File>images/coordsmotion/solararchitecture.jpg</File>
+    <Width>800</Width>
+    <Height>533</Height>
+  </Image>
+  <Image id="roemer_speedoflight">
+    <Name>Roemer's Speed of Light</Name>
+    <Description>This image illustrates the lags and leads of the timings of Io's eclipses.</Description>
+    <Keywords/>
+    <File>images/jovianplanets/roemer_speedoflight.jpg</File>
+    <Width>1067</Width>
+    <Height>600</Height>
+  </Image>
+   <Image id="saturnbathtub">
+    <Name>Saturn in a Bathtub</Name>
+    <Description>This image humorously illustrates that the density of Saturn is less than that of water.</Description>
+    <Keywords/>
+    <File>images/jovianplanets/saturnbathtub.jpg</File>
+    <Width>900</Width>
+    <Height>600</Height>
+  </Image>
+  <Image id="comettrajectory">
+    <Name>Comet Trajectory</Name>
+    <Description>This image displays a comet passing through perihelion and the directions of the two tails.</Description>
+    <Keywords/>
+    <File>images/solarsystemdebris/comettrajectory.jpg</File>
+    <Width>675</Width>
+    <Height>621</Height>
+  </Image>
+  <Image id="kirkwoodgaps">
+    <Name>Kirkwood Gaps</Name>
+    <Description>This image displays the distribution of asteroids and the Kirkwood Gaps.</Description>
+    <Keywords/>
+    <File>images/solarsystemdebris/kirkwoodgaps.jpg</File>
+    <Width>900</Width>
+    <Height>325</Height>
+  </Image>
+  
+</ImageBank>
+
+
+
+
+
