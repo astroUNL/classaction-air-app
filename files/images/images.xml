@@ -375,14 +375,6 @@
     <Width>250</Width>
     <Height>177</Height>
   </Image>
-  <Image id="propermotion">
-    <Name>Proper Motion</Name>
-    <Description>This is the description of this image</Description>
-    <Keywords/>
-    <File>images/stellarprops/propermotion.jpg</File>
-    <Width>394</Width>
-    <Height>289</Height>
-  </Image>
   <Image id="spectralclassification">
     <Name>Spectral Classification</Name>
     <Description>This is the description of this image</Description>

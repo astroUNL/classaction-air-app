@@ -295,8 +295,8 @@
     <Height>600</Height>
   </Animation>
   <Animation id="radialvelocitydemo">
-    <Name>ExtraSolar Planet Radial Velocity Demonstrator</Name>
-    <Description>ExtraSolar Planet Radial Velocity Demonstrator</Description>
+    <Name>Extrasolar Planet Radial Velocity Demonstrator</Name>
+    <Description>Demonstrates how the spectrum of a star is shifted as it and its planet orbit their common center of mass.</Description>
     <Keywords/>
     <File>animations/extrasolarplanets/radialvelocitydemo.swf</File>
     <Width>600</Width>
@@ -381,14 +381,6 @@
     <File>animations/light/hydrogenatom.swf</File>
     <Width>950</Width>
     <Height>640</Height>
-  </Animation>
-  <Animation id="radialvelocitydemo">
-    <Name>Extrasolar Planet Radial Velocity Demonstrator</Name>
-    <Description>Demonstrates how the spectrum of a star is shifted as it and its planet orbit their common center of mass.</Description>
-    <Keywords/>
-    <File>animations/light/radialvelocitydemo.swf</File>
-    <Width>600</Width>
-    <Height>450</Height>
   </Animation>
   <Animation id="threeviewsspectra">
     <Name>Three Views Spectrum Demonstrator</Name>

@@ -718,24 +718,6 @@
     <RelevantOutlines/>
     <RelevantTables/>
   </Question>
-  <Question id="ca_coordsmotion_earthchanges">
-    <Name>Change to Earth Seasons</Name>
-    <Description>The student is given both the eccentricity of Earth's orbit and its obliquity (tilt), and is asked to determine how the seasons would change with various changes in those two values.</Description>
-    <Keywords>
-      <Keyword>season</Keyword>
-      <Keyword>eccentricity</Keyword>
-      <Keyword>obliquity</Keyword>
-      <Keyword>tilt</Keyword>
-    </Keywords>
-    <Type>1</Type>
-    <File>questions/coordsmotion/ca_coordsmotion_earthchanges.swf</File>
-    <Width>780</Width>
-    <Height>515</Height>
-    <RelevantImages/>
-    <RelevantAnimations/>
-    <RelevantOutlines/>
-    <RelevantTables/>
-  </Question>
   <Question id="ca_coordsmotion_seasonscontrib">
     <Name>Seasons Contributor(s)</Name>
     <Description>The student is asked to determine what contributes to the seasons on Earth (altitude of sun's rays, sun's time spent above horizon, proximity of Earth in relation to the sun, or a combination of the above).</Description>
@@ -5836,23 +5818,6 @@
   </Question>
   <!--Binary & Variable Stars Module
       Challenge Questions           -->
-   <Question id="ca_stellarevolution_evolhrtrack">
-    <Name>HR Evolutionary Track</Name>
-    <Description>The student is shown an HR diagram and is asked to determine what it represents (motion, evolution, characteristics).</Description>
-    <Keywords>
-      <Keyword>HR diagram</Keyword>
-      <Keyword>motion</Keyword>
-      <Keyword>evolution</Keyword>
-    </Keywords>
-    <Type>1</Type>
-    <File>questions/stellarevolution/ca_stellarevolution_evolhrtrack.swf</File>
-    <Width>780</Width>
-    <Height>515</Height>
-    <RelevantImages/>
-    <RelevantAnimations/>
-    <RelevantOutlines/>
-    <RelevantTables/>
-  </Question>
   <Question id="ca_binaryvariablestars_distcepheids">
     <Name>Distance to Cepheids</Name>
     <Description>Given a graph of a Cepheid's periodic light curve and a graph showing the relationship between period and absolute magnitude for Cepheids, the student is asked to deduce the object's distance.</Description>
