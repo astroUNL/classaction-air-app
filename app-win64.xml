@@ -8,12 +8,10 @@
 <supportedProfiles>desktop extendedDesktop</supportedProfiles>
 <architecture>64</architecture>
 <icon>
-<image16x16>icons/icon_16x16.png</image16x16>
-<image32x32>icons/icon_32x32.png</image32x32>
-<image48x48>icons/icon_48x48.png</image48x48>
-<image128x128>icons/icon_128x128.png</image128x128>
-<image512x512>icons/icon_512x512.png</image512x512>
-<image1024x1024>icons/icon_512x512@2.png</image1024x1024>
+<image16x16>icons.iconset/icon_16x16.png</image16x16>
+<image32x32>icons.iconset/icon_32x32.png</image32x32>
+<image48x48>icons.iconset/icon_48x48.png</image48x48>
+<image128x128>icons.iconset/icon_128x128.png</image128x128>
 </icon>
 <initialWindow>
 <title>ClassAction 2.1.X - EXPERIMENT 2</title>
