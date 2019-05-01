@@ -644,8 +644,8 @@ Demonstrates how planet and moon phases depend on orbital geometry. Users can dr
     <Description>Shows an animated diagram of the proton-proton chain reaction, which is the dominant fusion reaction in the sun's core.</Description>
     <Keywords/>
     <File>animations/sunsolarenergy/fusion01.swf</File>
-    <Width>550</Width>
-    <Height>550</Height>
+    <Width>600</Width>
+    <Height>500</Height>
   </Animation>
   <Animation id="fusion02">
     <Name>CNO Cycle Animation</Name>
