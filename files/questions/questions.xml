@@ -9031,7 +9031,7 @@
     <RelevantTables/>
  </Question>
   <Question id="ca_solarsystemdebris_asteroidalbedo">
-    <Name>Asteroid Albdeo</Name>
+    <Name>Asteroid Albedo</Name>
     <Description>Student is given is told how much bigger or smaller either the visual energy incident or infrared energy emitted is and asked to calculate the albedo.</Description>
     <Keywords>
       <Keyword>asteroids</Keyword>
