@@ -172,8 +172,8 @@
     <Description>This image has three panels each illustrating binding energy in the hydrogen atom in a different way: the actual transitions between energy levels, binding energy on a number line, and a checkbook.</Description>
     <Keywords/>
     <File>images/light/checkbook.jpg</File>
-    <Width>1017</Width>
-    <Height>907</Height>
+    <Width>760</Width>
+    <Height>678</Height>
   </Image>
   <Image id="solarspectrum">
     <Name>Solar Spectrum</Name>

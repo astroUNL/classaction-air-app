@@ -500,8 +500,8 @@ Demonstrates how planet and moon phases depend on orbital geometry. Users can dr
     <Description>The build-up of traffic behind a slow moving tractor provides an analogy to the density wave formation of spiral arms.</Description>
     <Keywords/>
     <File>animations/milkyway/trafficdensity.swf</File>
-    <Width>905</Width>
-    <Height>200</Height>
+    <Width>1200</Width>
+    <Height>265</Height>
   </Animation>
   <Animation id="venusphases">
     <Name>Phases of Venus</Name>
