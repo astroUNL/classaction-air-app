@@ -1,0 +1,1 @@
+`classaction-air-app-icons-v2b.ai` differs from the other Illustrator file only in that the 48x48 artboard has had its position adjusted to fall on integer coordinates. This fixed a problem where that icon was being exported at 49x49 pixels.
