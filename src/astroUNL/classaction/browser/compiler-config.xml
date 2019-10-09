@@ -10,37 +10,32 @@
     <compiler>
 
         <!-- List of path elements that form the roots of ActionScript class hierarchies. -->
-        
         <source-path>
           <path-element>../../../</path-element>
         </source-path>
-        
 
         <!-- Allow the source-path to have path-elements which contain other path-elements -->
         <allow-source-path-overlap>false</allow-source-path-overlap>
 
-        <!-- Turn on generation of debuggable SWFs. False by default for mxmlc, -->
-        
-         <debug>true</debug>
-        
+        <!-- Turn on generation of debuggable SWFs. False by default for mxmlc. -->
+        <debug>false</debug>
 
-        <!-- List of SWC files or directories to compile against but to omit from -->
-        <!-- linking. -->
+        <!-- List of SWC files or directories to compile against but to omit from linking. -->
         <external-library-path>
-		<path-element>C:/Users/main/Desktop/AIRSDK_Compiler_32/frameworks/libs/air/airglobal.swc</path-element>
-		<path-element>C:/Users/main/Desktop/AIRSDK_Compiler_32/frameworks/libs/air/aircore.swc</path-element>
+		<path-element>../../../../../../AIR_SDK_32/frameworks/libs/air/airglobal.swc</path-element>
+		<path-element>../../../../../../AIR_SDK_32/frameworks/libs/air/aircore.swc</path-element>
         </external-library-path>
-
-        <!-- not set -->
-     
+    
 <!--
+C:/Users/main
+See message for commit a1859ff28de506aa34993dbcd5dcbd13f1683795 (April 2, 2019) before considering uncommenting this part.
+
             <include-libraries>
                 <library>swc/browser.swc</library>
             </include-libraries>
 -->   
 
         <!-- List of SWC files or directories that contain SWC files. -->
-
         <library-path>
             <path-element>swc/browser.swc</path-element>
         </library-path>
