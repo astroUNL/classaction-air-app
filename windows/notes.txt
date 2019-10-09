@@ -1,0 +1,38 @@
+notes.txt
+2019-10-09
+
+The information below describes the steps taken to create the Advanced Installer project for ClassAction. This program is used to create the signed installer for Windows.
+
+=== Creating The Project ===
+
+1. Installer Project: Professional -> Create Project
+2. Product name: ClassAction, Organization: AstroUNL
+3. MSI setup
+4. Do NOT track
+5. Save project in windows directory of repo, make output "output/Setup Files" (can change in builds)
+6. Select the repo's "output/ClassAction" folder; chose synchronized
+7. Select "ClassAction.exe" for shortcut (make sure "CaptiveAppEntry.exe" is unselected"); rename shortcut to "ClassAction" (no ".exe")
+8. Go with defaults (unchecked launch after install)
+9. Go with defaults ("Browse installation folder dialog")
+10. Go with defaults (English United States)
+11. No license agreement
+12. Finish
+
+=== After Creating The Project ===
+
+Under "Product Information / Product Details":
+- Version: <update with each release>
+- Support Link: http://astro.unl.edu
+- Comments: This file installs the astro.unl.edu ClassAction astronomy education program.
+
+Under "Product Information / Digital Signature":
+- Check "Enable signing".
+- Select "Use file from disk". The certificate should be kept on removable media.
+- Make sure the "manaully" method is selected.
+
+Under "Package Definition / Install Parameters":
+- Application folder: [ProgramFilesFolder][Manufacturer]\[ProductName]
+- Applicationg shortcut folder: [ProgramMenuFolder][Manufacturer]\[ProductName]
+
+Under "Package Definition / Builds":
+- Select "DefaultBuild". In "Output", MSI name: [|ProductName] - v[|ProductVersion]
