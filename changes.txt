@@ -1,0 +1,5 @@
+XXXX-XX-XX - v2.1.1 (Not Yet Released)
+* Fixed the Proton-Proton and CNO Cycle animations.
+
+2019-10-08 - v2.1.0
+* First public release.
