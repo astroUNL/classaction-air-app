@@ -1,6 +1,8 @@
-XXXX-XX-XX - v2.1.1 (Not Yet Released)
+2019-12-30 - v2.1.1
 * Fixed the Proton-Proton and CNO Cycle animations.
 * Added hint option to Jovian Planets / Jovian Transit question.
+* Fixed typo in Solar System Debris / Resonances question (G12).
+* Added original ClassAction graphic to About dialog.
 
 2019-10-08 - v2.1.0
 * First public release.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application xmlns="http://ns.adobe.com/air/application/32.0">
-<id>astroUNL.classaction.2.1.0</id>
+<id>astroUNL.classaction</id>
 <versionLabel>v2.1.1</versionLabel>
 <versionNumber>2.1.1</versionNumber>
 <copyright>Copyright 2019, UNL Astronomy Education Group</copyright>

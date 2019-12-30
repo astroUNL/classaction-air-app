@@ -1,8 +1,0 @@
-issues.txt
-ClassAction Issues
-2019-10-07
-
-
-The "Proton-Proton" and "CNO Cycle" animations (sunsolarenergy/fusion01.swf and sunsolarenergy/fusion02.swf) start
-immediately, without the buttons being pressed. I found what appear to be the FLAs for these files (dated 6/8/2009)
-but my copy of Flash CS4 gives an "Unexpected File Format" error and crashes when trying to open them.
