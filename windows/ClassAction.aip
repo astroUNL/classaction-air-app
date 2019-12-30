@@ -9,10 +9,10 @@
     <ROW Property="ARPCOMMENTS" Value="This file installs the astro.unl.edu ClassAction astronomy education program." ValueLocId="*"/>
     <ROW Property="ARPURLINFOABOUT" Value="http://astro.unl.edu"/>
     <ROW Property="Manufacturer" Value="AstroUNL"/>
-    <ROW Property="ProductCode" Value="1033:{A11B0D59-ADC8-433F-9259-7AD1581BFF6E} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{F237C758-1DA3-4D38-9265-4B9AA1F7750D} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ClassAction"/>
-    <ROW Property="ProductVersion" Value="2.1.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="2.1.1" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{5D20BA3E-E737-4BA7-9584-F46B211D8392}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
