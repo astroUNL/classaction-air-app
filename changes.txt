@@ -1,3 +1,20 @@
+2020-01-09 - v2.2
+* Added updated ExtraSolar Planets / Overview question (G1). It now has more recent data.
+* Added update versions of the following sims (fixed for AP style):
+  - Coordinates and Motions / Seasons Simulator (NAAP) [eclipticSimulator]
+  - Coordinates and Motions / Coordinate Systems Comparison [celHorComp]
+  - Coordinates and Motions / Daylight Hours Explorer [daylightHoursExplorer]
+  - Coordinates and Motions / Antipodes Explorer [antipodesExplorer]
+  - Lunar Cycles / Lunar Phases Simulator (NAAP) [lunar_applet]
+  - Lunar Cycles / Lunar Phase Quizzer [lunarPhaseQuizzer]
+  - Lunar Cycles / Moon Phases With Bisectors [moonBisectorDemo]
+  - Renaissance Astronomy / Phases of Venus [venusPhases]
+  - Stellar Properties / Parallax Calculator [parallaxDiagram]
+  - Binary and Variable Stars/ Eclipsing Binary Simulator [binSys]
+  - ExtraSolar Planets / Transit Simulator (NAAP) [transitSimulator]
+  - ExtraSolar Planets / Radial Velocity Simulator (NAAP) [radialVelocitySimulator]
+  - ExtraSolar Planets / Pulsar Period Simulator [pulsarPeriodSim]
+
 2019-12-30 - v2.1.1
 * Fixed the Proton-Proton and CNO Cycle animations.
 * Added hint option to Jovian Planets / Jovian Transit question.

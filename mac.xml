@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application xmlns="http://ns.adobe.com/air/application/32.0">
 <id>astroUNL.classaction</id>
-<versionLabel>v2.1.1</versionLabel>
-<versionNumber>2.1.1</versionNumber>
-<copyright>Copyright 2019, UNL Astronomy Education Group</copyright>
+<versionLabel>v2.2</versionLabel>
+<versionNumber>2.2</versionNumber>
+<copyright>Copyright 2020, UNL Astronomy Education Group</copyright>
 <filename>ClassAction</filename>
 <supportedProfiles>desktop extendedDesktop</supportedProfiles>
 <initialWindow>
-<title>ClassAction v2.1.1</title>
+<title>ClassAction v2.2</title>
 <content>main.swf</content>
 <width>806</width>
 <height>617</height>
