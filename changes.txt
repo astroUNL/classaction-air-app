@@ -1,3 +1,6 @@
+xxxx-xx-xx - v2.3
+* Updated Lunar Cycles (Animations) / Eclipse Table with new data.
+
 2020-01-09 - v2.2
 * Added updated ExtraSolar Planets / Overview question (G1). It now has more recent data.
 * Added update versions of the following sims (fixed for AP style):
