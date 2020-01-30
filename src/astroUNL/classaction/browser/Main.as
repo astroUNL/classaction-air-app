@@ -50,7 +50,7 @@ package astroUNL.classaction.browser {
 		protected var _resourcePanels:ResourcePanelsGroup;
 		protected var _resourcePreview:ResourcePreview;		
 		
-		public static const versionString:String = "ClassAction v2.2, 9 January 2020";
+		public static const versionString:String = "ClassAction v2.3 - January 30, 2020";
 		
 		public function Main() {
 			
