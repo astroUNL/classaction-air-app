@@ -1,12 +1,5 @@
+The ClassAction app contains over 500 dynamic peer instructions for intro astronomy, as well as more than 100 simulations, animations, and other resources.
 
-Extract classaction files (questions, animations, etc.) to files. This directory is not included in the git repo.
+This ClassAction project was originally Flash-based and available on the web at [astro.unl.edu/classaction](https://astro.unl.edu/classaction/). It has now been packaged into standalone executables for Mac and Windows using Adobe AIR technology.
 
-To compile main.swf:
-cd src/astroUNL/classaction/browser
-mxmlc -load-config compiler-config.xml -- Main.as
-
-To test the app:
-adl app.xml
-
-To create the app:
-adt -package -keystore <certificate> -storetype pkcs12 -target bundle ClassAction.app app.xml main.swf classaction
+To download the latest compiled executables please visit [astro.unl.edu/downloads](https://astro.unl.edu/downloads/).
