@@ -1,5 +1,7 @@
 
-/output/
+/output-mac/
+/output-win32/
+/output-win64/
 
 .DS_Store
 ._.DS_Store
